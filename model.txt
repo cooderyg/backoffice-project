@@ -1,0 +1,29 @@
+
+
+# User모델 생성
+npx sequelize model:generate --name Users --attributes email:string,password:string,name:string,nickname:string,age:number,gender:string,point:number,address:string,phoneNumber:number
+
+# PointTransaction모델 생성
+npx sequelize model:generate --name PointTransactions --attributes UserId:integer,Uid:string
+
+# Owner모델 생성
+npx sequelize model:generate --name Owners --attributes email:string,password:string,point:number
+
+# Category모델 생성
+npx sequelize model:generate --name Categories --attributes name:string
+
+# Store모델 생성
+npx sequelize model:generate --name Stores --attributes OwnerId:integer,CategoryId:integer,name:string,address:string,imageUrl:string,isOpen:boolean
+
+# Order모델 생성
+npx sequelize model:generate --name Orders --attributes StoreId:integer,UserId:integer,address:string,isDelivered:boolean,totalPrice:number
+
+# Menu모델 생성
+npx sequelize model:generate --name Menus --attributes StoreId:integer,name:string,imageUrl:string,price:number
+
+# OrderMenu모델 생성
+npx sequelize model:generate --name OrderMenus --attributes OrderId:integer,MenuId:integer,quantity:number
+
+# Review모델 생성
+npx sequelize model:generate --name Reviews --attributes UserId:integer,OrderId:integer,rating:number,comment:string,imageUrl:string
+
