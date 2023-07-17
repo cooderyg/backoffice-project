@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { orders, reviews, stores } = require('../models');
 
-router.post('/api/orders/:orderId/reviews', async (req, res) => {
+router.post('/orders/:orderId/reviews', async (req, res) => {
   try {
     const { orderId } = req.params;
     const { comment } = req.body;
@@ -23,7 +23,7 @@ router.post('/api/orders/:orderId/reviews', async (req, res) => {
 // 리뷰 사진 첨부
 
 // 리뷰 목록 조회
-router.get('/api/users/:userId/reviews', async (req, res) => {
+router.get('/users/:userId/reviews', async (req, res) => {
   const { userId } = req.params;
 
   try {
@@ -54,7 +54,7 @@ router.get('/api/users/:userId/reviews', async (req, res) => {
 });
 
 // 리뷰 수정
-router.put('/api/users/:userId/reviews/:reviewId', async (req, res) => {
+router.put('/users/:userId/reviews/:reviewId', async (req, res) => {
   const { reviewId } = req.params;
   const { rating, comment } = req.body;
 
@@ -73,7 +73,7 @@ router.put('/api/users/:userId/reviews/:reviewId', async (req, res) => {
 });
 
 // 리뷰 삭제
-router.delete('/api/users/:userId/reviews/:reviewId', async (req, res) => {
+router.delete('/users/:userId/reviews/:reviewId', async (req, res) => {
   const { reviewId } = req.params;
   const review = await reviews.findOne({
     where: { reviewId },
