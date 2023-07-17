@@ -1,4 +1,15 @@
 {
+  "name": "backoffice",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.1"
