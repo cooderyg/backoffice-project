@@ -28,9 +28,9 @@ app.use('/api', [
   storesRouter,
 ]);
 
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
-app.use(express.static(__dirname + '/views/static'));
+// app.set('view engine', 'ejs');
+// app.set('views', __dirname + '/views');
+// app.use(express.static(__dirname + '/views/static'));
 
 app.listen(PORT, () => {
   console.log(PORT, '포트 번호로 서버가 실행되었습니다.');
