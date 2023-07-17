@@ -32,10 +32,15 @@ class StoreService {
     {"errorMessage": "전달된 쿠키에서 오류가 발생하였습니다."}
   */
   createStore = async (ownerId, categoryId, storeName, address, storeImageUrl, isOpen) => {
+    const existStore = await this.storeRepository.findStoreByOwnerId(ownerId);
+    if (existStore) {
+      throw { errorCode: 400, message: 'Store already exist' };
+    }
+
     if (!ownerId || !categoryId || !storeName || !address || !storeImageUrl || !isOpen)
       throw { errorCode: 412, message: 'Invalid data' };
 
-    const store = await this.storeRepository.createStore(
+    await this.storeRepository.createStore(
       ownerId,
       categoryId,
       storeName,
@@ -43,7 +48,6 @@ class StoreService {
       storeImageUrl,
       isOpen,
     );
-    return store;
   };
 
   updateStore = async (req, res) => {};

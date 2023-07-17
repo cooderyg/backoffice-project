@@ -3,10 +3,11 @@ const { Stores } = require('../models');
 class StoreRepository {
   findStoreByOwnerId = async (OwnerId) => {
     const store = await Stores.findOne({ where: { OwnerId } });
+    return store;
   };
 
   createStore = async (OwnerId, CategoryId, storeName, address, storeImageUrl, isOpen) => {
-    const store = await Stores.create({
+    await Stores.create({
       OwnerId,
       CategoryId,
       storeName,
@@ -14,7 +15,6 @@ class StoreRepository {
       storeImageUrl,
       isOpen,
     });
-    return store;
   };
 
   updateStore = async (req, res) => {};

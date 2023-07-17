@@ -25,11 +25,6 @@ class StoreController {
     const { categoryId, storeName, address, storeImageUrl, isOpen } = req.body;
 
     try {
-      const existStore = await this.storeService.findStoreByOwnerId(ownerId);
-      if (existStore) {
-        return res.status(400).json({ errorMessage: '이미 등록된 가게가 있습니다.' });
-      }
-
       const store = await this.storeService.createStore(
         ownerId,
         categoryId,
@@ -39,15 +34,28 @@ class StoreController {
         isOpen,
       );
 
-      // res.json({ message: '가게가 등록되었습니다.' });
-    } catch (error) {
+      res.json({ message: '가게가 등록되었습니다.' });
+    } catch (e) {
       if (e.errorCode) return res.status(e.errorCode).json(e.message);
 
       res.status(500).json({ message: '게시글 조회에 실패했습니다.' });
     }
   };
 
-  updateStore = async (req, res) => {};
+  updateStore = async (req, res) => {
+    // const { ownerId } = res.locals.owner;
+    const ownerId = 11;
+    const { storeId } = req.params;
+
+    try {
+      await this.storeService.updateStore(storeId);
+      res.json({ message: '가게 정보가 수정되었습니다.' });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json(e.message);
+
+      res.status(500).json({ message: '게시글 조회에 실패했습니다.' });
+    }
+  };
 
   deleteStore = async (req, res) => {};
 }
