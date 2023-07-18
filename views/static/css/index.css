@@ -1,0 +1,13 @@
+/* common */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
