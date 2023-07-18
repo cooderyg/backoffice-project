@@ -28,7 +28,7 @@ router.get('/users/:userId/reviews', async (req, res) => {
 
   try {
     const reviews = await reviews.findAll({
-      attributes: ['reviewId', 'rating', 'comment', 'imageUrl'],
+      attributes: ['reviewId', 'UserId', 'OrderId', 'rating', 'comment', 'imageUrl'],
       include: [
         {
           model: orders,
@@ -62,7 +62,9 @@ router.put('/users/:userId/reviews/:reviewId', async (req, res) => {
     const review = await reviews.findOne({
       where: { reviewId },
     });
-    if (!review) return res.status(400).json({ message: '존재하지 않는 리뷰입니다.' });
+    if (!review) {
+      return res.status(400).json({ message: '존재하지 않는 리뷰입니다.' });
+    }
     if (review) {
       await reviews.update({ rating, comment }, { where: { reviewId: reviewId } });
       res.status(201).json({ message: '리뷰가 정상적으로 수정되었습니다.' });
@@ -78,7 +80,9 @@ router.delete('/users/:userId/reviews/:reviewId', async (req, res) => {
   const review = await reviews.findOne({
     where: { reviewId },
   });
-  if (!review) return res.status(400).json({ message: '존재하지 않는 리뷰입니다.' });
+  if (!review) {
+    return res.status(400).json({ message: '존재하지 않는 리뷰입니다.' });
+  }
   if (review) {
     await reviews.destroy({ where: { reviewId: reviewId } });
     res.status(201).json({ message: '리뷰가 정상적으로 삭제되었습니다.' });
