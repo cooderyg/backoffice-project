@@ -24,7 +24,7 @@ class StoreController {
     const { ownerId, categoryId, storeName, address, storeImageUrl, isOpen } = req.body;
 
     try {
-      const store = await this.storeService.createStore(
+      await this.storeService.createStore(
         ownerId,
         categoryId,
         storeName,
@@ -61,6 +61,18 @@ class StoreController {
     }
   };
 
-  deleteStore = async (req, res) => {};
+  deleteStore = async (req, res) => {
+    // const { ownerId } = res.locals.owner;
+    const { storeId } = req.params;
+    const { ownerId } = req.body;
+
+    try {
+      await this.storeService.deleteStore(ownerId, storeId);
+      res.json({ message: '가게 정보가 삭제되었습니다.' });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json(e.message);
+      res.status(500).json(e.message);
+    }
+  };
 }
 module.exports = StoreController;

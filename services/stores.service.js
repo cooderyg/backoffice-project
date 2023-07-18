@@ -68,6 +68,21 @@ class StoreService {
     await this.storeRepository.updateStore(storeId, storeName, address, storeImageUrl, isOpen);
   };
 
-  deleteStore = async (req, res) => {};
+  deleteStore = async (ownerId, storeId) => {
+    const store = await this.storeRepository.findStoreByStoreId(storeId);
+    if (!store) {
+      throw { errorCode: 404, message: 'Store not exist' };
+    }
+
+    if (!ownerId || !storeId) {
+      throw { errorCode: 412, message: 'Invalid data' };
+    }
+
+    if (ownerId !== store.OwnerId) {
+      throw { errorCode: 403, message: 'Unauthorized' };
+    }
+
+    await this.storeRepository.deleteStore(storeId);
+  };
 }
 module.exports = StoreService;

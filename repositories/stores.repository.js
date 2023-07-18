@@ -26,6 +26,8 @@ class StoreRepository {
     await Stores.update({ storeName, address, storeImageUrl, isOpen }, { where: { storeId } });
   };
 
-  deleteStore = async (req, res) => {};
+  deleteStore = async (storeId) => {
+    await Stores.destroy({ where: { storeId } });
+  };
 }
 module.exports = StoreRepository;
