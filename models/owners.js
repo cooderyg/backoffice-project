@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasOne(models.Stores, {
         sourceKey: 'ownerId',
-        foreignKey: 'ownerId',
+        foreignKey: 'OwnerId',
       });
     }
   }

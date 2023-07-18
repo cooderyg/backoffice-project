@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middlewares/auth-middleware');
 
 const StoreController = require('../controllers/stores.controller');
 const storeController = new StoreController();
@@ -8,15 +9,21 @@ const storeController = new StoreController();
 // 사장님의 ownerId를 전달하는 미들웨어를 등록, 수정 , 삭제에 넣는다.
 
 // 가게 등록
-router.post('/stores', storeController.postStore);
+router.post('/stores', authMiddleware, storeController.postStore);
 
-// 가게 정보 조회
-router.get('/stores', storeController.getStore);
+// 가게 정보 조회 in 가게 관리 (for Owner)
+router.get('/stores', authMiddleware, storeController.getStoreByOwnerId);
 
 // 가게 정보 수정
-router.put('/stores/:storeId', storeController.updateStore);
+router.put('/stores/:storeId', authMiddleware, storeController.updateStore);
 
 // 가게 삭제
-router.delete('/stores/:storeId', storeController.deleteStore);
+router.delete('/stores/:storeId', authMiddleware, storeController.deleteStore);
+
+// 가게 키워드로 검색
+router.get('/stores/search', storeController.searchStores);
+
+// 가게 정보 조회
+router.get('/stores/:storeId', storeController.getStoreByStoreId);
 
 module.exports = router;
