@@ -5,8 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home</title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <!-- <script src="/js/index.js" defer></script> -->
   </head>
   <body>
-    <h1>홈입니다.</h1>
+    <%- include('includes/header') %>
+    <main>
+      <section class="category wrap">
+        <div class="swiper-container">
+          <div class="swiper-wrapper" id="categoriesList"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+      <section class="feed wrap">
+        <h2 class="title">우리동네 맛집</h2>
+        <ul class="feed-container" id="best12list">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </section>
+    </main>
+    <footer>
+      <address>&copy nbc node B group5</address>
+    </footer>
   </body>
 </html>
