@@ -21,7 +21,7 @@ class StoreController {
   // 가게 정보 등록
   postStore = async (req, res) => {
     // const { ownerId } = res.locals.owner
-    const { ownerId, categoryId, storeName, address, storeImageUrl, isOpen } = req.body;
+    const { ownerId, categoryId, storeName, address, imageUrl, isOpen } = req.body;
 
     try {
       await this.storeService.createStore(
@@ -29,7 +29,7 @@ class StoreController {
         categoryId,
         storeName,
         address,
-        storeImageUrl,
+        imageUrl,
         isOpen,
       );
 
@@ -43,17 +43,10 @@ class StoreController {
   updateStore = async (req, res) => {
     // const { ownerId } = res.locals.owner;
     const { storeId } = req.params;
-    const { ownerId, storeName, address, storeImageUrl, isOpen } = req.body;
+    const { ownerId, storeName, address, imageUrl, isOpen } = req.body;
 
     try {
-      await this.storeService.updateStore(
-        ownerId,
-        storeId,
-        storeName,
-        address,
-        storeImageUrl,
-        isOpen,
-      );
+      await this.storeService.updateStore(ownerId, storeId, storeName, address, imageUrl, isOpen);
       res.json({ message: '가게 정보가 수정되었습니다.' });
     } catch (e) {
       if (e.errorCode) return res.status(e.errorCode).json(e.message);

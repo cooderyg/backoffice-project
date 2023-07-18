@@ -32,13 +32,13 @@ class StoreService {
     # 403 Cookie가 비정상적이거나 만료된 경우
     {"errorMessage": "전달된 쿠키에서 오류가 발생하였습니다."}
   */
-  createStore = async (ownerId, categoryId, storeName, address, storeImageUrl, isOpen) => {
+  createStore = async (ownerId, categoryId, storeName, address, imageUrl, isOpen) => {
     const existStore = await this.storeRepository.findStoreByOwnerId(ownerId);
     if (existStore) {
       throw { errorCode: 400, message: 'Store already exist' };
     }
 
-    if (!ownerId || !categoryId || !storeName || !address || !storeImageUrl || !isOpen)
+    if (!ownerId || !categoryId || !storeName || !address || !imageUrl || !isOpen)
       throw { errorCode: 412, message: 'Invalid data' };
 
     await this.storeRepository.createStore(
@@ -46,18 +46,18 @@ class StoreService {
       categoryId,
       storeName,
       address,
-      storeImageUrl,
+      imageUrl,
       isOpen,
     );
   };
 
-  updateStore = async (ownerId, storeId, storeName, address, storeImageUrl, isOpen) => {
+  updateStore = async (ownerId, storeId, storeName, address, imageUrl, isOpen) => {
     const store = await this.storeRepository.findStoreByStoreId(storeId);
     if (!store) {
       throw { errorCode: 404, message: 'Store not exist' };
     }
 
-    if (!ownerId || !storeId || !storeName || !address || !storeImageUrl || !isOpen) {
+    if (!ownerId || !storeId || !storeName || !address || !imageUrl || !isOpen) {
       throw { errorCode: 412, message: 'Invalid data' };
     }
 
@@ -65,7 +65,7 @@ class StoreService {
       throw { errorCode: 403, message: 'Unauthorized' };
     }
 
-    await this.storeRepository.updateStore(storeId, storeName, address, storeImageUrl, isOpen);
+    await this.storeRepository.updateStore(storeId, storeName, address, imageUrl, isOpen);
   };
 
   deleteStore = async (ownerId, storeId) => {
