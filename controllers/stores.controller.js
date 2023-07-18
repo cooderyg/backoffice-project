@@ -67,5 +67,17 @@ class StoreController {
       res.status(500).json(e.message);
     }
   };
+
+  searchStores = async (req, res) => {
+    const { searchString } = req.body;
+
+    try {
+      const stores = await this.storeService.findStores(searchString);
+      res.json({ stores });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json(e.message);
+      res.status(500).json(e.message);
+    }
+  };
 }
 module.exports = StoreController;

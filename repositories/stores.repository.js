@@ -1,4 +1,5 @@
 const { Stores } = require('../models');
+const { Op } = require('sequelize');
 
 class StoreRepository {
   findStoreByOwnerId = async (OwnerId) => {
@@ -28,6 +29,15 @@ class StoreRepository {
 
   deleteStore = async (storeId) => {
     await Stores.destroy({ where: { storeId } });
+  };
+
+  findAllStoresByString = async (searchString) => {
+    const stores = await Stores.findAll({
+      where: {
+        storeName: { [Op.like]: `%${searchString}%` },
+      },
+    });
+    return stores;
   };
 }
 module.exports = StoreRepository;

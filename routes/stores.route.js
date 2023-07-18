@@ -19,4 +19,7 @@ router.put('/stores/:storeId', storeController.updateStore);
 // 가게 삭제
 router.delete('/stores/:storeId', storeController.deleteStore);
 
+// 가게 키워드로 검색
+router.get('/stores/search', storeController.searchStores);
+
 module.exports = router;

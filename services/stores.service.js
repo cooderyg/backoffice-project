@@ -84,5 +84,10 @@ class StoreService {
 
     await this.storeRepository.deleteStore(storeId);
   };
+
+  findStores = async (searchString) => {
+    const stores = await this.storeRepository.findAllStoresByString(searchString);
+    return stores;
+  };
 }
 module.exports = StoreService;
