@@ -209,7 +209,7 @@ router.post('/user/login', async (req, res) => {
 
 // 오너 회원가입 API
 router.post('/owner/signup', async (req, res) => {
-  const { email, password, point } = req.body;
+  const { email, password } = req.body;
 
   try {
     // 값이 비어있을 때
@@ -232,7 +232,8 @@ router.post('/owner/signup', async (req, res) => {
     const newOwner = await Owners.create({
       email,
       password: hashedPassword,
-      point,
+      point: 0,
+      emailVerify: false,
     });
 
     res
