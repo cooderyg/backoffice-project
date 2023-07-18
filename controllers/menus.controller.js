@@ -30,7 +30,8 @@ class MenuController {
 
   updateMenu = async (req, res) => {
     const { storeId, menuId } = req.params;
-    const { ownerId, menuName, imageUrl, price } = req.body;
+    const { ownerId } = res.locals.owner;
+    const { menuName, imageUrl, price } = req.body;
     try {
       await this.menuService.updateMenu(storeId, menuId, ownerId, menuName, imageUrl, price);
       res.json({ message: '메뉴가 수정되었습니다.' });
@@ -42,7 +43,7 @@ class MenuController {
 
   deleteMenu = async (req, res) => {
     const { storeId, menuId } = req.params;
-    const { ownerId } = req.body;
+    const { ownerId } = res.locals.owner;
 
     try {
       await this.menuService.deleteMenu(storeId, menuId, ownerId);
