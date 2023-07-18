@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       point: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+      },
+      emailVerify: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: 0,
       },
     },
     {
