@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { orders, reviews, stores } = require('../models');
+// const upload = require('../middlewares/uploader');
+// const AWS = require('aws-sdk');
+// require('dotenv').config();
 
+// 리뷰 작성
 router.post('/orders/:orderId/reviews', async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -23,6 +27,53 @@ router.post('/orders/:orderId/reviews', async (req, res) => {
     res.status(400).json({ errorMessage: error.message });
   }
 });
+
+// // 리뷰 사진 등록
+// const s3 = new AWS.S3({
+//   region: process.env.REGION,
+//   accessKeyId: process.env.AWS_ACCESS_KEY,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// });
+
+// router.post('/photo/:reviewId', upload.single('image'), async (req, res) => {
+//   const reviewId = req.params;
+//   const review = await reviews.findOne({ where: { reviewId: reviewId } });
+//   const decordURL = decodeURIComponent(user.img);
+//   const imgUrl = decordURL.substring(56);
+//   if (review.imageUrl === null) {
+//     const uploadimageUrl = req.file.location;
+//     await reviews.update(
+//       { imageUrl: uploadimageUrl },
+//       {
+//         where: {
+//           reviewId: reviewId,
+//         },
+//       },
+//     );
+//   } else {
+//     s3.deleteObject(
+//       {
+//         Bucket: process.env.BUCKET_NAME,
+//         Key: imgUrl,
+//       },
+//       (err, data) => {
+//         if (err) {
+//           throw err;
+//         }
+//       },
+//     );
+//     const imageUrl = req.file.location;
+//     await User.update(
+//       { img: imageUrl },
+//       {
+//         where: {
+//           reviewId: reviewId,
+//         },
+//       },
+//     );
+//   }
+//   res.status(201).json({ Message: '사진이 변경되었습니다.' });
+// });
 
 // 리뷰 목록 조회
 router.get('/users/:userId/reviews', async (req, res) => {
