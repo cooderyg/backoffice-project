@@ -41,7 +41,24 @@ class MenuService {
       throw { errorCode: 403, message: 'Unauthorized' };
     }
 
-    await this.menuRepository.updateMenu(storeId, menuId, menuName, imageUrl, price);
+    await this.menuRepository.updateMenu(menuId, menuName, imageUrl, price);
+  };
+
+  deleteMenu = async (storeId, menuId, ownerId) => {
+    if (!ownerId || !storeId || !menuId) {
+      throw { errorCode: 412, message: 'Invalid data' };
+    }
+
+    const store = await this.storeRepository.findStoreByStoreId(storeId);
+    if (!store) throw { errorCode: 404, message: 'Store not exist' };
+    const menu = await this.menuRepository.findOneMenu(menuId);
+    if (!menu) throw { errorCode: 404, message: 'Menu not exist' };
+
+    if (ownerId !== store.OwnerId) {
+      throw { errorCode: 403, message: 'Unauthorized' };
+    }
+
+    await this.menuRepository.deleteMenu(menuId);
   };
 }
 module.exports = MenuService;

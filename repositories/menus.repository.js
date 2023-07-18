@@ -20,8 +20,12 @@ class MenuRepository {
     return menu;
   };
 
-  updateMenu = async (StoreId, menuId, menuName, imageUrl, price) => {
-    await Menus.update({ menuName, imageUrl, price }, { where: { StoreId, menuId } });
+  updateMenu = async (menuId, menuName, imageUrl, price) => {
+    await Menus.update({ menuName, imageUrl, price }, { where: { menuId } });
+  };
+
+  deleteMenu = async (menuId) => {
+    await Menus.destroy({ where: { menuId } });
   };
 }
 module.exports = MenuRepository;
