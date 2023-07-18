@@ -15,8 +15,8 @@ class MenuService {
     await this.menuRepository.createMenu(storeId, menuName, imageUrl, price);
   };
 
-  findAllMenus = async (ownerId, storeId) => {
-    if (!ownerId || !storeId) throw { errorCode: 412, message: 'Invalid data' };
+  findAllMenus = async (storeId) => {
+    if (!storeId) throw { errorCode: 412, message: 'Invalid data' };
 
     const store = await this.storeRepository.findStoreByStoreId(storeId);
     if (!store) throw { errorCode: 404, message: 'Store not exist' };

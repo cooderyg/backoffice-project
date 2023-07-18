@@ -18,10 +18,9 @@ class MenuController {
 
   getMenu = async (req, res) => {
     const { storeId } = req.params;
-    const { ownerId } = req.body;
 
     try {
-      const menus = await this.menuService.findAllMenus(ownerId, storeId);
+      const menus = await this.menuService.findAllMenus(storeId);
       res.json({ menus });
     } catch (e) {
       if (e.errorCode) return res.status(e.errorCode).json(e.message);
