@@ -20,6 +20,12 @@ const authMiddleware = async (req, res, next) => {
       if (!user) {
         return res.status(401).json({ errorMessage: '유효한 사용자가 아닙니다.' });
       }
+
+      // 이메일 인증 확인
+      if (!user.emailVerify) {
+        return res.status(401).json({ errorMessage: '이메일 인증이 필요합니다.' });
+      }
+
       res.locals.user = user;
     } else if (decodedAccessToken.hasOwnProperty('ownerId')) {
       // 오너
@@ -27,9 +33,15 @@ const authMiddleware = async (req, res, next) => {
       if (!owner) {
         return res.status(401).json({ errorMessage: '유효한 오너가 아닙니다.' });
       }
+
+      // 이메일 인증 확인
+      if (!owner.emailVerify) {
+        return res.status(401).json({ errorMessage: '이메일 인증이 필요합니다.' });
+      }
+
       res.locals.owner = owner;
     } else {
-      // 노바디
+      // 액세스 토큰 없음
       return res.status(401).json({ errorMessage: '유효하지 않은 Access Token입니다.' });
     }
 
