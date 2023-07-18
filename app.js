@@ -9,7 +9,7 @@ const ownersRouter = require('./routes/owners.route.js');
 const paymentsRouter = require('./routes/payments.route.js');
 const reviewsRouter = require('./routes/reviews.route.js');
 const storesRouter = require('./routes/stores.route.js');
-
+const viewRouter = require('./views/router');
 const app = express();
 const PORT = 3000;
 
@@ -28,10 +28,10 @@ app.use('/api', [
   storesRouter,
 ]);
 
-// app.set('view engine', 'ejs');
-// app.set('views', __dirname + '/views');
-// app.use(express.static(__dirname + '/views/static'));
-
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/views/static'));
+app.use('/', viewRouter);
 app.listen(PORT, () => {
   console.log(PORT, '포트 번호로 서버가 실행되었습니다.');
 });
