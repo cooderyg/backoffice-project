@@ -312,7 +312,7 @@ router.post('/owner/login', async (req, res) => {
         const decodedRefreshToken = jwt.decode(refreshToken);
         const ownerId = decodedRefreshToken.ownerId;
 
-        const newAccessToken = generateAccessToken(ownerId);
+        const newAccessToken = ownergenerateAccessToken(ownerId);
 
         return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
           ownerId,
