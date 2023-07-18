@@ -218,6 +218,12 @@ router.post('/owner/signup', ValidationMiddleware, async (req, res) => {
       return res.status(401).json({ message: '닉네임과 비밀번호를 입력해주세요.' });
     }
 
+    const existingOwner = await Owners.findOne({ where: { email } });
+
+    if (existingOwner) {
+      return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
+    }
+
     // 비밀번호 암호화
     const hashedPassword = await bcrypt.hash(password, 10);
 
