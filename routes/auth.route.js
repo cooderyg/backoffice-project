@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const { Owners } = require('../models');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 const env = process.env;
 
@@ -35,6 +36,86 @@ const ownergenerateRefreshToken = (ownerId) => {
   });
 };
 
+// 랜덤한 6자리 숫자 생성
+const generateRandomCode = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+// 이메일 전송 설정
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: env.EMAIL_HOST,
+  port: env.EMAIL_PORT,
+  secure: true,
+  auth: {
+    user: env.EMAIL_USERNAME,
+    pass: env.EMAIL_PASSWORD,
+  },
+});
+
+const sendEmail = async (email, verificationCode) => {
+  try {
+    const mailOptions = {
+      from: env.EMAIL_FROM,
+      to: email,
+      subject: '이메일 인증',
+      html: `<h1>이메일 인증코드: ${verificationCode}</h1>`,
+    };
+    await transporter.sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    console.log('🚀 ~ file: auth.route.js ~ sendEmail ~ error', error);
+    return false;
+  }
+};
+
+router.post('/user/signup', async (req, res) => {
+  const { email, userName, nickname, password, age, gender, address, phoneNumber } = req.body;
+
+  try {
+    const existingUser = await Users.findOne({ where: { email } });
+
+    if (existingUser) {
+      return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 랜덤한 6자리 숫자 생성 (인증 코드)
+    const verificationCode = generateRandomCode();
+
+    // 이메일 전송
+    // const verifyUrl = `${env.FRONTEND_URL}/verify`;
+    const isEmailSent = await sendEmail(email, verificationCode);
+    if (!isEmailSent) {
+      return res.status(500).json({ message: '이메일 전송에 실패했습니다.' });
+    }
+
+    // 유저 생성
+    const newUser = await Users.create({
+      email,
+      userName,
+      nickname,
+      password: hashedPassword,
+      age,
+      gender,
+      address,
+      phoneNumber,
+      emailVerify: false,
+    });
+
+    res
+      .status(201)
+      .cookie('email', email, { httpOnly: true })
+      .cookie('verificationCode', verificationCode, { httpOnly: true })
+      .json({ message: '회원가입이 완료되었습니다.', newUser });
+  } catch (error) {
+    console.log('🚀 ~ file: auth.route.js:100 ~ router.post ~ error:', error);
+
+    res.status(500).json({ message: '회원가입 도중 오류가 발생했습니다.' });
+  }
+});
+
 router.post('/user/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -44,6 +125,7 @@ router.post('/user/login', async (req, res) => {
     if (!refreshToken) {
       const user = await Users.findOne({ where: { email: email } });
       res.clearCookie('refreshToken');
+      res.clearCookie('accessToken');
 
       // 회원 유효성
       if (!user) {
@@ -68,6 +150,46 @@ router.post('/user/login', async (req, res) => {
         .json({ userId, newAccessToken, message: '로그인되었습니다.' });
     }
 
+    // Case 2: Access Token과 Refresh Token 모두 만료된 경우
+    try {
+      jwt.verify(refreshToken, env.REFRESH_KEY);
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        const decodedRefreshToken = jwt.decode(refreshToken);
+        const userId = decodedRefreshToken.userId;
+
+        const newAccessToken = usergenerateAccessToken(userId);
+        const newRefreshToken = usergenerateRefreshToken(userId);
+
+        return res
+          .cookie('accessToken', newAccessToken, { httpOnly: true })
+          .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+          .json({
+            userId,
+            newAccessToken,
+            message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
+          });
+      }
+    }
+
+    // Case 3: Access Token은 만료됐지만 Refresh Token은 유효한 경우
+    try {
+      jwt.verify(req.cookies.accessToken, env.ACCESS_KEY);
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        const decodedRefreshToken = jwt.decode(refreshToken);
+        const userId = decodedRefreshToken.userId;
+
+        const newAccessToken = usergenerateAccessToken(userId);
+
+        return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
+          userId,
+          newAccessToken,
+          message: 'ACCESS TOKEN이 갱신되었습니다.',
+        });
+      }
+    }
+
     // Case 4: Access Token과 Refresh Token 모두 유효한 경우
     if (refreshToken) {
       const decodedAccessToken = jwt.decode(req.cookies.accessToken);
@@ -85,6 +207,45 @@ router.post('/user/login', async (req, res) => {
   }
 });
 
+// 오너 회원가입 API
+router.post('/owner/signup', async (req, res) => {
+  const { email, password, point } = req.body;
+
+  try {
+    // 값이 비어있을 때
+    if (!email || !password) {
+      return res.status(401).json({ message: '닉네임과 비밀번호를 입력해주세요.' });
+    }
+
+    // 비밀번호 암호화
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 랜덤한 6자리 숫자 생성 (인증 코드)
+    const verificationCode = generateRandomCode();
+
+    // 이메일 전송
+    const isEmailSent = await sendEmail(email, verificationCode);
+    if (!isEmailSent) {
+      return res.status(500).json({ message: '이메일 전송에 실패했습니다.' });
+    }
+
+    const newOwner = await Owners.create({
+      email,
+      password: hashedPassword,
+      point,
+    });
+
+    res
+      .status(201)
+      .cookie('email', email, { httpOnly: true })
+      .cookie('verificationCode', verificationCode, { httpOnly: true })
+      .json({ message: '회원가입 완료', newOwner });
+  } catch (error) {
+    console.log('🚀 ~ file: users.js:45 ~ router.post ~ error:', error);
+    res.status(500).json({ message: '회원가입 오류' });
+  }
+});
+
 router.post('/owner/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -94,6 +255,7 @@ router.post('/owner/login', async (req, res) => {
     if (!refreshToken) {
       const owner = await Owners.findOne({ where: { email: email } });
       res.clearCookie('refreshToken');
+      res.clearCookie('accessToken');
 
       // 회원 유효성
       if (!owner) {
@@ -118,6 +280,46 @@ router.post('/owner/login', async (req, res) => {
         .json({ ownerId, newAccessToken, message: '로그인되었습니다.' });
     }
 
+    // Case 2: Access Token과 Refresh Token 모두 만료된 경우
+    try {
+      jwt.verify(refreshToken, env.REFRESH_KEY);
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        const decodedRefreshToken = jwt.decode(refreshToken);
+        const ownerId = decodedRefreshToken.ownerId;
+
+        const newAccessToken = ownergenerateAccessToken(ownerId);
+        const newRefreshToken = ownergenerateRefreshToken(ownerId);
+
+        return res
+          .cookie('accessToken', newAccessToken, { httpOnly: true })
+          .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+          .json({
+            ownerId,
+            newAccessToken,
+            message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
+          });
+      }
+    }
+
+    // Case 3: Access Token은 만료됐지만 Refresh Token은 유효한 경우
+    try {
+      jwt.verify(req.cookies.accessToken, env.ACCESS_KEY);
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        const decodedRefreshToken = jwt.decode(refreshToken);
+        const ownerId = decodedRefreshToken.ownerId;
+
+        const newAccessToken = generateAccessToken(ownerId);
+
+        return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
+          ownerId,
+          newAccessToken,
+          message: 'ACCESS TOKEN이 갱신되었습니다.',
+        });
+      }
+    }
+
     // Case 4: Access Token과 Refresh Token 모두 유효한 경우
     if (refreshToken) {
       const decodedAccessToken = jwt.decode(req.cookies.accessToken);
@@ -134,65 +336,82 @@ router.post('/owner/login', async (req, res) => {
   }
 });
 
-// 유저 회원가입 API
-router.post('/user/signup', async (req, res) => {
-  const { email, userName, nickname, password, age, gender, address } = req.body;
+router.post('/user/verify', async (req, res) => {
+  const { verificationCode } = req.body;
+  const email = req.cookies.email;
+  const cookieverificationCode = req.cookies.verificationCode;
 
   try {
-    // 값이 비어있을 때
-    if (!nickname || !password) {
-      return res.status(401).json({ message: '닉네임과 비밀번호를 입력해주세요.' });
+    const user = await Users.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
     }
 
-    // 비밀번호 암호화
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // 인증 코드 검증
+    if (user.emailVerify) {
+      return res.status(400).json({ message: '이미 인증된 이메일입니다.' });
+    }
 
-    const newUser = await Users.create({
-      email,
-      userName,
-      nickname,
-      password: hashedPassword,
-      age,
-      gender,
-      address,
-    });
+    if (verificationCode !== cookieverificationCode) {
+      return res.status(400).json({ message: '인증 코드가 일치하지 않습니다.' });
+    }
 
-    res.status(201).json({ message: '회원가입 완료', newUser });
+    // 이메일 인증 완료 처리
+    await Users.update({ emailVerify: true }, { where: { email } });
+
+    res.clearCookie('email');
+    res.clearCookie('verificationCode');
+
+    res.status(200).json({ message: '이메일 인증이 완료되었습니다.' });
   } catch (error) {
-    console.log('🚀 ~ file: users.js:45 ~ router.post ~ error:', error);
-    res.status(500).json({ message: '회원가입 오류' });
+    console.log('🚀 ~ file: auth.route.js:131 ~ router.post ~ error:', error);
+
+    res.status(500).json({ message: '이메일 인증 도중 오류가 발생했습니다.' });
   }
 });
 
-// 오너 회원가입 API
-router.post('/owner/signup', async (req, res) => {
-  const { email, password, point } = req.body;
+router.post('/owner/verify', async (req, res) => {
+  const { verificationCode } = req.body;
+  const email = req.cookies.email;
+  const cookieverificationCode = req.cookies.verificationCode;
 
   try {
-    // 값이 비어있을 때
-    if (!email || !password) {
-      return res.status(401).json({ message: '닉네임과 비밀번호를 입력해주세요.' });
+    const owner = await Owners.findOne({ where: { email } });
+
+    if (!owner) {
+      return res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
     }
 
-    // 비밀번호 암호화
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // 인증 코드 검증
+    if (owner.emailVerify) {
+      return res.status(400).json({ message: '이미 인증된 이메일입니다.' });
+    }
 
-    const newOwner = await Owners.create({
-      email,
-      password: hashedPassword,
-      point,
-    });
+    if (verificationCode !== cookieverificationCode) {
+      return res.status(400).json({ message: '인증 코드가 일치하지 않습니다.' });
+    }
 
-    res.status(201).json({ message: '회원가입 완료', newOwner });
+    // 이메일 인증 완료 처리
+    await Owners.update({ emailVerify: true }, { where: { email } });
+
+    res.clearCookie('email');
+    res.clearCookie('verificationCode');
+
+    res.status(200).json({ message: '이메일 인증이 완료되었습니다.' });
   } catch (error) {
-    console.log('🚀 ~ file: users.js:45 ~ router.post ~ error:', error);
-    res.status(500).json({ message: '회원가입 오류' });
+    console.log('🚀 ~ file: auth.route.js:131 ~ router.post ~ error:', error);
+
+    res.status(500).json({ message: '이메일 인증 도중 오류가 발생했습니다.' });
   }
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('accessToken');
-  res.clearCookie('refreshToken');
+  res.locals.user = null;
+  res.locals.owner = null;
+
+  res.clearCookie('accessToken', { httpOnly: true });
+  res.clearCookie('refreshToken', { httpOnly: true });
   res.json({ message: '로그아웃되었습니다.' });
 });
 
