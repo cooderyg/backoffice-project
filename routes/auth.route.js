@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 const { Owners } = require('../models');
 const nodemailer = require('nodemailer');
+const ValidationMiddleware = require('../middlewares/validations/signup.validation');
+
 require('dotenv').config();
 const env = process.env;
 
@@ -69,7 +71,7 @@ const sendEmail = async (email, verificationCode) => {
   }
 };
 
-router.post('/user/signup', async (req, res) => {
+router.post('/user/signup', ValidationMiddleware, async (req, res) => {
   const { email, userName, nickname, password, age, gender, address, phoneNumber } = req.body;
 
   try {
@@ -133,7 +135,7 @@ router.post('/user/login', async (req, res) => {
       }
 
       // 비밀번호 유효성
-      const comparePassword = await bcrypt.compare(password, user.password);
+      const comparePassword = await bcrypt.compare(password.toString(), user.password);
 
       if (!comparePassword) {
         return res.status(401).json({ message: '잘못된 비밀번호.' });
@@ -194,7 +196,6 @@ router.post('/user/login', async (req, res) => {
     if (refreshToken) {
       const decodedAccessToken = jwt.decode(req.cookies.accessToken);
       const userId = decodedAccessToken.userId;
-      console.log('5');
       res.status(201).json({
         userId,
         accessToken,
@@ -208,7 +209,7 @@ router.post('/user/login', async (req, res) => {
 });
 
 // 오너 회원가입 API
-router.post('/owner/signup', async (req, res) => {
+router.post('/owner/signup', ValidationMiddleware, async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -264,7 +265,7 @@ router.post('/owner/login', async (req, res) => {
       }
 
       // 비밀번호 유효성
-      const comparePassword = await bcrypt.compare(password, owner.password);
+      const comparePassword = await bcrypt.compare(password.toString(), owner.password);
 
       if (!comparePassword) {
         return res.status(401).json({ message: '잘못된 비밀번호.' });
