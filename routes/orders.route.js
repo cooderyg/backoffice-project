@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize');
-const { orders } = require('../models');
+const { users, orders, ordermenus, menus, stores } = require('../models');
 const authMiddleware = require('../middlewares/validations/signup.validation.js');
 
 // 주문 생성 API
