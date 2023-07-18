@@ -26,5 +26,22 @@ class MenuService {
 
     return menus;
   };
+
+  updateMenu = async (storeId, menuId, ownerId, menuName, imageUrl, price) => {
+    if (!ownerId || !storeId || !menuId || !menuName || !imageUrl || !price) {
+      throw { errorCode: 412, message: 'Invalid data' };
+    }
+
+    const store = await this.storeRepository.findStoreByStoreId(storeId);
+    if (!store) throw { errorCode: 404, message: 'Store not exist' };
+    const menu = await this.menuRepository.findOneMenu(menuId);
+    if (!menu) throw { errorCode: 404, message: 'Menu not exist' };
+
+    if (ownerId !== store.OwnerId) {
+      throw { errorCode: 403, message: 'Unauthorized' };
+    }
+
+    await this.menuRepository.updateMenu(storeId, menuId, menuName, imageUrl, price);
+  };
 }
 module.exports = MenuService;

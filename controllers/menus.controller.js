@@ -31,7 +31,21 @@ class MenuController {
 
   updateMenu = async (req, res) => {
     const { storeId, menuId } = req.params;
-    const { ownerId } = req.body;
+    const { ownerId, menuName, imageUrl, price } = req.body;
+    try {
+      const updatedMenu = await this.menuService.updateMenu(
+        storeId,
+        menuId,
+        ownerId,
+        menuName,
+        imageUrl,
+        price,
+      );
+      res.json({ message: '메뉴가 수정되었습니다.' });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json(e.message);
+      res.status(500).json(e.message);
+    }
   };
 
   deleteMenu = async (req, res) => {

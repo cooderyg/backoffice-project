@@ -14,5 +14,14 @@ class MenuRepository {
     const menus = await Menus.findAll({ where: { StoreId } });
     return menus;
   };
+
+  findOneMenu = async (menuId) => {
+    const menu = await Menus.findOne({ where: { menuId } });
+    return menu;
+  };
+
+  updateMenu = async (StoreId, menuId, menuName, imageUrl, price) => {
+    await Menus.update({ menuName, imageUrl, price }, { where: { StoreId, menuId } });
+  };
 }
 module.exports = MenuRepository;
