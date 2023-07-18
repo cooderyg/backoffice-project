@@ -6,6 +6,11 @@ class StoreRepository {
     return store;
   };
 
+  findStoreByStoreId = async (storeId) => {
+    const store = await Stores.findOne({ where: { storeId } });
+    return store;
+  };
+
   createStore = async (OwnerId, CategoryId, storeName, address, storeImageUrl, isOpen) => {
     await Stores.create({
       OwnerId,
@@ -17,7 +22,9 @@ class StoreRepository {
     });
   };
 
-  updateStore = async (req, res) => {};
+  updateStore = async (storeId, storeName, address, storeImageUrl, isOpen) => {
+    await Stores.update({ storeName, address, storeImageUrl, isOpen }, { where: { storeId } });
+  };
 
   deleteStore = async (req, res) => {};
 }

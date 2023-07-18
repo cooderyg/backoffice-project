@@ -21,6 +21,7 @@ class StoreService {
 
     const store = await this.storeRepository.findStoreByOwnerId(ownerId);
     if (!store) throw { errorCode: 404, message: 'Store not exist' };
+    return store;
   };
 
   /*  
@@ -50,7 +51,22 @@ class StoreService {
     );
   };
 
-  updateStore = async (req, res) => {};
+  updateStore = async (ownerId, storeId, storeName, address, storeImageUrl, isOpen) => {
+    const store = await this.storeRepository.findStoreByStoreId(storeId);
+    if (!store) {
+      throw { errorCode: 404, message: 'Store not exist' };
+    }
+
+    if (!ownerId || !storeId || !storeName || !address || !storeImageUrl || !isOpen) {
+      throw { errorCode: 412, message: 'Invalid data' };
+    }
+
+    if (ownerId !== store.OwnerId) {
+      throw { errorCode: 403, message: 'Unauthorized' };
+    }
+
+    await this.storeRepository.updateStore(storeId, storeName, address, storeImageUrl, isOpen);
+  };
 
   deleteStore = async (req, res) => {};
 }

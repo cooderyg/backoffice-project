@@ -11,8 +11,7 @@ const storeController = new StoreController();
 router.post('/stores', storeController.postStore);
 
 // 가게 정보 조회
-router.get('/stores/:storeId', storeController.getStore);
-// get에 파라미터가 필요할까?
+router.get('/stores', storeController.getStore);
 
 // 가게 정보 수정
 router.put('/stores/:storeId', storeController.updateStore);
