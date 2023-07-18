@@ -5,15 +5,38 @@ class MenuController {
 
   postMenu = async (req, res) => {
     const { storeId } = req.params;
-    const { menuName, menuImageUrl, price } = req.body;
+    const { menuName, imageUrl, price } = req.body;
 
     try {
-      await this.menuService.createMenu(storeId, menuName, menuImageUrl, price);
+      await this.menuService.createMenu(storeId, menuName, imageUrl, price);
       res.json({ message: '메뉴가 추가되었습니다.' });
     } catch (e) {
       if (e.errorCode) return res.status(e.errorCode).json(e.message);
       res.status(500).json(e.message);
     }
+  };
+
+  getMenu = async (req, res) => {
+    const { storeId } = req.params;
+    const { ownerId } = req.body;
+
+    try {
+      const menus = await this.menuService.findAllMenus(ownerId, storeId);
+      res.json({ menus });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json(e.message);
+      res.status(500).json(e.message);
+    }
+  };
+
+  updateMenu = async (req, res) => {
+    const { storeId, menuId } = req.params;
+    const { ownerId } = req.body;
+  };
+
+  deleteMenu = async (req, res) => {
+    const { storeId, menuId } = req.params;
+    const { ownerId } = req.body;
   };
 }
 module.exports = MenuController;
