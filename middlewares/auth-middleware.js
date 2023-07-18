@@ -41,7 +41,7 @@ const authMiddleware = async (req, res, next) => {
 
       res.locals.owner = owner;
     } else {
-      // 노바디
+      // 액세스 토큰 없음
       return res.status(401).json({ errorMessage: '유효하지 않은 Access Token입니다.' });
     }
 
