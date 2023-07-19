@@ -46,5 +46,10 @@ class StoreRepository {
     });
     return stores;
   };
+
+  findStoresByCategoryId = async (CategoryId) => {
+    const stores = await Stores.findAll({ where: { CategoryId } });
+    return stores;
+  };
 }
 module.exports = StoreRepository;
