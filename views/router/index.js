@@ -21,4 +21,8 @@ router.get('/reviewList', (req, res) => {
   return res.render('reviewList');
 });
 
+router.get('/cart', (req, res) => {
+  return res.render('cart');
+});
+
 module.exports = router;

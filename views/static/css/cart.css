@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&display=swap');
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  box-sizing: border-box;
+  padding-top: 120px;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+
+.subHead {
+  text-align: center;
+  padding-top: 80px;
+  height: 60px;
+  font-size: large;
+}
+
+.cartList {
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+.menuName {
+  margin-bottom: 20px;
+}
+.price {
+  margin-bottom: 20px;
+}
+.col-md-4 {
+  height: auto;
+}
+.quantitySet {
+  display: flex;
+  height: 20px;
+  margin-bottom: 20px;
+}
+.menuCnt {
+  vertical-align: middle;
+}
+.col-5 {
+  margin-bottom: 50px;
+}
+.decrease {
+  width: 30px;
+  height: 20px;
+  border: 0;
+}
+.increase {
+  width: 30px;
+  height: 20px;
+  border: 0;
+}
+.row mb-3 {
+  text-align: center;
+}
