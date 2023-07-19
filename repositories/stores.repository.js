@@ -1,14 +1,20 @@
-const { Stores } = require('../models');
+const { Stores, Categories } = require('../models');
 const { Op } = require('sequelize');
 
 class StoreRepository {
   findStoreByOwnerId = async (OwnerId) => {
-    const store = await Stores.findOne({ where: { OwnerId } });
+    const store = await Stores.findOne({
+      where: { OwnerId },
+      include: [{ model: Categories, attributes: ['categoryName'] }],
+    });
     return store;
   };
 
   findStoreByStoreId = async (storeId) => {
-    const store = await Stores.findOne({ where: { storeId } });
+    const store = await Stores.findOne({
+      where: { storeId },
+      include: [{ model: Categories, attributes: ['categoryName'] }],
+    });
     return store;
   };
 
@@ -36,7 +42,13 @@ class StoreRepository {
       where: {
         storeName: { [Op.like]: `%${searchString}%` },
       },
+      include: [{ model: Categories, attributes: ['categoryName'] }],
     });
+    return stores;
+  };
+
+  findStoresByCategoryId = async (CategoryId) => {
+    const stores = await Stores.findAll({ where: { CategoryId } });
     return stores;
   };
 }

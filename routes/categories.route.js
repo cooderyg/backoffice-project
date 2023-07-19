@@ -5,8 +5,10 @@ const { Categories } = require('../models');
 router.post('/categories', async (req, res) => {
   try {
     const { categoryName } = req.body;
-    const category = await Categories.findOne({ categoryName });
-    if (category) res.status(409).json({ message: '이미 해당이름의 카테고리가 존재합니다.' });
+    const category = await Categories.findOne({ where: { categoryName } });
+
+    if (category)
+      return res.status(409).json({ message: '이미 해당이름의 카테고리가 존재합니다.' });
 
     const result = await Categories.create({ categoryName });
     res.status(200).json({ result });
