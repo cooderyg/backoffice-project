@@ -60,5 +60,11 @@ class MenuService {
 
     await this.menuRepository.deleteMenu(menuId);
   };
+
+  getMenus = async (menuIds) => {
+    const menus = await this.menuRepository.findMenusByMenuId(menuIds);
+    if (!menus) throw { errorCode: 404, message: 'Menu not exist' };
+    return menus;
+  };
 }
 module.exports = MenuService;
