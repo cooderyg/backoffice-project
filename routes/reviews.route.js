@@ -145,7 +145,7 @@ router.put('/users/:userId/reviews/:reviewId', async (req, res) => {
 // 리뷰 삭제
 router.delete('/users/:userId/reviews/:reviewId', async (req, res) => {
   const { reviewId } = req.params;
-  const review = await reviews.findOne({
+  const review = await Reviews.findOne({
     where: { reviewId },
   });
   if (!review) {

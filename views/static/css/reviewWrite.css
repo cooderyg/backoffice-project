@@ -1,36 +1,30 @@
-.header {
-  display: flex;
-  font-family: 'Gowun Batang', sans-serif;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&display=swap');
+* {
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-.logo {
-  width: 160px;
-  height: 80px;
-  margin-left: 0 auto;
+body {
+  box-sizing: border-box;
+  padding-top: 120px;
 }
-
-.title {
-  width: 100px;
-  height: 40px;
-  text-align: center;
-  padding-top: 10px;
-  margin-top: 20px;
-  background-color: #ee2b26;
-  color: white;
+li {
+  list-style: none;
 }
-
-.logoutBtn {
-  margin-left: auto;
-  margin-top: 20px;
+a {
+  text-decoration: none;
+  display: block;
+}
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
 }
 
 .subHead {
   margin: auto;
   text-align: center;
-  padding-top: 25px;
+  padding-top: 80px;
   height: 60px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
   font-size: large;
 }
 

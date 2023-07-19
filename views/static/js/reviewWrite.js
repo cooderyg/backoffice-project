@@ -20,3 +20,7 @@ document.getElementById('reviewSave').addEventListener('click', async function (
     })
     .catch(console.error(data.message));
 });
+
+// 취소버튼 클릭 시 이전화면 로드
+
+// 로그아웃 버튼 클릭 시 로그아웃

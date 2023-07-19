@@ -36,26 +36,6 @@ document.addEventListener('click', function (event) {
 });
 
 // 삭제 버튼 클릭 시 해당 리뷰 삭제
-document.addEventListener('click', async function (event) {
-  if (event.target.id === 'commentDelete') {
-    const commentId = event.target.closest('.solo-card').dataset.commentid;
-    try {
-      const response = await fetch(`/api/posts/${postId}/comments/${commentId}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        // 삭제 성공
-        alert(data.message);
-        location.reload();
-      } else {
-        // 삭제 실패
-        console.log('댓글 삭제에 실패했습니다.');
-      }
-    } catch (error) {
-      console.log('오류가 발생했습니다.', error);
-    }
-  }
-});
+document.addEventListener('click', async function (event) {});
 
 // 로그아웃 버튼 클릭 시 로그아웃
