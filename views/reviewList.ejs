@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리뷰조회</title>
+  <%- include('includes/favicon') %>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/reviewList.css" />
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <script src="/js/reviewList.js" defer></script>
+</head>
+
+<body>
+  <header class="header">
+    <a href="/"><img src="/img/header-logo.png" alt="" class="logo" /></a>
+    <div class="title">
+      <h4>푸드라이더</h4>
+    </div>
+    <div class="logoutBtn">
+      <button type="button" class="btn btn-outline-danger" id="logoutBtn">로그아웃</button>
+    </div>
+  </header>
+
+  <div class="subHead">
+    <h2>내가 쓴 리뷰</h2>
+  </div>
+
+  <div class="mycards">
+    <div class="card-box" id="cards-box"></div>
+    <div class="col" style="color: white">
+      <div class="solo-card" style="background-color: rgb(58, 58, 57)">
+        <img src="https://image.tmdb.org/t/p/w500${movieImg}" class="card-img-top" id="cardPost-${movieId}" />
+        <div class="card-body" id="desc-body-${movieId}">
+          <h2 class="card-title"></h2>
+          <p class="rating"></p>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
