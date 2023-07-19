@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오기요</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/category.css" />
+    <script src="/js/category.js" type="module"></script>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <main>
+      <section class="category wrap">
+        <h2 class="category-title">치킨</h2>
+        <ul class="store-list">
+          <li>
+            <a>
+              <img
+                src="https://theganpan.com/wp-content/uploads/2021/02/KakaoTalk_20210128_132604333_15-1024x614.jpg"
+                alt=""
+              />
+              <div>
+                <div class="store-title">레전드치킨집</div>
+                <div class="store-rating"><i class="fa fa-star" aria-hidden="true"></i> 4.5</div>
+                <div class="store-review">리뷰 (30)</div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a>
+              <img
+                src="https://theganpan.com/wp-content/uploads/2021/02/KakaoTalk_20210128_132604333_15-1024x614.jpg"
+                alt=""
+              />
+              <div>
+                <div class="store-title">레전드치킨집</div>
+                <div class="store-rating"><i class="fa fa-star" aria-hidden="true"></i> 4.5</div>
+                <div class="store-review">리뷰 (<span>30</span>)</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

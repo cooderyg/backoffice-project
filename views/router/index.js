@@ -16,4 +16,8 @@ router.get('/login', (req, res) => {
 router.get('/detail', (req, res) => {
   return res.render('detail');
 });
+
+router.get('/categories/:categoryId', (req, res) => {
+  return res.render('category');
+});
 module.exports = router;
