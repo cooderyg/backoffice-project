@@ -53,5 +53,20 @@ class MenuController {
       res.status(500).json(e.message);
     }
   };
+
+  getMenus = async (req, res) => {
+    const menulist = req.cookies.menus;
+    // const menulist = [{ id: 1 }, { id: 2 }, { id: 4 }, { id: 6 }];
+    const menuIds = menulist.map((item) => {
+      return Number(item.id);
+    });
+    try {
+      const menus = await this.menuService.getMenus(menuIds);
+      res.json({ menus });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json(e.message);
+      res.status(500).json(e.message);
+    }
+  };
 }
 module.exports = MenuController;

@@ -74,6 +74,13 @@ class StoreService {
 
   findStores = async (searchString) => {
     const stores = await this.storeRepository.findAllStoresByString(searchString);
+    if (!stores) throw { errorCode: 404, message: 'Store not exist' };
+    return stores;
+  };
+
+  findStoresByCategoryId = async (categoryId) => {
+    const stores = await this.storeRepository.findStoresByCategoryId(categoryId);
+    if (!stores) throw { errorCode: 404, message: 'Store not exist' };
     return stores;
   };
 }

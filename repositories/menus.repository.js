@@ -1,4 +1,5 @@
 const { Menus } = require('../models');
+const { Op } = require('sequelize');
 
 class MenuRepository {
   createMenu = async (StoreId, menuName, imageUrl, price) => {
@@ -26,6 +27,11 @@ class MenuRepository {
 
   deleteMenu = async (menuId) => {
     await Menus.destroy({ where: { menuId } });
+  };
+
+  findMenusByMenuId = async (menuIds) => {
+    const menus = await Menus.findAll({ where: { menuId: { [Op.in]: menuIds } } });
+    return menus;
   };
 }
 module.exports = MenuRepository;
