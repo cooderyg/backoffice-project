@@ -4,8 +4,36 @@ const { Users, Owners } = require('../models');
 require('dotenv').config();
 const env = process.env;
 
+// 액세스 토큰 발급
+const usergenerateAccessToken = (userId) => {
+  return jwt.sign({ userId: userId }, env.ACCESS_KEY, {
+    expiresIn: '1h',
+  });
+};
+
+// 리프레시 토큰 발급
+const usergenerateRefreshToken = (userId) => {
+  return jwt.sign({ userId: userId }, env.REFRESH_KEY, {
+    expiresIn: '7d',
+  });
+};
+
+// 액세스 토큰 발급
+const ownergenerateAccessToken = (ownerId) => {
+  return jwt.sign({ ownerId: ownerId }, env.ACCESS_KEY, {
+    expiresIn: '1h',
+  });
+};
+
+// 리프레시 토큰 발급
+const ownergenerateRefreshToken = (ownerId) => {
+  return jwt.sign({ ownerId: ownerId }, env.REFRESH_KEY, {
+    expiresIn: '7d',
+  });
+};
+
 const authMiddleware = async (req, res, next) => {
-  const { accessToken } = req.cookies;
+  const { accessToken, refreshToken } = req.cookies;
 
   if (!accessToken) {
     return res.status(401).json({ message: 'Access Token이 필요합니다.' });
@@ -26,7 +54,61 @@ const authMiddleware = async (req, res, next) => {
         return res.status(401).json({ errorMessage: '이메일 인증이 필요합니다.' });
       }
 
+      // Case 2: Access Token과 Refresh Token 모두 만료된 경우
+      try {
+        jwt.verify(refreshToken, env.REFRESH_KEY);
+      } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+          const decodedRefreshToken = jwt.decode(refreshToken);
+          const userId = decodedRefreshToken.userId;
+
+          const newAccessToken = usergenerateAccessToken(userId);
+          const newRefreshToken = usergenerateRefreshToken(userId);
+
+          res.locals.user = user;
+
+          return res
+            .cookie('accessToken', newAccessToken, { httpOnly: true })
+            .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+            .json({
+              userId,
+              newAccessToken,
+              message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
+            });
+        }
+      }
+
+      // Case 3: Access Token은 만료됐지만 Refresh Token은 유효한 경우
+      try {
+        jwt.verify(req.cookies.accessToken, env.ACCESS_KEY);
+      } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+          const decodedRefreshToken = jwt.decode(refreshToken);
+          const userId = decodedRefreshToken.userId;
+
+          const newAccessToken = usergenerateAccessToken(userId);
+
+          res.locals.user = user;
+
+          return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
+            userId,
+            newAccessToken,
+            message: 'ACCESS TOKEN이 갱신되었습니다.',
+          });
+        }
+      }
+
+      // Case 4: Access Token과 Refresh Token 모두 유효한 경우
+      const decodedAccessToken = jwt.decode(req.cookies.accessToken);
+      const userId = decodedAccessToken.userId;
+
       res.locals.user = user;
+
+      res.status(201).json({
+        userId,
+        accessToken,
+        message: 'ACCESS TOKEN과 REFRESH TOKEN이 모두 유효합니다.',
+      });
     } else if (decodedAccessToken.hasOwnProperty('ownerId')) {
       // 오너
       const owner = await Owners.findOne({ where: { ownerId: decodedAccessToken.ownerId } });

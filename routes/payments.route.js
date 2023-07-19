@@ -5,5 +5,6 @@ const PaymentsController = require('../controllers/payments.controller');
 
 const paymentController = new PaymentsController();
 
-router.post('/point-transaction', paymentController.pointTransaction);
+router.post('/point-transaction', paymentController.createPointTransaction);
+router.put('/point-transaction', paymentController.cancelPointTransaction);
 module.exports = router;
