@@ -5,32 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home</title>
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/index.css" />
     <!-- <script src="/js/index.js" defer></script> -->
   </head>
   <body>
     <%- include('includes/header') %>
     <main>
-      <section class="category wrap">
-        <div class="swiper-container">
-          <div class="swiper-wrapper" id="categoriesList"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+      <section class="search wrap">
+        <div class="search-container">
+          <input type="text" placeholder="검색어를 입력해주세요." />
+          <button>검색</button>
         </div>
       </section>
       <section class="feed wrap">
-        <h2 class="title">우리동네 맛집</h2>
+        <h2 class="title">카테고리</h2>
         <ul class="feed-container" id="best12list">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li><a href="#">전체보기</a></li>
+          <li><a href="#">1인분</a></li>
+          <li><a href="#">프랜차이즈</a></li>
+          <li><a href="#">치킨</a></li>
+          <li><a href="#">피자</a></li>
+          <li><a href="#">야식</a></li>
+          <li><a href="#">일식</a></li>
+          <li><a href="#">중식</a></li>
         </ul>
       </section>
     </main>
-    <footer>
-      <address>&copy nbc node B group5</address>
-    </footer>
+    <%- include('includes/footer') %>
   </body>
 </html>
