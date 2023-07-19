@@ -1,0 +1,155 @@
+/* common */
+body {
+  box-sizing: border-box;
+  padding-top: 120px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+}
+
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+
+.store-title {
+  padding-top: 40px;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.banner img {
+  object-fit: cover;
+  width: 100%;
+  height: 600px;
+}
+
+.review-container {
+  padding-top: 24px;
+  width: 460px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-container .rating {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.review-container .rating i {
+  color: #fef01b;
+  margin-right: 8px;
+}
+
+.review-container .review {
+  width: 120px;
+  height: 40px;
+  transition: background-color 0.2s;
+  background-color: #ee2b26;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-container .review:hover {
+  background-color: #ef653c;
+}
+
+.menu-container {
+  padding-top: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.menu-container li {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border: 5px solid #ef653c;
+  border-radius: 20px;
+}
+
+.menu-container .img-container {
+  width: 160px;
+  height: 160px;
+}
+
+.menu-container .img-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.menu-container .menu-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 16px 0;
+}
+
+.menu-container .price {
+  font-size: 20px;
+}
+
+.menu-container .quantity {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-container .quantity input {
+  margin: 12px 0;
+  width: 40px;
+  height: 20px;
+}
+
+.menu-container .quantity .add-basket-btn {
+  cursor: pointer;
+  border: none;
+  width: 120px;
+  height: 40px;
+  transition: background-color 0.2s;
+  background-color: #ee2b26;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.menu-container .quantity .add-basket-btn:hover {
+  background-color: #ef653c;
+}
+
+.payment-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  width: 240px;
+  height: 80px;
+  border: none;
+  border-radius: 100px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #ee2b26;
+  color: #fff;
+  margin-top: 200px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.payment-btn:hover {
+  background-color: #ef653c;
+}

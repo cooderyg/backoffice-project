@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상세페이지</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/detail.css" />
+    <script src="/js/detail.js" type="module"></script>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <main>
+      <section class="banner wrap">
+        <img
+          src="https://dnvefa72aowie.cloudfront.net/jobs/article/32060217/1659721540194/job-post-4268257622.jpeg?q=95&s=1440x1440&t=inside"
+        />
+      </section>
+      <section class="wrap">
+        <h2 class="store-title">번쩍피자-중동점</h2>
+        <div class="review-container">
+          <span class="rating"><i class="fa fa-star" aria-hidden="true"></i>4.5</span>
+          <a class="review" href="#">리뷰 보기</a>
+        </div>
+        <ul class="menu-container">
+          <li data-menuId="1">
+            <div>
+              <h4 class="menu-title">포테이토 피자</h4>
+              <span class="price" data-price="8000">8000원</span>
+              <div class="quantity">
+                <input class="quantity-input" type="number" min="1" value="1" />
+                <button class="add-basket-btn">장바구니 담기</button>
+              </div>
+            </div>
+            <div class="img-container">
+              <img src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_M9Q50gtd.jpg" />
+            </div>
+          </li>
+        </ul>
+        <a href="/cart" class="payment-btn">0원 결제하기</a>
+      </section>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>
