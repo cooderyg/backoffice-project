@@ -1,19 +1,9 @@
 const { Op } = require('sequelize');
-const { orders, users } = require('../models');
+const { orders, users, stores, menus, ordermenus } = require('../models');
 
 class OrdersService {
-  async createOrder(userId, orderData) {
-    const {
-      address,
-      phone_number,
-      isDelivered,
-      storeName,
-      menuName,
-      price,
-      quantity,
-      total_price,
-      createdAt,
-    } = orderData;
+  async createOrder(userId, storeId, orderData) {
+    const { address, isDelivered, menuId, price, quantity, total_price } = orderData;
 
     try {
       // 트랜잭션 시작
@@ -21,7 +11,7 @@ class OrdersService {
 
       try {
         // 잔여 포인트 조회
-        const user = await users.findOne({ where: { user_id: userId } });
+        const user = await users.findOne({ where: { userId } });
         const remainingPoints = user.point;
 
         // 메뉴 가격과 잔여 포인트 비교
@@ -32,16 +22,22 @@ class OrdersService {
         // 주문 생성
         const order = await orders.create(
           {
-            User_id: userId,
+            UserId: userId,
             address,
-            phone_number,
             isDelivered,
-            storeName,
-            menuName,
-            price,
+            StoreId: storeId,
+            totalPrice: total_price,
+          },
+          { transaction: t },
+        );
+
+        // 주문 메뉴 생성
+        await ordermenus.create(
+          {
+            OrderId: order.orderId,
+            MenuId: menuId,
             quantity,
-            total_price,
-            createdAt,
+            price,
           },
           { transaction: t },
         );
@@ -49,7 +45,7 @@ class OrdersService {
         // 포인트 차감
         await users.update(
           { point: remainingPoints - price },
-          { where: { user_id: userId }, transaction: t },
+          { where: { userId }, transaction: t },
         );
 
         // 트랜잭션 커밋
@@ -69,7 +65,16 @@ class OrdersService {
 
   async getOrder(orderId) {
     try {
-      const order = await orders.findOne({ where: { orderId } });
+      const order = await orders.findOne({
+        where: { orderId },
+        include: [
+          {
+            model: ordermenus,
+            include: [menus],
+          },
+        ],
+      });
+
       return order;
     } catch (error) {
       console.error(error);
@@ -78,17 +83,7 @@ class OrdersService {
   }
 
   async updateOrder(orderId, orderData) {
-    const {
-      address,
-      phone_number,
-      isDelivered,
-      storeName,
-      menuName,
-      price,
-      quantity,
-      total_price,
-      createdAt,
-    } = orderData;
+    const { address, isDelivered, menuId, price, quantity, total_price } = orderData;
 
     try {
       // 수정할 주문서 조회
@@ -101,14 +96,21 @@ class OrdersService {
       // 주문서 수정
       await order.update({
         address,
-        phone_number,
         isDelivered,
-        storeName,
-        menuName,
-        price,
+        totalPrice: total_price,
+      });
+
+      // 주문 메뉴 수정
+      const orderMenu = await ordermenus.findOne({ where: { OrderId: orderId } });
+
+      if (!orderMenu) {
+        throw new Error('주문 메뉴를 찾을 수 없습니다.');
+      }
+
+      await orderMenu.update({
+        MenuId: menuId,
         quantity,
-        total_price,
-        createdAt,
+        price,
       });
 
       return order;
