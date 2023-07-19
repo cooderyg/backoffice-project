@@ -45,4 +45,7 @@ router.get('/store_modification', (req, res) => {
   return res.render('store_modification', { storeId });
 });
 
+router.get('/categories/:categoryId', (req, res) => {
+  return res.render('category');
+});
 module.exports = router;

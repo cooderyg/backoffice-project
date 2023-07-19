@@ -1,0 +1,85 @@
+/* common */
+body {
+  box-sizing: border-box;
+  padding-top: 120px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+
+.category {
+  max-width: 1400px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.category .category-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+.store-list {
+  max-width: 1400px;
+  width: 100%;
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+.store-list li {
+  width: calc(50% - 20px);
+}
+
+.store-list li a {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  border: 5px solid #ee2b26;
+  box-sizing: border-box;
+  border-radius: 20px;
+  cursor: pointer;
+
+  gap: 20px;
+}
+
+.store-list li img {
+  border-radius: 16px;
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+}
+
+.store-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.store-rating {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.store-rating i {
+  color: #fef01b;
+}
+
+.store-address {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .store-list li {
+    width: 100%;
+  }
+}
