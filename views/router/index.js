@@ -12,4 +12,8 @@ router.get('/payment', (req, res) => {
 router.get('/login', (req, res) => {
   return res.render('login');
 });
+
+router.get('/detail', (req, res) => {
+  return res.render('detail');
+});
 module.exports = router;
