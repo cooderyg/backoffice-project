@@ -6,8 +6,8 @@ class StoreController {
   // 가게 정보 조회
   getStore = async (req, res) => {
     // const { ownerId } = res.locals.owner;
-    const { ownerId } = req.body;
-
+    // const { ownerId } = req.body;
+    const ownerId = 12;
     try {
       const store = await this.storeService.findStoreByOwnerId(ownerId);
       res.json({ store });

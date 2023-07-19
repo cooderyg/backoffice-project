@@ -12,4 +12,13 @@ router.get('/payment', (req, res) => {
 router.get('/login', (req, res) => {
   return res.render('login');
 });
+
+router.get('/reviewWrite', (req, res) => {
+  return res.render('reviewWrite');
+});
+
+router.get('/reviewList', (req, res) => {
+  return res.render('reviewList');
+});
+
 module.exports = router;

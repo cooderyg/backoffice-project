@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { orders, reviews, stores } = require('../models');
+const { Orders, Reviews, Stores, Ordermenus } = require('../models');
 // const upload = require('../middlewares/uploader');
 // const AWS = require('aws-sdk');
 // require('dotenv').config();
@@ -12,7 +12,7 @@ router.post('/orders/:orderId/reviews', async (req, res) => {
     const { comment } = req.body;
     const { id } = res.locals.user;
 
-    const review = await reviews.create({
+    const review = await Reviews.create({
       reviewId: id,
       OrderId: orderId,
       comment: comment,
@@ -84,14 +84,20 @@ router.get('/users/:userId/reviews', async (req, res) => {
       attributes: ['reviewId', 'UserId', 'OrderId', 'rating', 'comment', 'imageUrl'],
       include: [
         {
-          model: orders,
+          model: Orders,
           as: 'orders',
           include: [
             {
-              model: stores,
+              model: Stores,
               as: 'stores',
               attributes: ['storeName'],
-              include: [{ model: menus, as: 'menus', attributes: ['menuName'] }],
+              include: [
+                {
+                  model: Ordermenus,
+                  as: 'ordermenus',
+                  include: [{ model: menus, as: 'menus', attributes: ['menuName'] }],
+                },
+              ],
             },
           ],
         },
@@ -117,7 +123,7 @@ router.put('/users/:userId/reviews/:reviewId', async (req, res) => {
   const { rating, comment } = req.body;
 
   try {
-    const review = await reviews.findOne({
+    const review = await Reviews.findOne({
       where: { reviewId },
     });
     if (!review) {
@@ -127,7 +133,7 @@ router.put('/users/:userId/reviews/:reviewId', async (req, res) => {
       if (!comment) {
         return res.status(412).json({ message: '리뷰 내용을 입력해주세요.' });
       } else {
-        await reviews.update({ rating, comment }, { where: { reviewId: reviewId } });
+        await Reviews.update({ rating, comment }, { where: { reviewId: reviewId } });
         res.status(201).json({ message: '리뷰가 정상적으로 수정되었습니다.' });
       }
     }
@@ -146,7 +152,7 @@ router.delete('/users/:userId/reviews/:reviewId', async (req, res) => {
     return res.status(400).json({ message: '존재하지 않는 리뷰입니다.' });
   }
   if (review) {
-    await reviews.destroy({ where: { reviewId: reviewId } });
+    await Reviews.destroy({ where: { reviewId: reviewId } });
     res.status(201).json({ message: '리뷰가 정상적으로 삭제되었습니다.' });
   }
 });
