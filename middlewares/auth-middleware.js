@@ -73,12 +73,12 @@ const authMiddleware = async (req, res, next) => {
 
           return res
             .cookie('accessToken', newAccessToken, { httpOnly: true })
-            .cookie('refreshToken', newRefreshToken, { httpOnly: true })
-            .json({
-              userId,
-              newAccessToken,
-              message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
-            });
+            .cookie('refreshToken', newRefreshToken, { httpOnly: true });
+          // .json({
+          //   userId,
+          //   newAccessToken,
+          //   message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
+          // });
         }
       }
 
@@ -94,11 +94,12 @@ const authMiddleware = async (req, res, next) => {
 
           res.locals.user = user;
 
-          return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
-            userId,
-            newAccessToken,
-            message: 'ACCESS TOKEN이 갱신되었습니다.',
-          });
+          return res.cookie('accessToken', newAccessToken, { httpOnly: true });
+          // .json({
+          //   userId,
+          //   newAccessToken,
+          //   message: 'ACCESS TOKEN이 갱신되었습니다.',
+          // });
         }
       }
 
@@ -108,11 +109,11 @@ const authMiddleware = async (req, res, next) => {
 
       res.locals.user = user;
 
-      res.status(201).json({
-        userId,
-        accessToken,
-        message: 'ACCESS TOKEN과 REFRESH TOKEN이 모두 유효합니다.',
-      });
+      // res.status(201).json({
+      //   userId,
+      //   accessToken,
+      //   message: 'ACCESS TOKEN과 REFRESH TOKEN이 모두 유효합니다.',
+      // });
     } else if (decodedAccessToken.hasOwnProperty('ownerId')) {
       // 오너
       const owner = await Owners.findOne({ where: { ownerId: decodedAccessToken.ownerId } });
@@ -140,12 +141,12 @@ const authMiddleware = async (req, res, next) => {
 
           return res
             .cookie('accessToken', newAccessToken, { httpOnly: true })
-            .cookie('refreshToken', newRefreshToken, { httpOnly: true })
-            .json({
-              ownerId,
-              newAccessToken,
-              message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
-            });
+            .cookie('refreshToken', newRefreshToken, { httpOnly: true });
+          // .json({
+          //   ownerId,
+          //   newAccessToken,
+          //   message: 'ACCESS TOKEN과 REFRESH TOKEN이 갱신되었습니다.',
+          // });
         }
       }
 
@@ -161,11 +162,12 @@ const authMiddleware = async (req, res, next) => {
 
           res.locals.owner = owner;
 
-          return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
-            ownerId,
-            newAccessToken,
-            message: 'ACCESS TOKEN이 갱신되었습니다.',
-          });
+          return res.cookie('accessToken', newAccessToken, { httpOnly: true });
+          // .json({
+          //   ownerId,
+          //   newAccessToken,
+          //   message: 'ACCESS TOKEN이 갱신되었습니다.',
+          // });
         }
       }
 
@@ -176,11 +178,11 @@ const authMiddleware = async (req, res, next) => {
 
         res.locals.owner = owner;
 
-        res.status(201).json({
-          ownerId,
-          accessToken,
-          message: 'ACCESS TOKEN과 REFRESH TOKEN이 모두 유효합니다.',
-        });
+        // res.status(201).json({
+        //   ownerId,
+        //   accessToken,
+        //   message: 'ACCESS TOKEN과 REFRESH TOKEN이 모두 유효합니다.',
+        // });
       }
     } else {
       // 액세스 토큰 없음
