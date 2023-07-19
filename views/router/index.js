@@ -10,6 +10,6 @@ router.get('/payment', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  return res.render('login');
+  return res.render('auth');
 });
 module.exports = router;
