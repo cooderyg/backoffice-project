@@ -20,10 +20,13 @@ router.put('/stores/:storeId', authMiddleware, storeController.updateStore);
 // 가게 삭제
 router.delete('/stores/:storeId', authMiddleware, storeController.deleteStore);
 
-// 가게 키워드로 검색
+// 가게 검색
 router.get('/stores/search', storeController.searchStores);
 
 // 가게 정보 조회
 router.get('/stores/:storeId', storeController.getStoreByStoreId);
+
+// 가게 카테고리로 조회
+router.get('/stores/categories/:categoryId', storeController.getStoresByCategoryId);
 
 module.exports = router;

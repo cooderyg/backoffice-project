@@ -27,8 +27,12 @@ body {
   transition: height 0.2s ease;
 }
 
-.wrapper.active.owner {
+.wrapper.active {
   height: 900px;
+}
+
+.wrapper.active.owner {
+  height: 500px;
 }
 
 .wrapper .form-box-login,

@@ -17,6 +17,34 @@ router.get('/detail', (req, res) => {
   return res.render('detail');
 });
 
+// 가게 관리
+router.get('/store_management', (req, res) => {
+  return res.render('store_management');
+});
+
+// 주문 확인
+router.get('/order_check', (req, res) => {
+  return res.render('order_check');
+});
+
+// 메뉴 관리
+router.get('/menu_management/store=:storeId', (req, res) => {
+  const { storeId } = req.params;
+  return res.render('menu_management', { storeId });
+});
+
+// 가게 등록
+router.get('/store_registration', (req, res) => {
+  const { storeId } = req.params;
+  return res.render('store_registration', { storeId });
+});
+
+// 가게 정보 수정
+router.get('/store_modification', (req, res) => {
+  const { storeId } = req.params;
+  return res.render('store_modification', { storeId });
+});
+
 router.get('/categories/:categoryId', (req, res) => {
   return res.render('category');
 });

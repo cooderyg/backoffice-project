@@ -17,4 +17,7 @@ router.put('/stores/:storeId/menus/:menuId', authMiddleware, menuController.upda
 // 메뉴 삭제
 router.delete('/stores/:storeId/menus/:menuId', authMiddleware, menuController.deleteMenu);
 
+//🔴 메뉴 id별로 조회
+router.get('/carts/menus', menuController.getMenus);
+
 module.exports = router;

@@ -15,19 +15,19 @@
           <h2>Login</h2>
           <div class="radio-wrap">
             <div>
-              <label class="radio-login">
-                <input type="radio" name="radio-login" checked />
+              <label class="radio-login" id="radio-login-user">
+                <input type="radio" name="radio-login" value="user" checked />
                 <span>User</span>
               </label>
-              <label class="radio-login">
-                <input type="radio" name="radio-login" />
+              <label class="radio-login" id="radio-login-owner">
+                <input type="radio" name="radio-login" value="owner" />
                 <span>Owner</span>
               </label>
             </div>
           </div>
-          <form action="#">
+          <form action="#" class="login-form">
             <div class="input-box">
-              <input type="text" required />
+              <input type="email" required />
               <label>Email</label>
             </div>
             <div class="input-box">
@@ -46,11 +46,11 @@
           <div class="radio-wrap">
             <div>
               <label class="radio-register" id="radio-register-user">
-                <input type="radio" name="radio-register" checked />
+                <input type="radio" name="radio-register" value="user" checked />
                 <span>User</span>
               </label>
               <label class="radio-register" id="radio-register-owner">
-                <input type="radio" name="radio-register" cli />
+                <input type="radio" name="radio-register" value="owner" />
                 <span>Owner</span>
               </label>
             </div>
@@ -65,16 +65,16 @@
               <label>Password</label>
             </div>
             <div class="input-box" id="name">
-              <input type="text" required />
+              <input type="text" />
               <label>Name</label>
             </div>
             <div class="input-box" id="nickname">
-              <input type="text" required />
+              <input type="text" />
               <label>Nickname</label>
             </div>
             <div class="age-gender-input-box">
               <div class="input-box" id="age-box">
-                <input type="number" value="0" min="0" max="100" required />
+                <input type="number" value="0" min="0" max="100" />
                 <label>Age</label>
               </div>
               <div class="radio-wrap" id="gender-box">
@@ -91,11 +91,11 @@
               </div>
             </div>
             <div class="input-box" id="address">
-              <input type="text" required />
+              <input type="text" />
               <label>Address</label>
             </div>
             <div class="input-box" id="phonenumber">
-              <input type="text" required />
+              <input type="text" />
               <label>PhoneNumber</label>
             </div>
             <button type="submit" class="btn-register">Register</button>
