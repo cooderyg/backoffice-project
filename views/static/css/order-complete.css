@@ -1,0 +1,37 @@
+/* common */
+body {
+  box-sizing: border-box;
+  padding-top: 120px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+.order > h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #3d3d3d;
+}
+.order > div {
+  margin-top: 32px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ee2b26;
+  border-radius: 10px;
+}
+.order h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3d3d3d;
+}
+.info {
+}
