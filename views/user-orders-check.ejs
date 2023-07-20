@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <%- include('includes/favicon') %>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주문내역 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/user-orders-check.css" />
+    <script src="/js/user-orders-check.js" defer></script>
+</head>
+
+<body>
+  <%- include('includes/header') %>
+    <main>
+      <h1 class="title">주문 내역</h1>
+      <section class="order wrap">
+        <ul class="order-list">
+          <li>
+            <div class="isDelivered">배달중</div>
+            <div class="order-number">주문번호 : 1</div>
+            <div class="storeName">가게명</div>
+            <div class="menuName">메뉴이름</div>
+            <div class="btn-container">
+              <button class="detail-btn">주문상세보기</button>
+              <button class="reviewBtn">리뷰쓰기</button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <%- include('includes/footer') %>
+</body>
+
+</html>
