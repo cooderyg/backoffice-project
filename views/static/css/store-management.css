@@ -17,18 +17,7 @@ a {
   max-width: 1400px;
 }
 /* common */
-
-#storeImage {
-  display: none;
-}
-
 section {
   max-width: 800px;
   margin: 0 auto;
-}
-
-#image-container img {
-  display: block;
-  max-width: 300px;
-  max-height: 300px;
 }

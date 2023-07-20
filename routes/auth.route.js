@@ -97,6 +97,7 @@ router.post('/user/signup', ValidationMiddleware, async (req, res) => {
       address,
       phoneNumber,
       emailVerify: false,
+      point: 1000000,
     });
 
     // 이메일 전송
