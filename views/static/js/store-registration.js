@@ -31,9 +31,9 @@ storeImage.addEventListener('change', async (e) => {
   url = data.data;
   console.log(url);
   imageContainerEl.innerHTML = `
-  <img src="${url}" />
-  <button type="button" type class="img-update-btn">이미지 수정</button>
-  <button type="button" class="img-delete-btn">이미지 삭제</button>
+  <img src="${url}" /><br />  
+  <button type="button" class="img-update-btn btn btn-secondary">이미지 수정</button>
+  <button type="button" class="img-delete-btn btn btn-secondary">이미지 삭제</button>
   `;
 
   const deleteTemp = `
@@ -61,7 +61,6 @@ storeRegisterForm.addEventListener('submit', async (e) => {
   const data = {
     categoryId: storeCategory.value,
     storeName: storeName.value,
-    // TODO: 이미지를 s3에 저장하고 이미지 주소를 body에 보낸다.
     imageUrl: url,
     address: storeAddress.value,
     isOpen: 'false', // 디폴트로 false를 보냄. 메뉴 등록하기 전이므로.
