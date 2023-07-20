@@ -11,6 +11,9 @@ router.post('/stores/:storeId/menus', authMiddleware, menuController.postMenu);
 // 메뉴 목록 조회
 router.get('/stores/:storeId/menus', menuController.getMenu);
 
+// 메뉴 하나 조회
+router.get('/stores/:storeId/menus/:menuId', menuController.getOneMenu);
+
 // 메뉴 수정
 router.put('/stores/:storeId/menus/:menuId', authMiddleware, menuController.updateMenu);
 

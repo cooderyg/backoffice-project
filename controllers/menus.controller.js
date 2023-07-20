@@ -28,6 +28,18 @@ class MenuController {
     }
   };
 
+  getOneMenu = async (req, res) => {
+    const { menuId } = req.params;
+
+    try {
+      const menu = await this.menuService.findOneMenu(menuId);
+      res.json({ menu });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
+    }
+  };
+
   updateMenu = async (req, res) => {
     const { storeId, menuId } = req.params;
     const { ownerId } = res.locals.owner;
