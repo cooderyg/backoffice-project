@@ -128,9 +128,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (response.ok) {
               // 인증 번호 확인 성공 시 메인 페이지로 이동
               window.location.href = '/login';
+              alert(data.message);
             } else {
               // 인증 번호 오류시
               console.error(data.message);
+              alert(data.message);
             }
           } catch (error) {
             // 인증 번호 확인 요청 실패시
@@ -140,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         // 회원가입 실패시
         console.error(data.message);
+        alert(data.message);
       }
     } catch (error) {
       console.error('회원가입 도중 오류가 발생했습니다.', error);
@@ -174,9 +177,11 @@ document.addEventListener('DOMContentLoaded', function () {
       const data = await response.json();
       if (response.ok) {
         console.log(data.message);
+        alert(data.message);
         window.location.href = '/';
       }
     } catch (error) {
+      alert(data.message);
       console.error('로그인 도중 오류가 발생했습니다.', error);
     }
   });
