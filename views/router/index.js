@@ -57,14 +57,17 @@ router.get('/store_modification', (req, res) => {
   return res.render('store_modification', { storeId });
 });
 
+// 리뷰 작성
 router.get('/reviewWrite', (req, res) => {
   return res.render('reviewWrite');
 });
 
+// 사용자 리뷰 조회
 router.get('/reviewList', (req, res) => {
   return res.render('reviewList');
 });
 
+// 장바구니
 router.get('/cart', (req, res) => {
   return res.render('cart');
 });
