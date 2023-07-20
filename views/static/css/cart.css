@@ -28,6 +28,7 @@ a {
 }
 
 .cartList {
+  padding: 0 20px;
   margin-top: 100px;
   margin-bottom: 50px;
 }
@@ -60,4 +61,12 @@ a {
   width: 30px;
   height: 20px;
   border: 0;
+}
+.row.mb-3 {
+  padding: 0 20px;
+}
+.btn.btn-outline-danger {
+  margin-left: 20px;
+  width: 120px;
+  height: 60px;
 }
