@@ -63,14 +63,18 @@ router.get(`/store_modification/stores/:storeId`, (req, res) => {
   return res.render('store_modification');
 });
 
+// 리뷰 작성
 router.get('/reviewWrite', (req, res) => {
+  // const { orderNumber, storeName, menuName } = req.query;
   return res.render('reviewWrite');
 });
 
+// 사용자 리뷰 조회
 router.get('/reviewList', (req, res) => {
   return res.render('reviewList');
 });
 
+// 장바구니
 router.get('/cart', (req, res) => {
   return res.render('cart');
 });
@@ -79,4 +83,12 @@ router.get('/categories/:categoryId', (req, res) => {
   return res.render('category');
 });
 
+router.get('/owners/orders/:ownerId', (req, res) => {
+  return res.render('owner-order');
+});
+
+// 사용자 주문 목록 조회
+router.get('/user/orders', (req, res) => {
+  return res.render('user-orders-check');
+});
 module.exports = router;

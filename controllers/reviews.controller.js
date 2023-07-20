@@ -25,9 +25,9 @@ class ReviewsController {
   updateReview = async (req, res, next) => {
     try {
       const { reviewId } = req.params;
-      const { rating, comment } = req.body;
+      const { comment } = req.body;
 
-      const updateReview = await this.reviewsService.updateReview(reviewId, rating, comment);
+      const updateReview = await this.reviewsService.updateReview(reviewId, comment);
 
       res.status(200).json({ data: updateReview });
     } catch (error) {

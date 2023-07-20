@@ -4,7 +4,7 @@ document.getElementById('reviewSave').addEventListener('click', async function (
   const rating = parseInt(ratingSelect.options[ratingSelect.selectedIndex].value, 10);
   const comment = document.getElementById('comment').value;
 
-  fetch('/orders/:orderId/reviews', {
+  fetch(`/orders/${orderId}/reviews`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -22,5 +22,8 @@ document.getElementById('reviewSave').addEventListener('click', async function (
 });
 
 // 취소버튼 클릭 시 이전화면 로드
+document.getElementById('cancelBtn').addEventListener('click', () => {
+  window.history.back();
+});
 
 // 로그아웃 버튼 클릭 시 로그아웃

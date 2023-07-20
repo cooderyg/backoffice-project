@@ -11,6 +11,13 @@ body {
   min-height: 100vh;
 }
 
+.text-logo {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
 .wrapper {
   position: relative;
   width: 500px;

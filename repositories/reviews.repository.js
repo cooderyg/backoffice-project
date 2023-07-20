@@ -12,30 +12,30 @@ class ReviewsRepository {
   };
 
   findAllReview = async (userId) => {
-    return await Reviews.findAll({
-      attributes: ['reviewId', 'UserId', 'OrderId', 'rating', 'comment', 'imageUrl'],
-      // include: [
-      //   {
-      //     model: Orders,
-      //     as: 'orders',
-      //     include: [
-      //       {
-      //         model: Stores,
-      //         as: 'stores',
-      //         attributes: ['storeName'],
-      //         include: [
-      //           {
-      //             model: Ordermenus,
-      //             as: 'ordermenus',
-      //             include: [{ model: Menus, as: 'menus', attributes: ['menuName'] }],
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   },
-      // ],
-      where: { UserId: userId },
+    const query = `
+      SELECT
+        r.reviewId,
+        r.UserId,
+        r.OrderId,
+        r.rating,
+        r.comment,
+        r.imageUrl,
+        s.storeName,
+        m.menuName
+      FROM Reviews r
+      LEFT JOIN Orders o ON r.OrderId = o.orderId
+      LEFT JOIN Stores s ON o.StoreId = s.storeId
+      LEFT JOIN OrderMenus om ON o.orderId = om.OrderId
+      LEFT JOIN Menus m ON om.MenuId = m.menuId
+      WHERE r.UserId = :userId
+    `;
+
+    const reviews = await sequelize.query(query, {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: { userId: userId },
     });
+
+    return reviews;
   };
 
   findReviewById = async (reviewId) => {
@@ -44,9 +44,9 @@ class ReviewsRepository {
     return review;
   };
 
-  updateReview = async (reviewId, rating, comment) => {
+  updateReview = async (reviewId, comment) => {
     const updateReviewData = await Reviews.update(
-      { reviewId, rating, comment },
+      { reviewId, comment },
       { where: { id: reviewId } },
     );
 
