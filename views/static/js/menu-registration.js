@@ -1,16 +1,17 @@
-const storeName = document.querySelector('#storeName');
-const storeImage = document.querySelector('#storeImage');
-const storeCategory = document.querySelector('#categorySelect');
-const storeAddress = document.querySelector('#address');
+const storeId = window.location.pathname.split('/')[3];
+const menuNameEl = document.querySelector('#menu-name');
+const menuImageEl = document.querySelector('#menuImage');
+const menuPriceEl = document.querySelector('#menu-price');
+
 const imageContainerEl = document.querySelector('#image-container');
 const imageUploadEl = document.querySelector('.image-upload');
 let url;
 
 imageUploadEl.addEventListener('click', () => {
-  storeImage.click();
+  menuImageEl.click();
 });
 
-storeImage.addEventListener('change', async (e) => {
+menuImageEl.addEventListener('change', async (e) => {
   console.log(e.target.files[0].type);
   const file = e.target.files[0];
   if (file.size > 1 * 1024 * 1024) {
@@ -42,42 +43,42 @@ storeImage.addEventListener('change', async (e) => {
   const imgUpdateBtnEl = document.querySelector('.img-update-btn');
   const imgdeleteBtnEl = document.querySelector('.img-delete-btn');
   imgUpdateBtnEl.addEventListener('click', () => {
-    uploadInputEl.click();
+    menuImageEl.click();
   });
   imgdeleteBtnEl.addEventListener('click', () => {
     url = '';
     imageContainerEl.innerHTML = deleteTemp;
     const imageUploadEl = document.querySelector('.image-upload');
     imageUploadEl.addEventListener('click', () => {
-      storeImage.click();
+      menuImageEl.click();
     });
   });
 });
 
-const storeRegisterForm = document.querySelector('#store-register-form');
-storeRegisterForm.addEventListener('submit', async (e) => {
+const menuRegisterForm = document.querySelector('#menu-register-form');
+menuRegisterForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const data = {
-    categoryId: storeCategory.value,
-    storeName: storeName.value,
+    menuName: menuNameEl.value,
     imageUrl: url,
-    address: storeAddress.value,
-    isOpen: 'false', // 디폴트로 false를 보냄. 메뉴 등록하기 전이므로.
+    price: menuPriceEl.value,
   };
 
-  const response = await fetch('/api/stores', {
+  // 메뉴 추가 api
+  const response = await fetch(`/api/stores/${storeId}/menus`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
-  // 가게 등록 api를 호출할 때, auth-middleware에서  res.locals.owner에 할당된 owner객체를 받을 수 있다.
-  // ownerId로 가게를 조회하여 이미 등록된 가게가 있으면 에러를 보내어  alert창이 뜰 것이다.
+
   const result = await response.json();
-  if (result.message === '가게가 등록되었습니다.') {
-    location.href = '/store_management';
+  // 메뉴가 추가
+  if (result.message === '메뉴가 추가되었습니다.') {
+    // 메뉴 관리
+    location.href = `/menu_management/stores/${storeId}`;
   } else {
     alert(result.message);
   }
