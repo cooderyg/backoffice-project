@@ -2,6 +2,57 @@ const storeName = document.querySelector('#storeName');
 const storeImage = document.querySelector('#storeImage');
 const storeCategory = document.querySelector('#categorySelect');
 const storeAddress = document.querySelector('#address');
+const imageContainerEl = document.querySelector('#image-container');
+const imageUploadEl = document.querySelector('.image-upload');
+let url;
+
+imageUploadEl.addEventListener('click', () => {
+  storeImage.click();
+});
+
+storeImage.addEventListener('change', async (e) => {
+  console.log(e.target.files[0].type);
+  const file = e.target.files[0];
+  if (file.size > 1 * 1024 * 1024) {
+    alert('파일용량은 최대 1mb입니다.');
+    return;
+  }
+  if (!file.type.includes('jpeg') && !file.type.includes('png')) {
+    alert('jpeg 또는 png 파일만 업로드 가능합니다!');
+    return;
+  }
+  let formData = new FormData();
+  formData.append('photo', file);
+  const response = await fetch('/api/files', {
+    method: 'POST',
+    body: formData,
+  });
+  const data = await response.json();
+  url = data.data;
+  console.log(url);
+  imageContainerEl.innerHTML = `
+  <img src="${url}" />
+  <button type="button" type class="img-update-btn">이미지 수정</button>
+  <button type="button" class="img-delete-btn">이미지 삭제</button>
+  `;
+
+  const deleteTemp = `
+  <button type="button" class="image-upload">이미지 업로드</button>
+  `;
+  const imgUpdateBtnEl = document.querySelector('.img-update-btn');
+  const imgdeleteBtnEl = document.querySelector('.img-delete-btn');
+  imgUpdateBtnEl.addEventListener('click', () => {
+    uploadInputEl.click();
+  });
+  imgdeleteBtnEl.addEventListener('click', () => {
+    url = '';
+    imageContainerEl.innerHTML = deleteTemp;
+    const imageUploadEl = document.querySelector('.image-upload');
+    imageUploadEl.addEventListener('click', () => {
+      storeImage.click();
+    });
+  });
+});
 
 const storeRegisterForm = document.querySelector('#store-register-form');
 storeRegisterForm.addEventListener('submit', async (e) => {
@@ -11,8 +62,7 @@ storeRegisterForm.addEventListener('submit', async (e) => {
     categoryId: storeCategory.value,
     storeName: storeName.value,
     // TODO: 이미지를 s3에 저장하고 이미지 주소를 body에 보낸다.
-    imageUrl:
-      'https://i.namu.wiki/i/wr-UKPub5BAEyeEsxzszuMRFRxlwxUAopqBBN3Hak5Ui-f5BYcyjdDPSksbJks4HVoA53jCY1sbjLe1Qztamrw.webp',
+    imageUrl: url,
     address: storeAddress.value,
     isOpen: 'false', // 디폴트로 false를 보냄. 메뉴 등록하기 전이므로.
   };
