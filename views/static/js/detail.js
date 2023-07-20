@@ -1,16 +1,42 @@
-import { setCookie, getCookie } from './cookie.js';
+import { setCookie, getCookie, deleteCookie } from './cookie.js';
 
 const storeId = window.location.pathname.split('/')[2];
+const storeTitleEl = document.querySelector('.store-title');
+const ratingEl = document.querySelector('.rating');
+const storeImgEl = document.querySelector('.store-img');
+const menuContainerEl = document.querySelector('.menu-container');
 
-// const getDate = async () => {
-//   const response = await fetch(`/api/stores/detail/${storeId}`);
-//   const data = await response.json();
-//   console.log(data);
-// };
-// getDate();
+console.log(storeId);
+const getDate = async () => {
+  const response = await fetch(`/api/stores/${storeId}`);
+  const data = await response.json();
+  console.log(data);
+  const { store } = data;
+  const menus = store.Menus;
+  storeTitleEl.innerText = store.storeName;
+  storeImgEl.setAttribute('src', store.imageUrl);
+  const menuTemp = menus.map((menu) => {
+    return `
+    <li data-menuId=${menu.menuId}>
+      <div>
+        <h4 class="menu-title" data-title=${menu.menuName}>${menu.menuName}</h4>
+        <span class="price" data-price=${menu.price}>${menu.price} 원</span>
+        <div class="quantity">
+          <input class="quantity-input" type="number" min="1" value="1" />
+          <button class="add-basket-btn">장바구니 담기</button>
+        </div>
+      </div>
+      <div class="img-container">
+        <img src=${menu.imageUrl} />
+      </div>
+    </li>
+    `;
+  });
+  menuContainerEl.innerHTML = menuTemp;
+};
+getDate();
 
 //장바구니 로직
-const menuContainerEl = document.querySelector('.menu-container');
 const paymentBtnEl = document.querySelector('.payment-btn');
 const setTotalPrice = (arr) => {
   const price = arr.reduce((acc, cur) => acc + Number(cur.price) * Number(cur.quantity), 0);
@@ -39,17 +65,25 @@ menuContainerEl.addEventListener('click', function (e) {
     price,
     url,
   };
-
+  console.log(quantity);
   const cookieMenus = JSON.parse(getCookie('menus'));
 
   if (cookieMenus) {
     const cookieStoreId = JSON.parse(getCookie('storeId'));
-    if (cookieStoreId) {
-    }
-    const findMenu = cookieMenus.find((el) => el.id === menuId);
-    const sumQuantity = +findMenu.quantity + quantity;
 
+    if (storeId !== cookieStoreId && cookieStoreId) {
+      const confirm = prompt(
+        '다른 가게 메뉴가 담겨있습니다. 초기화 후 새로 메뉴를 담으시겠습니까?',
+      );
+      if (!confirm) return;
+      deleteCookie('menus');
+    }
+
+    setCookie('storeId', storeId);
+
+    const findMenu = cookieMenus.find((el) => el.id === menuId);
     if (findMenu) {
+      const sumQuantity = +findMenu.quantity + quantity;
       findMenu.quantity = sumQuantity;
       setCookie('menus', JSON.stringify(cookieMenus));
       setTotalPrice(cookieMenus);

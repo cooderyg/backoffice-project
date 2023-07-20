@@ -25,7 +25,7 @@ router.get('/payment', (req, res) => {
   return res.render('payment');
 });
 
-router.get('/detail', (req, res) => {
+router.get('/detail/:storeId', (req, res) => {
   return res.render('detail');
 });
 
@@ -78,6 +78,10 @@ router.get('/categories/:categoryId', (req, res) => {
 
 router.get('/owners/orders/:ownerId', (req, res) => {
   return res.render('owner-order');
+});
+
+router.get('/orders/complete/:orderId', (req, res) => {
+  return res.render('order-complete');
 });
 
 module.exports = router;

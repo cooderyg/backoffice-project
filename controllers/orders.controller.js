@@ -3,18 +3,28 @@ const OrdersService = require('../services/orders.service');
 class OrdersController {
   ordersService = new OrdersService();
 
-  async createOrder(req, res) {
-    const { userId } = res.locals.user;
-    const { storeId, orderData } = req.body;
+  createOrder = async (req, res) => {
+    const { userId, address, point } = res.locals.user;
+    const { menus, storeId } = req.cookies;
+    const { totalPrice } = req.body;
 
     try {
-      const order = await ordersService.createOrder(userId, storeId, orderData);
-      return res.status(201).json({ message: '주문서 작성에 성공하였습니다.', order });
+      const order = await this.ordersService.createOrder({
+        userId,
+        address,
+        menus,
+        storeId,
+        totalPrice,
+        point,
+      });
+      return res
+        .status(200)
+        .json({ message: '주문이 성공적으로 완료되었습니다.', orderId: order.orderId });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: error.message });
     }
-  }
+  };
 
   async getOrder(req, res) {
     const { orderId } = req.params;
