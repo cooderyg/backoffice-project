@@ -11,8 +11,8 @@ class MenuController {
       await this.menuService.createMenu(storeId, menuName, imageUrl, price);
       res.json({ message: '메뉴가 추가되었습니다.' });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -23,8 +23,8 @@ class MenuController {
       const menus = await this.menuService.findAllMenus(storeId);
       res.json({ menus });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -36,8 +36,8 @@ class MenuController {
       await this.menuService.updateMenu(storeId, menuId, ownerId, menuName, imageUrl, price);
       res.json({ message: '메뉴가 수정되었습니다.' });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -49,8 +49,8 @@ class MenuController {
       await this.menuService.deleteMenu(storeId, menuId, ownerId);
       res.json({ message: '메뉴가 삭제되었습니다.' });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -64,8 +64,8 @@ class MenuController {
       const menus = await this.menuService.getMenus(menuIds);
       res.json({ menus });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 }

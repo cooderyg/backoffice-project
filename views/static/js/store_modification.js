@@ -1,14 +1,34 @@
-const storeName = document.querySelector('#storeName');
+const storeNameEl = document.querySelector('#storeName');
 const storeImage = document.querySelector('#storeImage');
-const storeCategory = document.querySelector('#categorySelect');
-const storeAddress = document.querySelector('#address');
+const storeCategoryEl = document.querySelector('#categorySelect');
+const storeAddressEl = document.querySelector('#address');
 const imageContainerEl = document.querySelector('#image-container');
-const imageUploadEl = document.querySelector('.image-upload');
+const isOpenSelectEl = document.querySelector('#isOpenSelect');
 let url;
 
-imageUploadEl.addEventListener('click', () => {
-  storeImage.click();
-});
+// 가게 등록 폼에  현재 가게 정보 넣기
+const getStoreInfo = async () => {
+  console.log('getStoreInfo 실행');
+
+  const response = await fetch('/api/stores');
+  const { store } = await response.json();
+  const { imageUrl, storeName, CategoryId, address, isOpen } = store;
+
+  storeNameEl.value = storeName;
+  imageContainerEl.innerHTML = `<img src="${imageUrl}" /><br />
+  <button type="button" class="image-upload">이미지 업로드</button>`;
+
+  storeCategoryEl.value = CategoryId;
+  storeAddressEl.value = address;
+  isOpenSelectEl.value = isOpen ? 1 : 0;
+
+  const imageUploadEl = document.querySelector('.image-upload');
+
+  imageUploadEl.addEventListener('click', () => {
+    storeImage.click();
+  });
+};
+getStoreInfo();
 
 storeImage.addEventListener('change', async (e) => {
   console.log(e.target.files[0].type);

@@ -12,8 +12,8 @@ class StoreController {
       const store = await this.storeService.findStoreByOwnerId(ownerId);
       res.json({ store });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
   getStoreByStoreId = async (req, res) => {
@@ -23,8 +23,8 @@ class StoreController {
       const store = await this.storeService.findStoreByStoreId(storeId);
       res.json({ store });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -32,7 +32,6 @@ class StoreController {
   postStore = async (req, res) => {
     const { ownerId } = res.locals.owner;
     const { categoryId, storeName, address, imageUrl, isOpen } = req.body;
-
     try {
       await this.storeService.createStore(
         ownerId,
@@ -45,8 +44,8 @@ class StoreController {
 
       res.json({ message: '가게가 등록되었습니다.' });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -59,8 +58,8 @@ class StoreController {
       await this.storeService.updateStore(ownerId, storeId, storeName, address, imageUrl, isOpen);
       res.json({ message: '가게 정보가 수정되었습니다.' });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -72,8 +71,8 @@ class StoreController {
       await this.storeService.deleteStore(ownerId, storeId);
       res.json({ message: '가게 정보가 삭제되었습니다.' });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -84,8 +83,8 @@ class StoreController {
       const stores = await this.storeService.findStores(searchString);
       res.json({ stores });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 
@@ -96,8 +95,8 @@ class StoreController {
       const stores = await this.storeService.findStoresByCategoryId(categoryId);
       res.json({ stores });
     } catch (e) {
-      if (e.errorCode) return res.status(e.errorCode).json(e.message);
-      res.status(500).json(e.message);
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
     }
   };
 }
