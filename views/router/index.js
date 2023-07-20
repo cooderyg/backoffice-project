@@ -57,6 +57,18 @@ router.get('/store_modification', (req, res) => {
   return res.render('store_modification', { storeId });
 });
 
+router.get('/reviewWrite', (req, res) => {
+  return res.render('reviewWrite');
+});
+
+router.get('/reviewList', (req, res) => {
+  return res.render('reviewList');
+});
+
+router.get('/cart', (req, res) => {
+  return res.render('cart');
+});
+
 router.get('/categories/:categoryId', (req, res) => {
   return res.render('category');
 });

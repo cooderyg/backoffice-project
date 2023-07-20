@@ -30,7 +30,7 @@ class StoreController {
 
   // 가게 정보 등록
   postStore = async (req, res) => {
-    // const { ownerId } = res.locals.owner;
+    const { ownerId } = res.locals.owner;
     const { categoryId, storeName, address, imageUrl, isOpen } = req.body;
     try {
       await this.storeService.createStore(
