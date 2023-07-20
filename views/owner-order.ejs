@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('includes/favicon') %>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주문확인 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/owner-order.css" />
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <main>
+      <section class="order wrap">
+        <ul class="order-list">
+          <li>
+            <div class="isDelivered">배달중</div>
+            <div class="order-number">주문번호 : 1</div>
+            <div class="address">주소 : 경기도 부천시 원미구</div>
+            <div class="phone">고객 전화번호 : 010-0000-0000</div>
+            <div class="btn-container">
+              <button class="detail-btn">주문상세보기</button>
+              <button class="complete-btn">배달완료</button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

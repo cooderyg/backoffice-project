@@ -76,4 +76,8 @@ router.get('/categories/:categoryId', (req, res) => {
   return res.render('category');
 });
 
+router.get('/owners/orders/:ownerId', (req, res) => {
+  return res.render('owner-order');
+});
+
 module.exports = router;
