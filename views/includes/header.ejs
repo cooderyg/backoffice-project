@@ -40,7 +40,15 @@
   <div class="wrap">
     <h1><a href="/"></a></h1>
     <div style="display: flex">
+      <% if (locals.user) { %>
+      <p class="username">안녕하세요, <%= locals.user.email %>님</p>
+      <a class="logout" href="/logout">로그아웃</a>
+      <% } else if (locals.owner) { %>
+      <p class="username">안녕하세요, <%= locals.owner.email %>님</p>
+      <a class="logout" href="/logout">로그아웃</a>
+      <% } else { %>
       <a class="login" href="/login">로그인</a>
+      <% } %>
     </div>
   </div>
 </header>

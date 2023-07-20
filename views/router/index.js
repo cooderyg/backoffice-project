@@ -1,16 +1,28 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../../middlewares/auth-middleware');
 
-router.get('/', (req, res) => {
-  return res.render('index');
+router.get(
+  '/',
+  (req, res, next) => {
+    // 토큰 존재하면 미들웨어를 실행
+    if (req.cookies.accessToken && req.cookies.refreshToken) {
+      authMiddleware(req, res, next); // authMiddleware 실행
+    } else {
+      next();
+    }
+  },
+  (req, res) => {
+    return res.render('index');
+  },
+);
+
+router.get('/login', (req, res) => {
+  return res.render('auth');
 });
 
 router.get('/payment', (req, res) => {
   return res.render('payment');
-});
-
-router.get('/login', (req, res) => {
-  return res.render('auth');
 });
 
 router.get('/detail', (req, res) => {
@@ -57,4 +69,7 @@ router.get('/cart', (req, res) => {
   return res.render('cart');
 });
 
+router.get('/categories/:categoryId', (req, res) => {
+  return res.render('category');
+});
 module.exports = router;
