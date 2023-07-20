@@ -262,8 +262,6 @@ router.post('/owner/login', async (req, res) => {
     // Case 1: 처음 로그인하는 경우
     if (!refreshToken) {
       const owner = await Owners.findOne({ where: { email: email } });
-      res.clearCookie('refreshToken');
-      res.clearCookie('accessToken');
 
       // 회원 유효성
       if (!owner) {
