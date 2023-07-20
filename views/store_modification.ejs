@@ -2,10 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <script src="/js/store_modification.js" defer></script>
+    <link rel="stylesheet" href="/css/store-registration.css" />
+    <title>가게 수정</title>
   </head>
   <body>
-    <h1>가게 정보 수정</h1>
+    <header>
+      <!-- 헤더 내용 -->
+    </header>
+
+    <h1>가게 수정</h1>
+    <form id="store-register-form">
+      <label for="storeName">가게 이름:</label>
+      <input type="text" id="storeName" name="storeName" required /><br /><br />
+      <label for="storeImage">가게 이미지:</label>
+      <br /><br />
+      <div id="image-container">
+        <button type="button" class="image-upload">이미지 업로드</button>
+      </div>
+      <input type="file" id="storeImage" name="storeImage" accept="image/*" />
+      <label>카테고리:</label>
+      <select name="category" id="categorySelect" required>
+        <option value="" disabled selected>카테고리를 선택하세요</option>
+        <option value="1">1인분</option>
+        <option value="2">족발·보쌈</option>
+        <option value="3">찜·탕·찌개</option>
+        <!--  카테고리 옵션 추가 --></select
+      ><br /><br />
+
+      <label for="address">주소:</label>
+      <input type="text" id="address" name="address" required /><br /><br />
+
+      <label>가게 상태:</label>
+
+      <select name="isOpen" id="isOpenSelect" required>
+        <!-- <option value="" disabled selected>가게 상태를 선택하세요</option> -->
+        <option value="0">준비중</option>
+        <option value="1">영업중</option></select
+      ><br /><br />
+
+      <button type="submit" id="submit-store-info">가게 등록</button>
+    </form>
   </body>
 </html>
