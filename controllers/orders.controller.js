@@ -1,8 +1,8 @@
 const OrdersService = require('../services/orders.service');
 
-const ordersService = new OrdersService();
-
 class OrdersController {
+  ordersService = new OrdersService();
+
   async createOrder(req, res) {
     const { userId } = res.locals.user;
     const { storeId, orderData } = req.body;
