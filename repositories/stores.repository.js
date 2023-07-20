@@ -1,4 +1,4 @@
-const { Stores, Categories } = require('../models');
+const { Stores, Categories, Menus } = require('../models');
 const { Op } = require('sequelize');
 
 class StoreRepository {
@@ -13,7 +13,10 @@ class StoreRepository {
   findStoreByStoreId = async (storeId) => {
     const store = await Stores.findOne({
       where: { storeId },
-      include: [{ model: Categories, attributes: ['categoryName'] }],
+      include: [
+        { model: Categories, attributes: ['categoryName'] },
+        { model: Menus, attributes: ['menuId', 'menuName', 'imageUrl', 'price'] },
+      ],
     });
     return store;
   };
