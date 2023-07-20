@@ -75,4 +75,5 @@ router.get('/cart', (req, res) => {
 router.get('/categories/:categoryId', (req, res) => {
   return res.render('category');
 });
+
 module.exports = router;
