@@ -1,17 +1,17 @@
 const storeId = window.location.pathname.split('/')[3];
-const menuName = document.querySelector('#menu-name');
-const menuImage = document.querySelector('#menuImage');
-const menuPrice = document.querySelector('#menu-price');
+const menuNameEl = document.querySelector('#menu-name');
+const menuImageEl = document.querySelector('#menuImage');
+const menuPriceEl = document.querySelector('#menu-price');
 
 const imageContainerEl = document.querySelector('#image-container');
 const imageUploadEl = document.querySelector('.image-upload');
 let url;
 
 imageUploadEl.addEventListener('click', () => {
-  menuImage.click();
+  menuImageEl.click();
 });
 
-menuImage.addEventListener('change', async (e) => {
+menuImageEl.addEventListener('change', async (e) => {
   console.log(e.target.files[0].type);
   const file = e.target.files[0];
   if (file.size > 1 * 1024 * 1024) {
@@ -43,14 +43,14 @@ menuImage.addEventListener('change', async (e) => {
   const imgUpdateBtnEl = document.querySelector('.img-update-btn');
   const imgdeleteBtnEl = document.querySelector('.img-delete-btn');
   imgUpdateBtnEl.addEventListener('click', () => {
-    menuImage.click();
+    menuImageEl.click();
   });
   imgdeleteBtnEl.addEventListener('click', () => {
     url = '';
     imageContainerEl.innerHTML = deleteTemp;
     const imageUploadEl = document.querySelector('.image-upload');
     imageUploadEl.addEventListener('click', () => {
-      menuImage.click();
+      menuImageEl.click();
     });
   });
 });
@@ -60,9 +60,9 @@ menuRegisterForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const data = {
-    menuName: menuName.value,
+    menuName: menuNameEl.value,
     imageUrl: url,
-    price: menuPrice.value,
+    price: menuPriceEl.value,
   };
 
   // 메뉴 추가 api

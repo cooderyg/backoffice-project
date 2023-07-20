@@ -5,45 +5,91 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/js/store-modification.js" defer></script>
-    <link rel="stylesheet" href="/css/store-registration.css" />
+    <link rel="stylesheet" href="/css/store-modification.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+      defer
+    ></script>
     <title>가게 수정</title>
   </head>
   <body>
-    <header>
-      <!-- 헤더 내용 -->
-    </header>
+    <%- include('includes/header') %>
+    <!-- s -->
+    <section>
+      <h2>가게 수정</h2>
+      <form id="store-register-form">
+        <label for="storeName" class="form-label">가게 이름</label>
+        <input
+          type="text"
+          id="storeName"
+          name="storeName"
+          class="form-control"
+          required
+        /><br /><br />
 
-    <h1>가게 수정</h1>
-    <form id="store-register-form">
-      <label for="storeName">가게 이름:</label>
-      <input type="text" id="storeName" name="storeName" required /><br /><br />
-      <label for="storeImage">가게 이미지:</label>
-      <br /><br />
-      <div id="image-container">
-        <button type="button" class="image-upload">이미지 업로드</button>
-      </div>
-      <input type="file" id="storeImage" name="storeImage" accept="image/*" />
-      <label>카테고리:</label>
-      <select name="category" id="categorySelect" required>
-        <option value="" disabled selected>카테고리를 선택하세요</option>
-        <option value="1">1인분</option>
-        <option value="2">족발·보쌈</option>
-        <option value="3">찜·탕·찌개</option>
-        <!--  카테고리 옵션 추가 --></select
-      ><br /><br />
+        <label>카테고리</label><br />
+        <select class="form-select" name="category" id="categorySelect" required>
+          <option value="" disabled selected>카테고리를 선택하세요</option>
+          <option value="1">1인분</option>
+          <option value="2">족발·보쌈</option>
+          <option value="3">찜·탕·찌개</option>
+          <!--  카테고리 옵션 추가 --></select
+        ><br /><br />
 
-      <label for="address">주소:</label>
-      <input type="text" id="address" name="address" required /><br /><br />
+        <label for="address">주소</label>
+        <input type="text" id="address" class="form-control" required /><br /><br />
 
-      <label>가게 상태:</label>
+        <label for="storeImage">가게 이미지</label>
+        <br /><br />
 
-      <select name="isOpen" id="isOpenSelect" required>
-        <!-- <option value="" disabled selected>가게 상태를 선택하세요</option> -->
-        <option value="0">준비중</option>
-        <option value="1">영업중</option></select
-      ><br /><br />
+        <div id="image-container">
+          <button type="button" class="image-upload btn btn-outline-danger">이미지 업로드</button>
+        </div>
+        <input type="file" id="storeImage" name="storeImage" accept="image/*" /><br />
 
-      <button type="submit" id="submit-store-info">가게 등록</button>
-    </form>
+        <!-- s -->
+        <label>가게 상태</label>
+
+        <select class="form-select" name="isOpen" id="isOpenSelect" required>
+          <!-- <option value="" disabled selected>가게 상태를 선택하세요</option> -->
+          <option value="0">준비중</option>
+          <option value="1">영업중</option></select
+        ><br /><br />
+
+        <button type="submit" class="btn btn-primary">가게 수정</button>
+      </form>
+    </section>
+    <%- include('includes/footer') %>
   </body>
 </html>
+
+<!-- <h1>가게 수정</h1>
+<form id="store-register-form">
+  <label for="storeName">가게 이름:</label>
+  <input type="text" id="storeName" name="storeName" required /><br /><br />
+  <label for="storeImage">가게 이미지:</label>
+  <br /><br />
+  <div id="image-container">
+    <button type="button" class="image-upload">이미지 업로드</button>
+  </div>
+  <input type="file" id="storeImage" name="storeImage" accept="image/*" />
+  <label>카테고리:</label>
+  <select name="category" id="categorySelect" required>
+    <option value="" disabled selected>카테고리를 선택하세요</option>
+    <option value="1">1인분</option>
+    <option value="2">족발·보쌈</option>
+    <option value="3">찜·탕·찌개</option>
+    </select
+  ><br /><br />
+
+  <label for="address">주소:</label>
+  <input type="text" id="address" name="address" required /><br /><br />
+</form> -->

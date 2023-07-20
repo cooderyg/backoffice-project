@@ -5,25 +5,25 @@ const storeAddressEl = document.querySelector('#address');
 const imageContainerEl = document.querySelector('#image-container');
 const isOpenSelectEl = document.querySelector('#isOpenSelect');
 let url;
+let originUrl;
+let storeId;
 
 // 가게 등록 폼에  현재 가게 정보 넣기
 const getStoreInfo = async () => {
-  console.log('getStoreInfo 실행');
-
   const response = await fetch('/api/stores');
   const { store } = await response.json();
-  const { imageUrl, storeName, CategoryId, address, isOpen } = store;
+  const { storeId: _storeId, imageUrl, storeName, CategoryId, address, isOpen } = store;
 
   storeNameEl.value = storeName;
   imageContainerEl.innerHTML = `<img src="${imageUrl}" /><br />
-  <button type="button" class="image-upload">이미지 업로드</button>`;
+  <button type="button" class="image-upload btn btn-outline-danger">이미지 업로드</button>`;
 
   storeCategoryEl.value = CategoryId;
   storeAddressEl.value = address;
   isOpenSelectEl.value = isOpen ? 1 : 0;
-
+  originUrl = imageUrl;
+  storeId = _storeId;
   const imageUploadEl = document.querySelector('.image-upload');
-
   imageUploadEl.addEventListener('click', () => {
     storeImage.click();
   });
@@ -78,10 +78,11 @@ const storeRegisterForm = document.querySelector('#store-register-form');
 storeRegisterForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  const imageUrl = url ? url : originUrl;
   const data = {
     categoryId: storeCategoryEl.value,
     storeName: storeNameEl.value,
-    imageUrl: url,
+    imageUrl,
     address: storeAddressEl.value,
     isOpen: isOpenSelectEl.value,
   };
@@ -97,7 +98,7 @@ storeRegisterForm.addEventListener('submit', async (e) => {
   // 가게 등록 api를 호출할 때, auth-middleware에서  res.locals.owner에 할당된 owner객체를 받을 수 있다.
   // ownerId로 가게를 조회하여 이미 등록된 가게가 있으면 에러를 보내어  alert창이 뜰 것이다.
   const result = await response.json();
-  if (result.message === '가게가 등록되었습니다.') {
+  if (result.message === '가게 정보가 수정되었습니다.') {
     location.href = '/store_management';
   } else {
     alert(result.message);
