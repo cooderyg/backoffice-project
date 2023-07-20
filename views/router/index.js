@@ -40,21 +40,27 @@ router.get('/order_check', (req, res) => {
 });
 
 // 메뉴 관리
-router.get('/menu_management/store=:storeId', (req, res) => {
-  const { storeId } = req.params;
-  return res.render('menu_management', { storeId });
+router.get('/menu_management/stores/:storeId', (req, res) => {
+  return res.render('menu_management');
+});
+
+// 메뉴 관리 - 메뉴 추가
+router.get('/menu_management/stores/:storeId/menu_registration', (req, res) => {
+  return res.render(`menu_registration`);
+});
+// 메뉴 관리 - 메뉴 수정
+router.get('/menu_management/stores/:storeId/menu_modification/menus/:menuId', (req, res) => {
+  return res.render(`menu_modification`);
 });
 
 // 가게 등록
 router.get('/store_registration', (req, res) => {
-  const { storeId } = req.params;
-  return res.render('store_registration', { storeId });
+  return res.render('store_registration');
 });
 
 // 가게 정보 수정
-router.get('/store_modification', (req, res) => {
-  const { storeId } = req.params;
-  return res.render('store_modification', { storeId });
+router.get(`/store_modification/stores/:storeId`, (req, res) => {
+  return res.render('store_modification');
 });
 
 router.get('/reviewWrite', (req, res) => {
