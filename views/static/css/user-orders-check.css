@@ -17,10 +17,20 @@ a {
   display: block;
 }
 
+.overList {
+  display: flex;
+  align-items: center;
+  margin: 0 auto 50px 100px;
+}
+
 .title {
   text-align: center;
   font-size: large;
-  margin-bottom: 50px;
+}
+
+.reviewListBtn {
+  margin-left: auto;
+  margin-right: 100px;
 }
 
 .wrap {
@@ -63,6 +73,7 @@ a {
   padding-bottom: 8px;
 }
 
+.reviewListBtn,
 .detail-btn,
 .reviewBtn {
   cursor: pointer;
@@ -73,6 +84,7 @@ a {
   border-radius: 10px;
   transition: background-color 0.2s;
 }
+.reviewListBtn:hover,
 .detail-btn:hover,
 .reviewBtn:hover {
   background-color: #ef653c;
