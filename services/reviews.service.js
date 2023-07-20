@@ -28,7 +28,7 @@ class ReviewsService {
     });
   };
 
-  updateReview = async (reviewId, rating, comment) => {
+  updateReview = async (reviewId, comment) => {
     const findReview = await this.reviewsRepository.findReviewById(reviewId);
     if (!findReview) throw new Error("Review doesn't exist");
     if (findReview) {
