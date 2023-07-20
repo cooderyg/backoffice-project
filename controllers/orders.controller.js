@@ -17,16 +17,32 @@ class OrdersController {
   }
 
   async getOrder(req, res) {
+    const { user, owner } = res.locals;
     const { orderId } = req.params;
 
     try {
-      const order = await ordersService.getOrder(orderId);
+      if (user) {
+        // 사용자(user)의 경우 주문 조회 처리
+        const order = await ordersService.getOrder(orderId);
 
-      if (!order) {
-        return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+        if (!order) {
+          return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+        }
+
+        return res.status(200).json({ order });
+      } else if (owner) {
+        // 사장(owner)의 경우 주문 조회 처리
+        const order = await ordersService.getOrder(orderId);
+
+        if (!order) {
+          return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+        }
+
+        return res.status(200).json({ order });
+      } else {
+        // 권한이 없는 경우
+        return res.status(403).json({ errorMessage: '권한이 없습니다.' });
       }
-
-      return res.status(200).json({ order });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: '주문서 조회에 실패하였습니다.' });
@@ -53,17 +69,32 @@ class OrdersController {
   }
 
   async deleteOrder(req, res) {
+    const { user, owner } = res.locals;
     const { orderId } = req.params;
-    const { userId } = res.locals.user;
 
     try {
-      const success = await ordersService.deleteOrder(orderId);
+      if (user) {
+        // 사용자(user)의 경우 주문 삭제 처리
+        const success = await ordersService.deleteOrder(orderId);
 
-      if (!success) {
-        return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+        if (!success) {
+          return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+        }
+
+        return res.status(200).json({ message: '주문서가 삭제되었습니다.' });
+      } else if (owner) {
+        // 사장(owner)의 경우 주문 삭제 처리
+        const success = await ordersService.deleteOrder(orderId);
+
+        if (!success) {
+          return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+        }
+
+        return res.status(200).json({ message: '주문서가 삭제되었습니다.' });
+      } else {
+        // 권한이 없는 경우
+        return res.status(403).json({ errorMessage: '권한이 없습니다.' });
       }
-
-      return res.status(200).json({ message: '주문서가 삭제되었습니다.' });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: '주문서 삭제에 실패하였습니다.' });
