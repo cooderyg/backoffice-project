@@ -59,6 +59,7 @@ router.get('/store_modification', (req, res) => {
 
 // 리뷰 작성
 router.get('/reviewWrite', (req, res) => {
+  // const { orderNumber, storeName, menuName } = req.query;
   return res.render('reviewWrite');
 });
 
@@ -80,4 +81,8 @@ router.get('/owners/orders/:ownerId', (req, res) => {
   return res.render('owner-order');
 });
 
+// 사용자 주문 목록 조회
+router.get('/user/orders', (req, res) => {
+  return res.render('user-orders-check');
+});
 module.exports = router;
