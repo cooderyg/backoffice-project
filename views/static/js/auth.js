@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const wrapper = document.querySelector('.wrapper');
   const loginLink = document.querySelector('.login-link');
   const registerLink = document.querySelector('.register-link');
+  const textLogo = document.querySelector('.text-logo');
+
+  textLogo.addEventListener('click', () => {
+    window.location.href = '/';
+  });
 
   registerLink.addEventListener('click', () => {
     wrapper.classList.add('active');
