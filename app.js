@@ -56,7 +56,6 @@ io.on('connection', async (socket) => {
   socket.on('disconnect', () => {
     users.splice(users.indexOf(socket), 1);
   });
-  next();
 });
 
 app.set('view engine', 'ejs');
