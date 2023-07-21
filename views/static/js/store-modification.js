@@ -80,7 +80,7 @@ storeRegisterForm.addEventListener('submit', async (e) => {
 
   const imageUrl = url ? url : originUrl;
   const data = {
-    categoryId: storeCategoryEl.value,
+    CategoryId: storeCategoryEl.value,
     storeName: storeNameEl.value,
     imageUrl,
     address: storeAddressEl.value,

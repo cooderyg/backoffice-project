@@ -38,13 +38,13 @@ class StoreService {
     );
   };
 
-  updateStore = async (ownerId, storeId, storeName, address, imageUrl, isOpen) => {
+  updateStore = async (ownerId, storeId, storeName, CategoryId, address, imageUrl, isOpen) => {
     const store = await this.storeRepository.findStoreByStoreId(storeId);
     if (!store) {
       throw { errorCode: 404, message: 'Store not exist' };
     }
 
-    if (!ownerId || !storeId || !storeName || !address || !imageUrl || !isOpen) {
+    if (!ownerId || !storeId || !storeName || !CategoryId || !address || !imageUrl || !isOpen) {
       throw { errorCode: 412, message: 'Invalid data' };
     }
 
@@ -52,7 +52,14 @@ class StoreService {
       throw { errorCode: 403, message: 'Unauthorized' };
     }
 
-    await this.storeRepository.updateStore(storeId, storeName, address, imageUrl, isOpen);
+    await this.storeRepository.updateStore(
+      storeId,
+      storeName,
+      CategoryId,
+      address,
+      imageUrl,
+      isOpen,
+    );
   };
 
   deleteStore = async (ownerId, storeId) => {

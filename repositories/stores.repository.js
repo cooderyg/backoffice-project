@@ -32,8 +32,11 @@ class StoreRepository {
     });
   };
 
-  updateStore = async (storeId, storeName, address, imageUrl, isOpen) => {
-    await Stores.update({ storeName, address, imageUrl, isOpen }, { where: { storeId } });
+  updateStore = async (storeId, storeName, CategoryId, address, imageUrl, isOpen) => {
+    await Stores.update(
+      { storeName, CategoryId, address, imageUrl, isOpen },
+      { where: { storeId } },
+    );
   };
 
   deleteStore = async (storeId) => {
