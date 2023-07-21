@@ -6,6 +6,7 @@ const storeStatus = document.querySelector('.store-status');
 const storeRegisterBtnEl = document.querySelector('#store-register');
 const storeUpdate = document.querySelector('#store-update');
 const storeDelete = document.querySelector('#store-delete');
+let ownerId;
 let storeId;
 
 const getStore = async () => {
@@ -15,12 +16,19 @@ const getStore = async () => {
     storeNameEl.innerText = '등록된 가게를 찾을 수 없습니다';
     return (storeRegisterBtnEl.style = 'display:block');
   }
-  const { storeId: _storeId, imageUrl, storeName: name, Category, address, isOpen } = store;
-
+  const {
+    OwnerId,
+    storeId: _storeId,
+    imageUrl,
+    storeName: name,
+    Category,
+    address,
+    isOpen,
+  } = store;
   if (imageUrl) {
     storeImage.setAttribute('src', imageUrl);
   }
-
+  ownerId = OwnerId;
   storeId = _storeId;
   storeNameEl.innerText = name;
   storeCategory.innerText = Category.categoryName;
