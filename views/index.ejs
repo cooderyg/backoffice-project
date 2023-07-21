@@ -8,6 +8,7 @@
     <title>home</title>
     <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/index.css" />
+
     <!-- <script src="/js/index.js" defer></script> -->
   </head>
   <body>
@@ -17,8 +18,8 @@
         <img src="/img/5giyo.png" class="text-logo" alt="" />
 
         <div class="search-container">
-          <input type="text" placeholder="검색어를 입력해주세요." />
-          <button>검색</button>
+          <input type="text" id="searchInput" placeholder="검색어를 입력해주세요." />
+          <button id="searchButton">검색</button>
         </div>
       </section>
       <section class="feed wrap">
@@ -35,5 +36,30 @@
       </section>
     </main>
     <%- include('includes/footer') %>
+    <script>
+      const searchButton = document.getElementById('searchButton');
+      const searchInput = document.getElementById('searchInput');
+
+      searchButton.addEventListener('click', () => {
+        searchStores();
+      });
+
+      // Enter 키를 눌렀을 때도 검색 실행
+      function searchOnEnter(event) {
+        if (event.key === 'Enter') {
+          searchStores();
+        }
+      }
+
+      function searchStores() {
+        const searchString = searchInput.value.trim();
+
+        if (searchString === '') {
+          alert('검색어를 입력하세요.');
+        } else {
+          window.location.href = `/search?searchString=${encodeURIComponent(searchString)}`;
+        }
+      }
+    </script>
   </body>
 </html>
