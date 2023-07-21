@@ -137,6 +137,29 @@ class OrdersService {
 
     return order;
   }
+
+  getOrderForUser = async ({ userId }) => {
+    return await Orders.findAll({
+      where: { UserId: userId },
+      attributes: ['orderId'],
+      include: [
+        {
+          model: OrderMenus,
+          attributes: ['quantity'],
+          include: [
+            {
+              model: Menus,
+              attributes: ['menuName'],
+            },
+          ],
+        },
+        {
+          model: Stores,
+          attributes: ['storeName'],
+        },
+      ],
+    });
+  };
 }
 
 module.exports = OrdersService;

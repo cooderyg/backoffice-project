@@ -36,14 +36,14 @@
       </section>
       <section class="feed wrap">
         <ul class="feed-container" id="best12list">
-          <li><a href="#">전체보기</a></li>
-          <li><a href="#">1인분</a></li>
-          <li><a href="#">프랜차이즈</a></li>
-          <li><a href="#">치킨</a></li>
-          <li><a href="#">피자</a></li>
-          <li><a href="#">야식</a></li>
-          <li><a href="#">일식</a></li>
-          <li><a href="#">중식</a></li>
+          <li data-category-id="1"><a href="#">전체보기</a></li>
+          <li data-category-id="2"><a href="#"></a>1인분</li>
+          <li data-category-id="3"><a href="#"></a>프랜차이즈</li>
+          <li data-category-id="4"><a href="#"></a>치킨</li>
+          <li data-category-id="5"><a href="#"></a>피자</li>
+          <li data-category-id="6"><a href="#"></a>야식</li>
+          <li data-category-id="7"><a href="#"></a>일식</li>
+          <li data-category-id="8"><a href="#"></a>중식</li>
         </ul>
       </section>
     </main>
@@ -56,13 +56,6 @@
         searchStores();
       });
 
-      // Enter 키를 눌렀을 때도 검색 실행
-      function searchOnEnter(event) {
-        if (event.key === 'Enter') {
-          searchStores();
-        }
-      }
-
       function searchStores() {
         const searchString = searchInput.value.trim();
 
@@ -72,6 +65,21 @@
           window.location.href = `/search?searchString=${encodeURIComponent(searchString)}`;
         }
       }
+
+      function searchStoresByCategory(categoryId) {
+        const searchStringBycategoryId = categoryId;
+        window.location.href = `/search?searchStringByCategoryId=${encodeURIComponent(
+          searchStringBycategoryId,
+        )}`;
+      }
+
+      const categoryItems = document.querySelectorAll('.feed-container li');
+      categoryItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          const categoryId = item.getAttribute('data-category-id');
+          searchStoresByCategory(categoryId);
+        });
+      });
     </script>
   </body>
 </html>
