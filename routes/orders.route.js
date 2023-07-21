@@ -10,10 +10,10 @@ router.post('/orders', authMiddleware, ordersService.createOrder);
 // 주문서 상세 조회 API
 router.get('/:userId/orders', ordersService.getOrder);
 
-// 주문서 수정 API
-router.put('/:userId/orders/:orderId', authMiddleware, ordersService.updateOrder);
-
 // 주문서 삭제 API
 router.delete('/:userId/orders/:orderId', authMiddleware, ordersService.deleteOrder);
+
+// 주문서 조회 API
+router.get('/orders/:orderId', authMiddleware, ordersService.getOrderForOwner);
 
 module.exports = router;
