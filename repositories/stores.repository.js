@@ -1,4 +1,4 @@
-const { Stores, Categories, Menus } = require('../models');
+const { Stores, Categories, Menus, Orders, Reviews } = require('../models');
 const { Op } = require('sequelize');
 
 class StoreRepository {
@@ -50,6 +50,7 @@ class StoreRepository {
 
   deleteStore = async (storeId) => {
     await Stores.destroy({ where: { storeId } });
+    await Menus.destroy({ where: { StoreId: storeId } });
   };
 
   findAllStoresByString = async (searchString) => {
@@ -76,6 +77,24 @@ class StoreRepository {
   findStoresByCategoryId = async (CategoryId) => {
     const stores = await Stores.findAll({
       where: { CategoryId },
+      include: [
+        {
+          model: Orders,
+          attributes: ['isDelivered'],
+          include: [
+            {
+              model: Reviews,
+              attributes: ['rating'],
+            },
+          ],
+        },
+      ],
+    });
+    return stores;
+  };
+
+  findAllStores = async () => {
+    const stores = await Stores.findAll({
       include: [
         {
           model: Orders,

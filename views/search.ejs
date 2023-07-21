@@ -35,13 +35,12 @@
     document.addEventListener('DOMContentLoaded', function () {
       let indexSearchString = '<%= searchString %>';
       let indexSearchStringByCategoryId = '<%= searchStringByCategoryId%>';
-
       const searchButton = document.querySelector('button');
-      const searchInput = document.querySelector('input[type="text"]');
-      const searchResults = document.querySelector('.store-list');
+      let searchInput = document.querySelector('input[type="text"]');
+      let searchResults = document.querySelector('.store-list');
 
       const searchStores = async () => {
-        if (!indexSearchStringByCategoryId) {
+        if (indexSearchStringByCategoryId === '') {
           // indexSearchString이 비어있으면 searchInput의 값을 사용
           let searchString = indexSearchString ? indexSearchString : searchInput.value.trim();
 
@@ -82,19 +81,27 @@
               indexSearchString = '';
             } else {
               searchResults.innerHTML = '<li><p>검색 결과가 없습니다.</p></li>';
+
               indexSearchString = '';
             }
           } catch (error) {
             console.error('Error while searching:', error);
             alert('검색에 실패하였습니다.');
           }
-        } else if (indexSearchStringByCategoryId) {
-          let searchString = indexSearchStringByCategoryId;
+        } else if (indexSearchStringByCategoryId !== '') {
+          let categoryId = indexSearchStringByCategoryId;
 
           try {
-            const response = await fetch(`/api/stores/categories/${searchString}`);
+            let response;
+            if (categoryId === '0') {
+              response = await fetch('/api/stores/all');
+            } else {
+              response = await fetch(`/api/stores/categories/${categoryId}`);
+            }
 
             const data = await response.json();
+
+            console.log('🚀 ~ file: search.ejs:104 ~ searchStores ~ data:', data);
 
             if (data.stores && data.stores.length > 0) {
               const storesHTML = data.stores
@@ -118,10 +125,10 @@
 
               searchResults.innerHTML = storesHTML;
 
-              indexSearchString = '';
+              indexSearchStringByCategoryId = '';
             } else {
               searchResults.innerHTML = '<li><p>검색 결과가 없습니다.</p></li>';
-              indexSearchString = '';
+              indexSearchStringByCategoryId = '';
             }
           } catch (error) {
             console.error('Error while searching:', error);

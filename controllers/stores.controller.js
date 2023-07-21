@@ -97,10 +97,20 @@ class StoreController {
   };
 
   getStoresByCategoryId = async (req, res) => {
-    const { categoryId } = req.query;
+    const { categoryId } = req.params;
 
     try {
       const stores = await this.storeService.findStoresByCategoryId(categoryId);
+      res.json({ stores });
+    } catch (e) {
+      if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
+      res.status(500).json({ message: e.message });
+    }
+  };
+
+  getAllStores = async (req, res) => {
+    try {
+      const stores = await this.storeService.findAllStores();
       res.json({ stores });
     } catch (e) {
       if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
