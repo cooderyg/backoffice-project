@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                                 <h5 class="card-title">${storeName}</h5>
                                 <p class="card-text">${menuName}</p>
                                 <p class="card-text">${comment}</p>
-                                <p class="card-text"><small class="text-muted">${rating}</small></p>
+                                <p class="card-text"><small class="text-muted">⭐:${rating}</small></p>
                                 <button type="button" class="btn btn-secondary btn-sm">수정</button>
                                 <button type="button" class="btn btn-secondary btn-sm">삭제</button>
                                 <!-- 수정 창 -->
