@@ -17,51 +17,58 @@ const parseCookie = (cookie) => {
 window.addEventListener('DOMContentLoaded', async function () {
   const { accessToken } = parseCookie(document.cookie);
 
-  fetch('/api/currentUser', {
+  const data = await fetch('/api/currentUser', {
     headers: {
       cookie: accessToken,
     },
-  })
+  });
+  const {
+    user: { userId },
+  } = await data.json();
+  // .then((response) => response.json())
+  // .then(({ user: { userId } }) => userId);
+
+  console.log(userId);
+
+  fetch(`/api/users/${userId}/reviews`)
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((data) => {
+      console.log(data);
 
-  //   fetch(`/api/users/${userId}/reviews`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       const rows = data['results'];
-  //       const cardGroup = document.getElementById('card-group');
-  //       rows.forEach((review) => {
-  //         const storeName = review.storeName;
-  //         const menuName = review.menuName;
-  //         const comment = review.comment;
-  //         const rating = review.rating;
-  //         const reviewImg = review.imageUrl;
-  //         const reviewid = review.reviewId;
+      const rows = data.data;
+      const cardGroup = document.getElementById('card-group');
+      rows.forEach((review) => {
+        const storeName = review.storeName;
+        const menuName = review.menuName;
+        const comment = review.comment;
+        const rating = review.rating;
+        const reviewImg = review.imageUrl;
+        const reviewid = review.reviewId;
 
-  //         const temp_html = `<div class="solo-card" data-reviewId="${reviewid}>
-  //                             <img
-  //                               src="${reviewImg}"
-  //                               class="card-img-top" alt="...">
-  //                             <div class="card-body">
-  //                               <h5 class="card-title">${storeName}</h5>
-  //                               <p class="card-text">${menuName}</p>
-  //                               <p class="card-text">${comment}</p>
-  //                               <p class="card-text"><small class="text-muted">${rating}</small></p>
-  //                               <button type="button" class="btn btn-secondary btn-sm">수정</button>
-  //                               <button type="button" class="btn btn-secondary btn-sm">삭제</button>
-  //                               <!-- 수정 창 -->
-  //                               <div id="commentEditBox" style="display: none;">
-  //                                 <div class="modal-body">
-  //                                   <input id="editContent" type="text" placeholder="내용">
-  //                                   <button id="editCancel" type="button">취소</button>
-  //                                   <button id="editSubmit" type="button">확인</button>
-  //                                 </div>
-  //                               </div>
-  //                             </div>
-  //                           </div>`;
-  //         cardGroup.insertAdjacentHTML('beforeend', temp_html);
-  //       });
-  //     });
+        const temp_html = `<div class="solo-card" data-reviewId="${reviewid}>
+                              <img
+                                src="${reviewImg}"
+                                class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">${storeName}</h5>
+                                <p class="card-text">${menuName}</p>
+                                <p class="card-text">${comment}</p>
+                                <p class="card-text"><small class="text-muted">${rating}</small></p>
+                                <button type="button" class="btn btn-secondary btn-sm">수정</button>
+                                <button type="button" class="btn btn-secondary btn-sm">삭제</button>
+                                <!-- 수정 창 -->
+                                <div id="commentEditBox" style="display: none;">
+                                  <div class="modal-body">
+                                    <input id="editContent" type="text" placeholder="내용">
+                                    <button id="editCancel" type="button">취소</button>
+                                    <button id="editSubmit" type="button">확인</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>`;
+        cardGroup.insertAdjacentHTML('beforeend', temp_html);
+      });
+    });
 });
 
 // 수정 버튼 클릭 시 수정창 띄우기
