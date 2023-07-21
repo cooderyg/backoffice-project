@@ -25,16 +25,10 @@ window.addEventListener('DOMContentLoaded', async function () {
   const {
     user: { userId },
   } = await data.json();
-  // .then((response) => response.json())
-  // .then(({ user: { userId } }) => userId);
-
-  console.log(userId);
 
   fetch(`/api/users/${userId}/reviews`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-
       const rows = data.data;
       const cardGroup = document.getElementById('cardGroup');
       rows.forEach((review) => {
