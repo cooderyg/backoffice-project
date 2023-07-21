@@ -89,6 +89,17 @@ class OrdersController {
       return res.status(400).json({ errorMessage: '주문서 조회에 실패하였습니다.' });
     }
   }
+
+  getOrderForUser = async (req, res) => {
+    const { userId } = res.locals.user;
+    try {
+      const data = await this.ordersService.getOrderForUser({ userId });
+      res.status(200).json({ data });
+    } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({ message: error.message });
+    }
+  };
 }
 
 module.exports = OrdersController;
