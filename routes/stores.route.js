@@ -23,6 +23,8 @@ router.delete('/stores/:storeId', authMiddleware, storeController.deleteStore);
 // 가게 검색
 router.get('/stores/search', storeController.searchStores);
 
+router.get('/stores/all', storeController.getAllStores);
+
 // 가게 정보 조회
 router.get('/stores/:storeId', storeController.getStoreByStoreId);
 

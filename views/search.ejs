@@ -34,16 +34,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       let indexSearchString = '<%= searchString %>';
-
-      console.log('🚀 ~ file: search.ejs:38 ~ indexSearchString:', indexSearchString);
-
       let indexSearchStringByCategoryId = '<%= searchStringByCategoryId%>';
-
-      console.log(
-        '🚀 ~ file: search.ejs:42 ~ indexSearchStringByCategoryId:',
-        indexSearchStringByCategoryId,
-      );
-
       const searchButton = document.querySelector('button');
       let searchInput = document.querySelector('input[type="text"]');
       let searchResults = document.querySelector('.store-list');
