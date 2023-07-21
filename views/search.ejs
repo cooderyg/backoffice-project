@@ -92,9 +92,16 @@
           let categoryId = indexSearchStringByCategoryId;
 
           try {
-            const response = await fetch(`/api/stores/categories/${categoryId}`);
+            let response;
+            if (categoryId === '0') {
+              response = await fetch('/api/stores/all');
+            } else {
+              response = await fetch(`/api/stores/categories/${categoryId}`);
+            }
 
             const data = await response.json();
+
+            console.log('🚀 ~ file: search.ejs:104 ~ searchStores ~ data:', data);
 
             if (data.stores && data.stores.length > 0) {
               const storesHTML = data.stores
