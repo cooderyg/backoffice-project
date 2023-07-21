@@ -20,8 +20,8 @@ const refreshTokenPair = async (res, payload) => {
   const newAccessToken = generateAccessToken(payload);
   const newRefreshToken = generateRefreshToken(payload);
 
-  res.cookie('accessToken', newAccessToken, { httpOnly: true });
-  res.cookie('refreshToken', newRefreshToken, { httpOnly: true });
+  res.cookie('accessToken', newAccessToken, { httpOnly: false });
+  res.cookie('refreshToken', newRefreshToken, { httpOnly: false });
 };
 
 const authMiddleware = async (req, res, next) => {
