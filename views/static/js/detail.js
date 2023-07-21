@@ -69,8 +69,7 @@ menuContainerEl.addEventListener('click', function (e) {
   confirm;
   if (cookieMenus) {
     const cookieStoreId = JSON.parse(getCookie('storeId'));
-
-    if (cookieStoreId && storeId !== cookieStoreId) {
+    if (cookieStoreId && +storeId !== cookieStoreId) {
       if (!confirm('다른 가게 메뉴가 담겨있습니다. 초기화 후 새로 메뉴를 담으시겠습니까?')) return;
       deleteCookie('menus');
     }
