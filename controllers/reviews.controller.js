@@ -5,10 +5,16 @@ class ReviewsController {
 
   createReview = async (req, res, next) => {
     const { orderId } = req.params;
-    const { comment } = req.body;
+    const { rating, comment } = req.body;
     const { userId } = res.locals.user;
+
     try {
-      const createReviewData = await this.reviewsService.createReview(orderId, comment, userId);
+      const createReviewData = await this.reviewsService.createReview(
+        orderId,
+        rating,
+        comment,
+        userId,
+      );
 
       res.status(201).json({ data: createReviewData });
     } catch (error) {
@@ -40,7 +46,7 @@ class ReviewsController {
 
     const deleteReview = await this.reviewsService.deleteReview(reviewId);
 
-    res.status(200).json({ message: '댓글 삭제 성공.' });
+    res.status(200).json({ message: '리뷰가 삭제되었습니다.' });
   };
 }
 
