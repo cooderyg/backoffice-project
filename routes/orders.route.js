@@ -7,7 +7,7 @@ const ordersController = new OrdersController();
 // 주문 생성 API
 router.post('/orders', authMiddleware, ordersController.createOrder);
 
-// 주문서 상세 조회 API
+// 주문서 유저가 조회 API
 router.get('/:userId/orders', ordersController.getOrder);
 
 // 주문서 삭제 API
