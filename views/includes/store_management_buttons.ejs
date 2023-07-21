@@ -19,18 +19,18 @@
 
 <div class="button-container">
   <button id="store-management">가게 관리</button>
-  <button id="order-check">주문 확인</button>
+  <button id="owner-order">주문 확인</button>
   <button id="menu-management">메뉴 관리</button>
 </div>
 
 <script>
-  // 가게 관리 페이지로 이동
+  // 가게 관리 페이지 버튼
   const storeManagement = document.querySelector('#store-management');
 
-  //  주문 확인 페이지로 이동
-  const orderCheck = document.querySelector('#order-check');
+  //  주문 확인 페이지 버튼
+  const ownerOrder = document.querySelector('#owner-order');
 
-  // 메뉴 관리 페이지
+  // 메뉴 관리 페이지 버튼
   const menuManagement = document.querySelector('#menu-management');
 
   // 가게 관리 페이지로 이동
@@ -39,8 +39,8 @@
   });
 
   // 주문 확인 페이지로 이동
-  orderCheck.addEventListener('click', () => {
-    window.location.href = '/order_check';
+  ownerOrder.addEventListener('click', () => {
+    window.location.href = `/owners/orders/${ownerId}`;
   });
 
   // 메뉴 관리 페이지 이동 버튼
