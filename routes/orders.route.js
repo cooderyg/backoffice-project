@@ -7,13 +7,13 @@ const ordersController = new OrdersController();
 // 주문 생성 API
 router.post('/orders', authMiddleware, ordersController.createOrder);
 
-// 주문서 상세 조회 API
+// 주문서 유저가 조회 API
 router.get('/:userId/orders', ordersController.getOrder);
-
-// 주문서 수정 API
-router.put('/:userId/orders/:orderId', authMiddleware, ordersController.updateOrder);
 
 // 주문서 삭제 API
 router.delete('/:userId/orders/:orderId', authMiddleware, ordersController.deleteOrder);
+
+// 주문서 사장이 조회 API
+router.get('/owner/orders/:orderId', authMiddleware, ordersService.getOrderForOwner);
 
 module.exports = router;
