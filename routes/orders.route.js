@@ -13,7 +13,7 @@ router.get('/:userId/orders', ordersService.getOrder);
 // 주문서 삭제 API
 router.delete('/:userId/orders/:orderId', authMiddleware, ordersService.deleteOrder);
 
-// 주문서 조회 API
-router.get('/orders/:orderId', authMiddleware, ordersService.getOrderForOwner);
+// 주문서 사장이 조회 API
+router.get('/owner/orders/:orderId', authMiddleware, ordersService.getOrderForOwner);
 
 module.exports = router;
