@@ -1,7 +1,26 @@
+<style>
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 20px 80px;
+    width: 100%;
+  }
+  button {
+    width: 115px;
+    color: #fff;
+    background-color: #ee2b26;
+    border: 2px solid #ee2b26;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+</style>
+
 <div class="button-container">
-  <button class="btn btn-success" id="store-management">가게 관리</button>
-  <button class="btn btn-success" id="order-check">주문 확인</button>
-  <button class="btn btn-success" id="menu-management">메뉴 관리</button>
+  <button id="store-management">가게 관리</button>
+  <button id="order-check">주문 확인</button>
+  <button id="menu-management">메뉴 관리</button>
 </div>
 
 <script>

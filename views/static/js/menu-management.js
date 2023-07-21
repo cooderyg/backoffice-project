@@ -33,33 +33,33 @@ const getMenus = async () => {
             </li>`;
   });
 
-  // 수정, 삭제 버튼에 이벤트리스너 추가
-  // 수정 버튼을 누르면 수정 페이지로 보낸다.
+  const menuUpdateButtonEls = document.querySelectorAll('.menu-update-button');
+  const menuDeleteButtonEls = document.querySelectorAll('.menu-delete-button');
 
-  const menuUpdateButtonEl = document.querySelector('.menu-update-button');
-  const menuDeleteButtonEl = document.querySelector('.menu-delete-button');
-
-  // 메뉴 수정 버튼
-  menuUpdateButtonEl.addEventListener('click', (e) => {
-    const menuId = e.target.parentNode.parentNode.getAttribute('data-menuId');
-    location.href = `/menu_management/stores/${storeId}/menu_modification/menus/${menuId}`;
-  });
-
-  // 메뉴 삭제 버튼
-  menuDeleteButtonEl.addEventListener('click', async (e) => {
-    const menuId = e.target.parentNode.parentNode.getAttribute('data-menuId');
-    const isDelete = confirm('정말 삭제하시겠습니까?');
-    if (!isDelete) return;
-
-    const response = await fetch(`/api/stores/${storeId}/menus/${menuId}`, {
-      method: 'DELETE',
+  // 메뉴 수정 버튼. 수정 버튼을 누르면 수정 페이지로 보낸다.
+  menuUpdateButtonEls.forEach((element) => {
+    element.addEventListener('click', (e) => {
+      const menuId = e.target.parentNode.parentNode.getAttribute('data-menuId');
+      location.href = `/menu_management/stores/${storeId}/menu_modification/menus/${menuId}`;
     });
-    const result = await response.json();
-    if (result.message === '') {
-      location.reload();
-    } else {
-      alert(result.message);
-    }
+  });
+  menuDeleteButtonEls.forEach((element) => {
+    // 메뉴 삭제 버튼
+    element.addEventListener('click', async (e) => {
+      const menuId = e.target.parentNode.parentNode.getAttribute('data-menuId');
+      const isDelete = confirm('정말 삭제하시겠습니까?');
+      if (!isDelete) return;
+
+      const response = await fetch(`/api/stores/${storeId}/menus/${menuId}`, {
+        method: 'DELETE',
+      });
+      const result = await response.json();
+      if (result.message === '메뉴가 삭제되었습니다.') {
+        location.reload();
+      } else {
+        alert(result.message);
+      }
+    });
   });
 };
 getMenus();
