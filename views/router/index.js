@@ -100,7 +100,7 @@ router.get('/owners/orders/:ownerId', (req, res) => {
 router.get('/user/orders', (req, res) => {
   return res.render('user-orders-check');
 });
-router.get('/orders/complete', (req, res) => {
+router.get('/orders/complete/:orderId', (req, res) => {
   const { orderId } = req.query;
   return res.render('order-complete', { orderId });
 });
