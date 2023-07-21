@@ -28,8 +28,8 @@ class OrdersController {
 
   //유저 주문서 확인
   getOrder = async (req, res) => {
-    const { orderId } = req.params;
-    console.log(`order: ${typeof orderId}`);
+    const orderId = +req.params.orderId;
+
     try {
       const order = await this.ordersService.getOrder(orderId);
 
