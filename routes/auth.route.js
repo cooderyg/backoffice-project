@@ -86,13 +86,6 @@ router.post('/user/signup', ValidationMiddleware, async (req, res) => {
     // 랜덤한 6자리 숫자 생성 (인증 코드)
     const verificationCode = generateRandomCode();
 
-    // 이메일 전송
-    // const verifyUrl = `${env.FRONTEND_URL}/verify`;
-    const isEmailSent = await sendEmail(email, verificationCode);
-    if (!isEmailSent) {
-      return res.status(500).json({ message: '이메일 전송에 실패했습니다.' });
-    }
-
     // 유저 생성
     const newUser = await Users.create({
       email,
@@ -104,7 +97,15 @@ router.post('/user/signup', ValidationMiddleware, async (req, res) => {
       address,
       phoneNumber,
       emailVerify: false,
+      point: 1000000,
     });
+
+    // 이메일 전송
+    // const verifyUrl = `${env.FRONTEND_URL}/verify`;
+    const isEmailSent = await sendEmail(email, verificationCode);
+    if (!isEmailSent) {
+      return res.status(500).json({ message: '이메일 전송에 실패했습니다.' });
+    }
 
     res
       .status(201)
@@ -126,8 +127,6 @@ router.post('/user/login', async (req, res) => {
     // Case 1: 처음 로그인하는 경우
     if (!refreshToken) {
       const user = await Users.findOne({ where: { email: email } });
-      res.clearCookie('refreshToken');
-      res.clearCookie('accessToken');
 
       // 회원 유효성
       if (!user) {
@@ -230,18 +229,18 @@ router.post('/owner/signup', ValidationMiddleware, async (req, res) => {
     // 랜덤한 6자리 숫자 생성 (인증 코드)
     const verificationCode = generateRandomCode();
 
-    // 이메일 전송
-    const isEmailSent = await sendEmail(email, verificationCode);
-    if (!isEmailSent) {
-      return res.status(500).json({ message: '이메일 전송에 실패했습니다.' });
-    }
-
     const newOwner = await Owners.create({
       email,
       password: hashedPassword,
       point: 0,
       emailVerify: false,
     });
+
+    // 이메일 전송
+    const isEmailSent = await sendEmail(email, verificationCode);
+    if (!isEmailSent) {
+      return res.status(500).json({ message: '이메일 전송에 실패했습니다.' });
+    }
 
     res
       .status(201)
@@ -262,8 +261,6 @@ router.post('/owner/login', async (req, res) => {
     // Case 1: 처음 로그인하는 경우
     if (!refreshToken) {
       const owner = await Owners.findOne({ where: { email: email } });
-      res.clearCookie('refreshToken');
-      res.clearCookie('accessToken');
 
       // 회원 유효성
       if (!owner) {

@@ -68,20 +68,29 @@ a {
 }
 
 .menu-container {
+  margin: 0 auto;
   padding-top: 100px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .menu-container li {
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  width: calc(50% - 40px);
   display: flex;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 32px;
   border: 5px solid #ef653c;
   border-radius: 20px;
 }
-
+.menu-container li:nth-child(odd) {
+  margin-right: 20px;
+}
 .menu-container .img-container {
   width: 160px;
   height: 160px;

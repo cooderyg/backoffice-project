@@ -11,6 +11,13 @@ body {
   min-height: 100vh;
 }
 
+.text-logo {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
 .wrapper {
   position: relative;
   width: 500px;
@@ -27,8 +34,12 @@ body {
   transition: height 0.2s ease;
 }
 
-.wrapper.active.owner {
+.wrapper.active {
   height: 900px;
+}
+
+.wrapper.active.owner {
+  height: 500px;
 }
 
 .wrapper .form-box-login,
