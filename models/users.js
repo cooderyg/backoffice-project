@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       point: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        defaultValue: 0,
+        defaultValue: 1000000,
       },
       address: {
         allowNull: false,
