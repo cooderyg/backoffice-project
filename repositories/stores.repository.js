@@ -50,6 +50,7 @@ class StoreRepository {
 
   deleteStore = async (storeId) => {
     await Stores.destroy({ where: { storeId } });
+    await Menus.destroy({ where: { StoreId: storeId } });
   };
 
   findAllStoresByString = async (searchString) => {
