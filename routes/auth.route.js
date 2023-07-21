@@ -6,6 +6,7 @@ const { Users } = require('../models');
 const { Owners } = require('../models');
 const nodemailer = require('nodemailer');
 const ValidationMiddleware = require('../middlewares/validations/signup.validation');
+const authMiddleware = require('../middlewares/auth-middleware');
 
 require('dotenv').config();
 const env = process.env;
@@ -109,8 +110,8 @@ router.post('/user/signup', ValidationMiddleware, async (req, res) => {
 
     res
       .status(201)
-      .cookie('email', email, { httpOnly: true })
-      .cookie('verificationCode', verificationCode, { httpOnly: true })
+      .cookie('email', email, { httpOnly: false })
+      .cookie('verificationCode', verificationCode, { httpOnly: false })
       .json({ message: '회원가입이 완료되었습니다.', newUser });
   } catch (error) {
     console.log('🚀 ~ file: auth.route.js:100 ~ router.post ~ error:', error);
@@ -146,8 +147,8 @@ router.post('/user/login', async (req, res) => {
       const userId = user.userId;
 
       return res
-        .cookie('accessToken', newAccessToken, { httpOnly: true })
-        .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+        .cookie('accessToken', newAccessToken, { httpOnly: false })
+        .cookie('refreshToken', newRefreshToken, { httpOnly: false })
         .json({ userId, newAccessToken, message: '로그인되었습니다.' });
     }
 
@@ -163,8 +164,8 @@ router.post('/user/login', async (req, res) => {
         const newRefreshToken = usergenerateRefreshToken(userId);
 
         return res
-          .cookie('accessToken', newAccessToken, { httpOnly: true })
-          .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+          .cookie('accessToken', newAccessToken, { httpOnly: false })
+          .cookie('refreshToken', newRefreshToken, { httpOnly: false })
           .json({
             userId,
             newAccessToken,
@@ -183,7 +184,7 @@ router.post('/user/login', async (req, res) => {
 
         const newAccessToken = usergenerateAccessToken(userId);
 
-        return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
+        return res.cookie('accessToken', newAccessToken, { httpOnly: false }).json({
           userId,
           newAccessToken,
           message: 'ACCESS TOKEN이 갱신되었습니다.',
@@ -244,8 +245,8 @@ router.post('/owner/signup', ValidationMiddleware, async (req, res) => {
 
     res
       .status(201)
-      .cookie('email', email, { httpOnly: true })
-      .cookie('verificationCode', verificationCode, { httpOnly: true })
+      .cookie('email', email, { httpOnly: false })
+      .cookie('verificationCode', verificationCode, { httpOnly: false })
       .json({ message: '회원가입 완료', newOwner });
   } catch (error) {
     console.log('🚀 ~ file: users.js:45 ~ router.post ~ error:', error);
@@ -280,8 +281,8 @@ router.post('/owner/login', async (req, res) => {
       const ownerId = owner.ownerId;
 
       return res
-        .cookie('accessToken', newAccessToken, { httpOnly: true })
-        .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+        .cookie('accessToken', newAccessToken, { httpOnly: false })
+        .cookie('refreshToken', newRefreshToken, { httpOnly: false })
         .json({ ownerId, newAccessToken, message: '로그인되었습니다.' });
     }
 
@@ -297,8 +298,8 @@ router.post('/owner/login', async (req, res) => {
         const newRefreshToken = ownergenerateRefreshToken(ownerId);
 
         return res
-          .cookie('accessToken', newAccessToken, { httpOnly: true })
-          .cookie('refreshToken', newRefreshToken, { httpOnly: true })
+          .cookie('accessToken', newAccessToken, { httpOnly: false })
+          .cookie('refreshToken', newRefreshToken, { httpOnly: false })
           .json({
             ownerId,
             newAccessToken,
@@ -317,7 +318,7 @@ router.post('/owner/login', async (req, res) => {
 
         const newAccessToken = ownergenerateAccessToken(ownerId);
 
-        return res.cookie('accessToken', newAccessToken, { httpOnly: true }).json({
+        return res.cookie('accessToken', newAccessToken, { httpOnly: false }).json({
           ownerId,
           newAccessToken,
           message: 'ACCESS TOKEN이 갱신되었습니다.',
@@ -415,9 +416,22 @@ router.post('/logout', (req, res) => {
   res.locals.user = null;
   res.locals.owner = null;
 
-  res.clearCookie('accessToken', { httpOnly: true });
-  res.clearCookie('refreshToken', { httpOnly: true });
+  res.clearCookie('accessToken', { httpOnly: false });
+  res.clearCookie('refreshToken', { httpOnly: false });
   res.json({ message: '로그아웃되었습니다.' });
+});
+
+// 쿠키받아와서 미들웨어에 디코딩, user정보 넘겨주기
+router.get('/currentUser', authMiddleware, async (req, res) => {
+  const { userId } = res.locals.user;
+  console.log(res.locals.user);
+
+  const user = await Users.findOne({
+    where: { userId },
+    attributes: ['userId'],
+  });
+
+  res.json({ user });
 });
 
 module.exports = router;

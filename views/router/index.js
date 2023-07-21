@@ -72,10 +72,10 @@ router.get(`/store_modification/stores/:storeId`, (req, res) => {
   return res.render('store_modification');
 });
 
-// 리뷰 작성
+// 리뷰 작성 페이지
 router.get('/reviewWrite', (req, res) => {
-  // const { orderNumber, storeName, menuName } = req.query;
-  return res.render('reviewWrite');
+  const { orderId } = req.query;
+  return res.render('reviewWrite', { orderId });
 });
 
 // 사용자 리뷰 조회

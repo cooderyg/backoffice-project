@@ -29,6 +29,8 @@ class ReviewsService {
         rating: review.rating,
         comment: review.comment,
         imageUrl: review.imageUrl,
+        storeName: review.storeName,
+        menuName: review.menuName,
       };
     });
   };
