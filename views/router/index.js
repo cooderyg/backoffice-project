@@ -56,6 +56,7 @@ router.get('/menu_management/stores/:storeId', (req, res) => {
 router.get('/menu_management/stores/:storeId/menu_registration', (req, res) => {
   return res.render(`menu_registration`);
 });
+
 // 메뉴 관리 - 메뉴 수정
 router.get('/menu_management/stores/:storeId/menu_modification/menus/:menuId', (req, res) => {
   return res.render(`menu_modification`);
