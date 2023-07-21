@@ -1,11 +1,12 @@
-const { Reviews, Orders, Stores, Ordermenus, Menus } = require('../models');
+const { Reviews, Orders, Stores, Ordermenus, Menus, sequelize, Sequelize } = require('../models');
 
 class ReviewsRepository {
-  createReview = async (orderId, comment, userId) => {
+  createReview = async (orderId, rating, comment, userId) => {
     const createReviewData = await Reviews.create({
-      orderId,
+      OrderId: orderId,
+      rating,
       comment,
-      userId,
+      UserId: userId,
     });
 
     return createReviewData;
@@ -45,17 +46,14 @@ class ReviewsRepository {
   };
 
   updateReview = async (reviewId, comment) => {
-    const updateReviewData = await Reviews.update(
-      { reviewId, comment },
-      { where: { id: reviewId } },
-    );
+    const updateReviewData = await Reviews.update({ reviewId, comment }, { where: { reviewId } });
 
     return updateReviewData;
   };
 
   deleteReview = async (reviewId) => {
     const deleteteReviewData = await Reviews.destroy({
-      where: { id: commentId },
+      where: { reviewId },
     });
 
     return deleteteReviewData;

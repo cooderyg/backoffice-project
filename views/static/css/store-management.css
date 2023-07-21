@@ -18,6 +18,28 @@ a {
 }
 /* common */
 section {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
+}
+
+#store-register {
+  margin-bottom: 50px;
+  display: none;
+}
+
+.store-info {
+  display: flex;
+  /* justify-content: center; */
+}
+.store-image {
+  margin-right: 50px;
+  display: block;
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.store-details {
+  font-weight: bold;
+  font-size: 28px;
+  color: #333;
 }

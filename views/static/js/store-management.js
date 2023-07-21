@@ -1,25 +1,36 @@
 const storeImage = document.querySelector('.store-image');
-const storeName = document.querySelector('.store-name');
+const storeNameEl = document.querySelector('.store-name');
 const storeCategory = document.querySelector('.store-category');
 const storeAddress = document.querySelector('.store-address');
 const storeStatus = document.querySelector('.store-status');
-const storeCreate = document.querySelector('#store-create');
+const storeRegisterBtnEl = document.querySelector('#store-register');
 const storeUpdate = document.querySelector('#store-update');
 const storeDelete = document.querySelector('#store-delete');
+let ownerId;
 let storeId;
 
 const getStore = async () => {
   const response = await fetch('/api/stores');
   const { store } = await response.json();
-  const { storeId: _storeId, imageUrl, storeName: name, Category, address, isOpen } = store;
-
+  if (!store) {
+    storeNameEl.innerText = '등록된 가게를 찾을 수 없습니다';
+    return (storeRegisterBtnEl.style = 'display:block');
+  }
+  const {
+    OwnerId,
+    storeId: _storeId,
+    imageUrl,
+    storeName: name,
+    Category,
+    address,
+    isOpen,
+  } = store;
   if (imageUrl) {
     storeImage.setAttribute('src', imageUrl);
-  } else {
-    storeImage.setAttribute('src', '/img/store_logo.jpg');
   }
+  ownerId = OwnerId;
   storeId = _storeId;
-  storeName.innerText = name;
+  storeNameEl.innerText = name;
   storeCategory.innerText = Category.categoryName;
   storeAddress.innerText = address;
   storeStatus.innerText = isOpen ? '영업중' : '준비중';
@@ -28,7 +39,7 @@ const getStore = async () => {
 getStore();
 
 // 가게 등록 페이지 이동 버튼
-storeCreate.addEventListener('click', () => {
+storeRegisterBtnEl.addEventListener('click', () => {
   window.location.href = '/store_registration';
 });
 

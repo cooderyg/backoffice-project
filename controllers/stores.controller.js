@@ -52,10 +52,18 @@ class StoreController {
   updateStore = async (req, res) => {
     const { ownerId } = res.locals.owner;
     const { storeId } = req.params;
-    const { storeName, address, imageUrl, isOpen } = req.body;
+    const { storeName, CategoryId, address, imageUrl, isOpen } = req.body;
 
     try {
-      await this.storeService.updateStore(ownerId, storeId, storeName, address, imageUrl, isOpen);
+      await this.storeService.updateStore(
+        ownerId,
+        storeId,
+        storeName,
+        CategoryId,
+        address,
+        imageUrl,
+        isOpen,
+      );
       res.json({ message: '가게 정보가 수정되었습니다.' });
     } catch (e) {
       if (e.errorCode) return res.status(e.errorCode).json({ message: e.message });
@@ -77,7 +85,7 @@ class StoreController {
   };
 
   searchStores = async (req, res) => {
-    const { searchString } = req.body;
+    const { searchString } = req.query;
 
     try {
       const stores = await this.storeService.findStores(searchString);

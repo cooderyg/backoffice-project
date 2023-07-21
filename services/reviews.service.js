@@ -3,8 +3,13 @@ const ReviewsRepository = require('../repositories/reviews.repository');
 class ReviewsService {
   reviewsRepository = new ReviewsRepository();
 
-  createReview = async (orderId, comment, userId) => {
-    const createReviewData = await this.reviewsRepository.createReview(orderId, comment, userId);
+  createReview = async (orderId, rating, comment, userId) => {
+    const createReviewData = await this.reviewsRepository.createReview(
+      orderId,
+      rating,
+      comment,
+      userId,
+    );
     if (!comment) throw new Error('리뷰 내용을 입력해주세요.');
     return { createReviewData };
   };
@@ -18,7 +23,7 @@ class ReviewsService {
 
     return allReviews.map((review) => {
       return {
-        reviewId: review.id,
+        reviewId: review.reviewId,
         UserId: review.UserId,
         OrderId: review.OrderId,
         rating: review.rating,
@@ -34,7 +39,7 @@ class ReviewsService {
     if (findReview) {
       if (!comment) throw new Error('리뷰 내용을 입력해주세요.');
     }
-    await this.reviewsRepository.updateReview(reviewId, rating, comment);
+    await this.reviewsRepository.updateReview(reviewId, comment);
 
     const updateReview = await this.reviewsRepository.findReviewById(reviewId);
 

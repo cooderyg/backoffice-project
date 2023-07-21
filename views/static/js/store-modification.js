@@ -1,5 +1,5 @@
 const storeNameEl = document.querySelector('#storeName');
-const storeImage = document.querySelector('#storeImage');
+const storeImageEl = document.querySelector('#storeImage');
 const storeCategoryEl = document.querySelector('#categorySelect');
 const storeAddressEl = document.querySelector('#address');
 const imageContainerEl = document.querySelector('#image-container');
@@ -25,12 +25,12 @@ const getStoreInfo = async () => {
   storeId = _storeId;
   const imageUploadEl = document.querySelector('.image-upload');
   imageUploadEl.addEventListener('click', () => {
-    storeImage.click();
+    storeImageEl.click();
   });
 };
 getStoreInfo();
 
-storeImage.addEventListener('change', async (e) => {
+storeImageEl.addEventListener('change', async (e) => {
   console.log(e.target.files[0].type);
   const file = e.target.files[0];
   if (file.size > 1 * 1024 * 1024) {
@@ -52,8 +52,8 @@ storeImage.addEventListener('change', async (e) => {
   console.log(url);
   imageContainerEl.innerHTML = `
   <img src="${url}" />
-  <button type="button" type class="img-update-btn">이미지 수정</button>
-  <button type="button" class="img-delete-btn">이미지 삭제</button>
+  <button type="button" class="img-update-btn btn btn-secondary">이미지 수정</button>
+  <button type="button" class="img-delete-btn btn btn-secondary">이미지 삭제</button>
   `;
 
   const deleteTemp = `
@@ -62,14 +62,14 @@ storeImage.addEventListener('change', async (e) => {
   const imgUpdateBtnEl = document.querySelector('.img-update-btn');
   const imgdeleteBtnEl = document.querySelector('.img-delete-btn');
   imgUpdateBtnEl.addEventListener('click', () => {
-    uploadInputEl.click();
+    storeImageEl.click();
   });
   imgdeleteBtnEl.addEventListener('click', () => {
     url = '';
     imageContainerEl.innerHTML = deleteTemp;
     const imageUploadEl = document.querySelector('.image-upload');
     imageUploadEl.addEventListener('click', () => {
-      storeImage.click();
+      storeImageEl.click();
     });
   });
 });
@@ -80,23 +80,21 @@ storeRegisterForm.addEventListener('submit', async (e) => {
 
   const imageUrl = url ? url : originUrl;
   const data = {
-    categoryId: storeCategoryEl.value,
+    CategoryId: storeCategoryEl.value,
     storeName: storeNameEl.value,
     imageUrl,
     address: storeAddressEl.value,
     isOpen: isOpenSelectEl.value,
   };
 
-  // 메뉴 수정 요청
+  // 가게 수정 요청
   const response = await fetch(`/api/stores/${storeId}`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
-  // 가게 등록 api를 호출할 때, auth-middleware에서  res.locals.owner에 할당된 owner객체를 받을 수 있다.
-  // ownerId로 가게를 조회하여 이미 등록된 가게가 있으면 에러를 보내어  alert창이 뜰 것이다.
   const result = await response.json();
   if (result.message === '가게 정보가 수정되었습니다.') {
     location.href = '/store_management';

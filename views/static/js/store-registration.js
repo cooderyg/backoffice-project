@@ -5,6 +5,8 @@ const storeAddress = document.querySelector('#address');
 const imageContainerEl = document.querySelector('#image-container');
 const imageUploadEl = document.querySelector('.image-upload');
 let url;
+let defaultImageUrl =
+  'https://young-gyu-bucket.s3.ap-northeast-2.amazonaws.com/image/review/1689905458040-store_logo.jpg';
 
 imageUploadEl.addEventListener('click', () => {
   storeImage.click();
@@ -58,10 +60,11 @@ const storeRegisterForm = document.querySelector('#store-register-form');
 storeRegisterForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  const imageUrl = url ? url : defaultImageUrl;
   const data = {
     categoryId: storeCategory.value,
     storeName: storeName.value,
-    imageUrl: url,
+    imageUrl,
     address: storeAddress.value,
     isOpen: 'false', // 디폴트로 false를 보냄. 메뉴 등록하기 전이므로.
   };
