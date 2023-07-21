@@ -60,6 +60,16 @@ a {
   height: 100px;
 }
 
+button {
+  width: 115px;
+  color: #fff;
+  background-color: #ee2b26;
+  border: 2px solid #ee2b26;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
 @media (max-width: 768px) {
   .menu-list li {
     width: 100%;

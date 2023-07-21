@@ -97,7 +97,7 @@ class StoreController {
   };
 
   getStoresByCategoryId = async (req, res) => {
-    const { categoryId } = req.params;
+    const { categoryId } = req.query;
 
     try {
       const stores = await this.storeService.findStoresByCategoryId(categoryId);
