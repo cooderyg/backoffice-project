@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오기요</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/category.css" />
+    <script src="/js/search.js" defer></script>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <main>
+      <section class="search wrap">
+        <div class="search-container">
+          <input type="text" placeholder="검색어를 입력해주세요." />
+          <button>검색</button>
+        </div>
+      </section>
+      <section class="category wrap">
+        <ul class="store-list" id="searchResults"></ul>
+      </section>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>
