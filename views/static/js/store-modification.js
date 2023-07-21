@@ -87,16 +87,14 @@ storeRegisterForm.addEventListener('submit', async (e) => {
     isOpen: isOpenSelectEl.value,
   };
 
-  // 메뉴 수정 요청
+  // 가게 수정 요청
   const response = await fetch(`/api/stores/${storeId}`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
-  // 가게 등록 api를 호출할 때, auth-middleware에서  res.locals.owner에 할당된 owner객체를 받을 수 있다.
-  // ownerId로 가게를 조회하여 이미 등록된 가게가 있으면 에러를 보내어  alert창이 뜰 것이다.
   const result = await response.json();
   if (result.message === '가게 정보가 수정되었습니다.') {
     location.href = '/store_management';
