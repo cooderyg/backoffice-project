@@ -91,5 +91,23 @@ class StoreRepository {
     });
     return stores;
   };
+
+  findAllStores = async () => {
+    const stores = await Stores.findAll({
+      include: [
+        {
+          model: Orders,
+          attributes: ['isDelivered'],
+          include: [
+            {
+              model: Reviews,
+              attributes: ['rating'],
+            },
+          ],
+        },
+      ],
+    });
+    return stores;
+  };
 }
 module.exports = StoreRepository;
