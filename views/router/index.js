@@ -19,6 +19,9 @@ router.get(
 
 router.get('/search', (req, res) => {
   const searchString = req.query.searchString;
+
+  console.log('🚀 ~ file: index.js:23 ~ router.get ~ searchString:', searchString);
+
   return res.render('search', { searchString });
 });
 
