@@ -11,7 +11,7 @@ let storeId;
 const getStore = async () => {
   const response = await fetch('/api/stores');
   const { store } = await response.json();
-  if (!store) {
+  if (store) {
     storeRegisterBtnEl.style = 'display:none';
   }
   const { storeId: _storeId, imageUrl, storeName: name, Category, address, isOpen } = store;
