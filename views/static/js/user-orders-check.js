@@ -31,6 +31,15 @@ window.addEventListener('DOMContentLoaded', async function () {
           window.location.href = `/reviewWrite?orderId=${orderId}`;
         });
       });
+
+      // 주문상세보기 버튼 클릭시 order-complete 페이지로 이동
+      const orderCompleteButtons = document.querySelectorAll('.detail-btn');
+      orderCompleteButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          const orderId = this.parentNode.parentNode.getAttribute('data-orderId');
+          window.location.href = `/orders/complete?orderId=${orderId}`;
+        });
+      });
     });
 });
 
