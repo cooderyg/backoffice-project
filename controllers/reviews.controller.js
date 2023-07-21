@@ -5,11 +5,12 @@ class ReviewsController {
 
   createReview = async (req, res, next) => {
     const { orderId } = req.params;
-    const { rating, comment } = req.body;
+    const { imageUrl, rating, comment } = req.body;
     const { userId } = res.locals.user;
 
     try {
       const createReviewData = await this.reviewsService.createReview(
+        imageUrl,
         +orderId,
         +rating,
         comment,
