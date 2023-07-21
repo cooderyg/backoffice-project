@@ -13,10 +13,13 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="/css/reviewWrite.css" />
     <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
-    <script src="/js/reviewWrite.js" defer></script>
+
 </head>
 
 <body>
+  <h1 id="orderId">orderId: <%= orderId %>
+  </h1>
+
   <div class="subHead">
     <h2>리뷰 작성</h2>
   </div>
@@ -42,14 +45,20 @@
         <input type="file" class="form-control" id="inputGroupFile02">
         <label class="input-group-text" for="inputGroupFile02">업로드</label>
       </div>
-      <button onclick="save_review()" type="button" class="btn btn-dark" id="reviewSave">
-        리뷰 등록하기
+      <button type="button" class="btn btn-dark" id="reviewSave">
+        리뷰등록하기
       </button>
       <button type="button" class="btn btn-outline-secondary" id="cancelBtn">취소</button>
     </div>
   </div>
 
+  <script>
+    const orderId = '<%= orderId %>';
+  </script>
+
 </body>
+<script src="/js/reviewWrite.js" defer></script>
+
 <%- include('includes/footer') %>
 
 </html>
