@@ -24,6 +24,7 @@ section {
 
 #store-register {
   margin-bottom: 50px;
+  display: none;
 }
 
 .store-info {
