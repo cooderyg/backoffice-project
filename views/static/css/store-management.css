@@ -33,6 +33,9 @@ section {
 }
 .store-image {
   margin-right: 50px;
+  display: block;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 .store-details {
