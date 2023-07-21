@@ -56,8 +56,11 @@ class OrdersService {
     }
   };
 
-  async getOrder(orderId) {
-    const order = await Orders.findByPk(orderId, {
+  getOrder = async (orderId) => {
+    const order = await Orders.findOne({
+      whree: {
+        orderId: +orderId,
+      },
       include: [
         {
           model: Users,
@@ -68,9 +71,13 @@ class OrdersService {
           attributes: ['storeName'],
         },
         {
-          model: Menus,
-          attributes: ['menuName', 'price'],
-          through: { attributes: ['quantity'] },
+          model: OrderMenus,
+          attributes: ['quantity'],
+          include: [
+            {
+              model: Menus,
+            },
+          ],
         },
       ],
     });
@@ -78,9 +85,8 @@ class OrdersService {
     if (!order) {
       throw new Error('주문서를 찾을 수 없습니다.');
     }
-
     return order;
-  }
+  };
 
   async softDeleteOrder(orderId) {
     // 트랜잭션 시작

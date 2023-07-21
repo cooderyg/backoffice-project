@@ -5,11 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/js/point-payment.js" defer></script>
+
+    <script src="/js/point-payment.js" type="module"></script>
+    <link rel="stylesheet" href="/css/point-payment.css" />
     <title>포인트 결제페이지</title>
   </head>
   <body>
-    <button class="payment-btn">결제하기</button>
+    <%- include('includes/header') %>
+    <main>
+      <section class="wrap">
+        <h2>잔여포인트 : 원</h2>
+        <select class="amount">
+          <option value="10000">10,000 원</option>
+          <option value="50000">50,000 원</option>
+          <option value="100000">100,000 원</option>
+          <option value="200000">200,000 원</option>
+        </select>
+        <button class="payment-btn">결제하기</button>
+      </section>
+    </main>
+    <%- include('includes/footer') %>
   </body>
 </html>
