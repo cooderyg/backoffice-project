@@ -1,5 +1,5 @@
 const storeNameEl = document.querySelector('#storeName');
-const storeImage = document.querySelector('#storeImage');
+const storeImageEl = document.querySelector('#storeImage');
 const storeCategoryEl = document.querySelector('#categorySelect');
 const storeAddressEl = document.querySelector('#address');
 const imageContainerEl = document.querySelector('#image-container');
@@ -25,12 +25,12 @@ const getStoreInfo = async () => {
   storeId = _storeId;
   const imageUploadEl = document.querySelector('.image-upload');
   imageUploadEl.addEventListener('click', () => {
-    storeImage.click();
+    storeImageEl.click();
   });
 };
 getStoreInfo();
 
-storeImage.addEventListener('change', async (e) => {
+storeImageEl.addEventListener('change', async (e) => {
   console.log(e.target.files[0].type);
   const file = e.target.files[0];
   if (file.size > 1 * 1024 * 1024) {
@@ -52,8 +52,8 @@ storeImage.addEventListener('change', async (e) => {
   console.log(url);
   imageContainerEl.innerHTML = `
   <img src="${url}" />
-  <button type="button" type class="img-update-btn">이미지 수정</button>
-  <button type="button" class="img-delete-btn">이미지 삭제</button>
+  <button type="button" class="img-update-btn btn btn-secondary">이미지 수정</button>
+  <button type="button" class="img-delete-btn btn btn-secondary">이미지 삭제</button>
   `;
 
   const deleteTemp = `
@@ -62,14 +62,14 @@ storeImage.addEventListener('change', async (e) => {
   const imgUpdateBtnEl = document.querySelector('.img-update-btn');
   const imgdeleteBtnEl = document.querySelector('.img-delete-btn');
   imgUpdateBtnEl.addEventListener('click', () => {
-    uploadInputEl.click();
+    storeImageEl.click();
   });
   imgdeleteBtnEl.addEventListener('click', () => {
     url = '';
     imageContainerEl.innerHTML = deleteTemp;
     const imageUploadEl = document.querySelector('.image-upload');
     imageUploadEl.addEventListener('click', () => {
-      storeImage.click();
+      storeImageEl.click();
     });
   });
 });
