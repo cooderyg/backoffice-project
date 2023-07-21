@@ -65,17 +65,13 @@ menuContainerEl.addEventListener('click', function (e) {
     price,
     url,
   };
-  console.log(quantity);
   const cookieMenus = JSON.parse(getCookie('menus'));
-
+  confirm;
   if (cookieMenus) {
     const cookieStoreId = JSON.parse(getCookie('storeId'));
 
-    if (storeId !== cookieStoreId && cookieStoreId) {
-      const confirm = prompt(
-        '다른 가게 메뉴가 담겨있습니다. 초기화 후 새로 메뉴를 담으시겠습니까?',
-      );
-      if (!confirm) return;
+    if (cookieStoreId && storeId !== cookieStoreId) {
+      if (!confirm('다른 가게 메뉴가 담겨있습니다. 초기화 후 새로 메뉴를 담으시겠습니까?')) return;
       deleteCookie('menus');
     }
 
