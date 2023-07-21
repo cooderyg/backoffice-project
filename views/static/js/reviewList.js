@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', async function () {
       console.log(data);
 
       const rows = data.data;
-      const cardGroup = document.getElementById('card-group');
+      const cardGroup = document.getElementById('cardGroup');
       rows.forEach((review) => {
         const storeName = review.storeName;
         const menuName = review.menuName;

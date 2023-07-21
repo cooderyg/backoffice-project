@@ -14,6 +14,6 @@ router.get('/:userId/orders', ordersController.getOrder);
 router.delete('/:userId/orders/:orderId', authMiddleware, ordersController.deleteOrder);
 
 // 주문서 사장이 조회 API
-router.get('/owner/orders/:orderId', authMiddleware, ordersService.getOrderForOwner);
+router.get('/owner/orders/:orderId', authMiddleware, ordersController.getOrderForOwner);
 
 module.exports = router;
