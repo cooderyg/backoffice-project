@@ -14,24 +14,24 @@ menuAddButtonEl.addEventListener('click', () => {
 const getMenus = async () => {
   const response = await fetch(`/api/stores/${storeId}/menus`);
   const { menus } = await response.json();
-  menuListEl.innerHTML = menus.map((menu) => {
-    return `<li >
-              <a data-menuId="${menu.menuId}">
-                <img
-                  src="${menu.imageUrl}"
-                  alt=""
-                />
-                <div>
+  menuListEl.innerHTML = menus
+    .map((menu) => {
+      return `<li style="display: flex; align-items: center;">
+              <a data-menuId="${menu.menuId}" style="display: flex; align-items: center;">
+                <img src="${menu.imageUrl}" alt="" />
+                <div style="flex: 1;">
                   <div class="menu-title">${menu.menuName}</div>
-                  <div class="store-review">가격 : ${menu.price}</div> 
+                  <div class="store-review">가격 : ${menu.price}</div>
                 </div>
-                <div>
-                  <button class="menu-update-button" >수정</button>
-                  <button class="menu-delete-button" >삭제</button>
+                <div class="button-container">
+                  <button class="menu-update-button">수정</button>
+                  <button class="menu-delete-button">삭제</button>
                 </div>
               </a>
-            </li>`;
-  });
+            </li>
+            `;
+    })
+    .join('');
 
   const menuUpdateButtonEls = document.querySelectorAll('.menu-update-button');
   const menuDeleteButtonEls = document.querySelectorAll('.menu-delete-button');

@@ -6,8 +6,8 @@ class MenuRepository {
     await Menus.create({ StoreId, menuName, imageUrl, price });
   };
 
-  findMenuByMenuName = async (menuName) => {
-    const menu = await Menus.findOne({ where: { menuName } });
+  findMenuByMenuName = async (StoreId, menuName) => {
+    const menu = await Menus.findOne({ where: { StoreId, menuName } });
     return menu;
   };
 
