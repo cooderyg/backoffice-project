@@ -26,6 +26,8 @@ window.addEventListener('DOMContentLoaded', async function () {
   fetch(`/api/users/${userId}/reviews`)
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
+
       const rows = data.data;
       const cardGroup = document.getElementById('cardGroup');
       rows.forEach((review) => {

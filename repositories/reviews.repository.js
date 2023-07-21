@@ -1,8 +1,9 @@
 const { Reviews, Orders, Stores, Ordermenus, Menus, sequelize, Sequelize } = require('../models');
 
 class ReviewsRepository {
-  createReview = async (orderId, rating, comment, userId) => {
+  createReview = async (imageUrl, orderId, rating, comment, userId) => {
     const createReviewData = await Reviews.create({
+      imageUrl,
       OrderId: orderId,
       rating,
       comment,
