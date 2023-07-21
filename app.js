@@ -40,10 +40,10 @@ io.use((socket, next) => {
 });
 io.on('connection', async (socket) => {
   const req = socket.request;
-  const accessToken = req.accessToken;
+  const accessToken = req.cookies.accessToken;
   if (!accessToken) next(new Error('미로그인입니다.'));
   try {
-    const decoded = jwt.verify(req.cookies.user, process.env.ACCESS_KEY);
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_KEY);
     decoded.userId
       ? (socket.data.userId = decoded.userId)
       : (socket.data.ownerId = decoded.ownerId);
