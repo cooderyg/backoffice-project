@@ -66,9 +66,13 @@
                       <div>
                         <div class="store-title">${store.storeName}</div>
                         <div class="store-rating">
-                          <i class="fa fa-star" aria-hidden="true"></i> ${store.rating}
+                          <i class="fa fa-star" aria-hidden="true"></i> ${
+                            store.rating ? store.rating : 0
+                          }
                         </div>
-                        <div class="store-review">리뷰 (<span>${store.reviewCount}</span>)</div>
+                        <div class="store-review">리뷰 (<span>${
+                          store.reviewCount ? store.reviewCount : 0
+                        }</span>)</div>
                       </div>
                     </a>
                   </li>
@@ -113,9 +117,13 @@
                       <div>
                         <div class="store-title">${store.storeName}</div>
                         <div class="store-rating">
-                          <i class="fa fa-star" aria-hidden="true"></i> ${store.rating}
+                          <i class="fa fa-star" aria-hidden="true"></i> ${
+                            store.rating ? store.rating : 0
+                          }
                         </div>
-                        <div class="store-review">리뷰 (<span>${store.reviewCount}</span>)</div>
+                        <div class="store-review">리뷰 (<span>${
+                          store.reviewCount ? store.reviewCount : 0
+                        }</span>)</div>
                       </div>
                     </a>
                   </li>
