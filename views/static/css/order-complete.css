@@ -25,7 +25,7 @@ a {
   margin-top: 32px;
   padding: 12px;
   box-sizing: border-box;
-  border: 1px solid #ee2b26;
+  border: 2px solid #ee2b26;
   border-radius: 10px;
 }
 .order h3 {
@@ -34,4 +34,26 @@ a {
   color: #3d3d3d;
 }
 .info {
+}
+
+.address {
+  padding-top: 12px;
+}
+
+.phone {
+  padding-top: 12px;
+}
+.menu-list {
+  margin-top: 20px;
+  gap: 40px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.menu-list li > div > div {
+  padding-top: 12px;
+}
+.menu-img {
+  border-radius: 12px;
+  width: 100px;
+  height: 100px;
 }

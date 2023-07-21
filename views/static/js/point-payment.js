@@ -1,3 +1,6 @@
+// require('dotenv');
+// const env = process.env;
+
 const amountEl = document.querySelector('.amount');
 let amountValue = 10000;
 const selectChange = () => {
