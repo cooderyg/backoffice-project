@@ -16,6 +16,15 @@ class StoreRepository {
       include: [
         { model: Categories, attributes: ['categoryName'] },
         { model: Menus, attributes: ['menuId', 'menuName', 'imageUrl', 'price'] },
+        {
+          model: Orders,
+          include: [
+            {
+              model: Reviews,
+              attributes: ['rating'],
+            },
+          ],
+        },
       ],
     });
     return store;
@@ -48,13 +57,38 @@ class StoreRepository {
       where: {
         storeName: { [Op.like]: `%${searchString}%` },
       },
-      include: [{ model: Categories, attributes: ['categoryName'] }],
+      include: [
+        { model: Categories, attributes: ['categoryName'] },
+        {
+          model: Orders,
+          include: [
+            {
+              model: Reviews,
+              attributes: ['rating'],
+            },
+          ],
+        },
+      ],
     });
     return stores;
   };
 
   findStoresByCategoryId = async (CategoryId) => {
-    const stores = await Stores.findAll({ where: { CategoryId } });
+    const stores = await Stores.findAll({
+      where: { CategoryId },
+      include: [
+        {
+          model: Orders,
+          attributes: ['isDelivered'],
+          include: [
+            {
+              model: Reviews,
+              attributes: ['rating'],
+            },
+          ],
+        },
+      ],
+    });
     return stores;
   };
 }
