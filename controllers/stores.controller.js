@@ -85,7 +85,7 @@ class StoreController {
   };
 
   searchStores = async (req, res) => {
-    const { searchString } = req.body;
+    const { searchString } = req.query;
 
     try {
       const stores = await this.storeService.findStores(searchString);

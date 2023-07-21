@@ -49,32 +49,8 @@ const authMiddleware = async (req, res, next) => {
         return res.status(401).json({ errorMessage: '이메일 인증이 필요합니다.' });
       }
 
-      try {
-        jwt.verify(refreshToken, env.REFRESH_KEY);
-      } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-          const newPayload = { userId: user.userId };
-          await refreshTokenPair(res, newPayload);
-
-          res.locals.user = user;
-          return next();
-        }
-      }
-
-      try {
-        jwt.verify(accessToken, env.ACCESS_KEY);
-      } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-          const newPayload = { userId: user.userId };
-          await refreshTokenPair(res, newPayload);
-
-          res.locals.user = user;
-          return next();
-        }
-      }
-
       res.locals.user = user;
-      next();
+      return next();
     } else if (decodedAccessToken.hasOwnProperty('ownerId')) {
       // 오너
       const owner = await Owners.findOne({ where: { ownerId: decodedAccessToken.ownerId } });
@@ -86,38 +62,43 @@ const authMiddleware = async (req, res, next) => {
         return res.status(401).json({ errorMessage: '이메일 인증이 필요합니다.' });
       }
 
-      try {
-        jwt.verify(refreshToken, env.REFRESH_KEY);
-      } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-          const newPayload = { ownerId: owner.ownerId };
-          await refreshTokenPair(res, newPayload);
-
-          res.locals.owner = owner;
-          return next();
-        }
-      }
-
-      try {
-        jwt.verify(accessToken, env.ACCESS_KEY);
-      } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-          const newPayload = { ownerId: owner.ownerId };
-          await refreshTokenPair(res, newPayload);
-
-          res.locals.owner = owner;
-          return next();
-        }
-      }
-
       res.locals.owner = owner;
-      next();
+      return next();
     } else {
       return res.status(401).json({ errorMessage: '유효하지 않은 Access Token입니다.' });
     }
   } catch (error) {
-    console.log('🚀 ~ file: auth-middleware.js:16 ~ authMiddleware ~ error:', error);
-    res.status(401).json({ errorMessage: '유효하지 않은 Access Token입니다.' });
+    if (error.name === 'TokenExpiredError') {
+      // 액세스 토큰 만료
+      try {
+        const decodedRefreshToken = jwt.verify(refreshToken, env.REFRESH_KEY);
+
+        if (decodedRefreshToken.hasOwnProperty('userId')) {
+          const newPayload = { userId: decodedRefreshToken.userId };
+          const user = await Users.findOne({ where: { userId: decodedRefreshToken.userId } });
+          res.locals.user = user;
+          await refreshTokenPair(res, newPayload);
+        } else if (decodedRefreshToken.hasOwnProperty('ownerId')) {
+          const newPayload = { ownerId: decodedRefreshToken.ownerId };
+          const owner = await Owners.findOne({ where: { ownerId: decodedRefreshToken.ownerId } });
+          res.locals.owner = owner;
+          await refreshTokenPair(res, newPayload);
+        }
+
+        return next();
+      } catch (refreshError) {
+        console.log(
+          '🚀 ~ file: auth-middleware.js:54 ~ authMiddleware ~ refreshError:',
+          refreshError,
+        );
+        res.locals.user = null;
+        res.locals.owner = null;
+
+        res.clearCookie('accessToken', { httpOnly: true });
+        res.clearCookie('refreshToken', { httpOnly: true });
+        return res.status(401).json({ errorMessage: '재로그인이 필요합니다.' });
+      }
+    }
   }
 };
 

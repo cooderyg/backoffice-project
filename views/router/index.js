@@ -7,7 +7,7 @@ router.get(
   (req, res, next) => {
     // 토큰 존재하면 미들웨어를 실행
     if (req.cookies.accessToken && req.cookies.refreshToken) {
-      authMiddleware(req, res, next); // authMiddleware 실행
+      authMiddleware(req, res, next);
     } else {
       next();
     }
@@ -16,6 +16,11 @@ router.get(
     return res.render('index');
   },
 );
+
+router.get('/search', (req, res) => {
+  const searchString = req.query.searchString;
+  return res.render('search', { searchString });
+});
 
 router.get('/login', (req, res) => {
   return res.render('auth');

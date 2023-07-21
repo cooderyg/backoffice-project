@@ -57,79 +57,79 @@ class OrdersService {
   };
 
   async getOrder(orderId) {
-    try {
-      const order = await Orders.findOne({
-        where: { orderId },
-        include: [
-          {
-            model: OrderMenus,
-            include: [Menus],
-          },
-        ],
-      });
+    const order = await Orders.findByPk(orderId, {
+      include: [
+        {
+          model: Users,
+          attributes: ['userName', 'address', 'phoneNumber'],
+        },
+        {
+          model: Stores,
+          attributes: ['storeName'],
+        },
+        {
+          model: Menus,
+          attributes: ['menuName', 'price'],
+          through: { attributes: ['quantity'] },
+        },
+      ],
+    });
 
-      return order;
-    } catch (error) {
-      console.error(error);
-      throw error;
+    if (!order) {
+      throw new Error('주문서를 찾을 수 없습니다.');
     }
+
+    return order;
   }
 
-  async updateOrder(orderId, orderData) {
-    const { address, isDelivered, menuId, price, quantity, total_price } = orderData;
+  async softDeleteOrder(orderId) {
+    // 트랜잭션 시작
+    const t = await sequelize.transaction();
 
     try {
-      // 수정할 주문서 조회
-      const order = await Orders.findOne({ where: { orderId } });
+      const order = await this.getOrder(orderId);
 
       if (!order) {
         throw new Error('주문서를 찾을 수 없습니다.');
       }
 
-      // 주문서 수정
-      await order.update({
-        address,
-        isDelivered,
-        totalPrice: total_price,
-      });
+      // 주문을 소프트 딜리트로 표시
+      await order.update({ deleted: true }, { transaction: t });
 
-      // 주문 메뉴 수정
-      const orderMenu = await Ordermenus.findOne({ where: { OrderId: orderId } });
-
-      if (!orderMenu) {
-        throw new Error('주문 메뉴를 찾을 수 없습니다.');
-      }
-
-      await orderMenu.update({
-        MenuId: menuId,
-        quantity,
-        price,
-      });
-
-      return order;
+      // 트랜잭션 커밋
+      await t.commit();
     } catch (error) {
-      console.error(error);
+      // 트랜잭션 롤백
+      await t.rollback();
       throw error;
     }
   }
 
-  async deleteOrder(orderId) {
-    try {
-      // 삭제할 주문서 조회
-      const order = await Orders.findOne({ where: { orderId } });
+  //오너 검색
+  async getOrder(orderId) {
+    const order = await Orders.findByPk(orderId, {
+      include: [
+        {
+          model: Users,
+          attributes: ['userName', 'address', 'phoneNumber'],
+        },
+        {
+          model: Stores,
+          attributes: ['storeName'],
+        },
+        {
+          model: Menus,
+          attributes: ['menuName', 'price'],
+          through: { attributes: ['quantity'] },
+        },
+      ],
+    });
 
-      if (!order) {
-        throw new Error('주문서를 찾을 수 없습니다.');
-      }
-
-      // 주문서 삭제
-      await order.destroy();
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      throw error;
+    if (!order) {
+      throw new Error('주문서를 찾을 수 없습니다.');
     }
+
+    return order;
   }
 }
 
