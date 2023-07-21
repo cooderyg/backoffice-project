@@ -18,9 +18,8 @@ const getStore = async () => {
 
   if (imageUrl) {
     storeImage.setAttribute('src', imageUrl);
-  } else {
-    storeImage.setAttribute('src', '/img/store_logo.jpg');
   }
+
   storeId = _storeId;
   storeName.innerText = name;
   storeCategory.innerText = Category.categoryName;
