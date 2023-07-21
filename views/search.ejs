@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="/css/category.css" />
     <script src="/js/search.js" defer></script>
   </head>
+
   <body>
     <%- include('includes/header') %>
     <main>
+      <input type="hidden" id="searchString" value="<%= searchString %>" />
+
       <section class="search wrap">
         <div class="search-container">
           <input type="text" placeholder="검색어를 입력해주세요." />
@@ -28,4 +31,71 @@
     </main>
     <%- include('includes/footer') %>
   </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let indexSearchString = '<%= searchString %>';
+
+      const searchButton = document.querySelector('button');
+      const searchInput = document.querySelector('input[type="text"]');
+      const searchResults = document.querySelector('.store-list');
+
+      const searchStores = async () => {
+        // indexSearchString이 비어있으면 searchInput의 값을 사용
+        let searchString = indexSearchString ? indexSearchString : searchInput.value.trim();
+
+        if (searchString === '') {
+          alert('검색어를 입력하세요.');
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `/api/stores/search?searchString=${encodeURIComponent(searchString)}`,
+          );
+
+          const data = await response.json();
+
+          if (data.stores && data.stores.length > 0) {
+            const storesHTML = data.stores
+              .map(
+                (store) => `
+                          <li>
+                            <a href="/detail/${store.id}">
+                              <img src="${store.image}" alt="" />
+                              <div>
+                                <div class="store-title">${store.storeName}</div>
+                                <div class="store-rating">
+                                  <i class="fa fa-star" aria-hidden="true"></i> ${store.rating}
+                                </div>
+                                <div class="store-review">리뷰 (<span>${store.reviewCount}</span>)</div>
+                              </div>
+                            </a>
+                          </li>
+                        `,
+              )
+              .join('');
+
+            searchResults.innerHTML = storesHTML;
+
+            console.log(
+              '🚀 ~ file: search.ejs:88 ~ searchStores ~ indexSearchString:',
+              indexSearchString,
+            );
+            indexSearchString = '';
+          } else {
+            searchResults.innerHTML = '<li><p>검색 결과가 없습니다.</p></li>';
+          }
+        } catch (error) {
+          console.error('Error while searching:', error);
+          alert('검색에 실패하였습니다.');
+        }
+      };
+
+      // 페이지 로드 시 searchStores 함수 실행
+      searchStores();
+
+      // 검색 버튼 클릭 시 searchStores 함수 실행
+      searchButton.addEventListener('click', searchStores);
+    });
+  </script>
 </html>

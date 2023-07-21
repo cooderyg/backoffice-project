@@ -2,9 +2,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const searchButton = document.querySelector('button');
   const searchInput = document.querySelector('input[type="text"]');
   const searchResults = document.querySelector('.store-list');
+  const indexSearchString = document.getElementById('searchString');
 
   const searchStores = async () => {
-    const searchString = searchInput.value.trim();
+    let searchString;
+    if (indexSearchString) {
+      searchString = indexSearchString.value.trim();
+    } else {
+      searchString = searchInput.value.trim();
+    }
 
     if (searchString === '') {
       alert('검색어를 입력하세요.');
