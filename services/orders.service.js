@@ -58,8 +58,8 @@ class OrdersService {
 
   getOrder = async (orderId) => {
     const order = await Orders.findOne({
-      whree: {
-        orderId: +orderId,
+      where: {
+        orderId,
       },
       include: [
         {

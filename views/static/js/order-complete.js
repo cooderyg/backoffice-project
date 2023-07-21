@@ -1,5 +1,5 @@
 const orderId = window.location.pathname.split('/')[3];
-
+console.log(orderId);
 const addressEl = document.querySelector('.address');
 const phoneEl = document.querySelector('.phone');
 const menuListEl = document.querySelector('.menu-list');
