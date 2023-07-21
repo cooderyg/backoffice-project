@@ -1,4 +1,4 @@
-const { Stores, Categories, Menus } = require('../models');
+const { Stores, Categories, Menus, Orders, Reviews } = require('../models');
 const { Op } = require('sequelize');
 
 class StoreRepository {
