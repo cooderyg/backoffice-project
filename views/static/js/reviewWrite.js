@@ -1,10 +1,9 @@
 // 등록 버튼 클릭시 리뷰 생성 처리
 document.getElementById('reviewSave').addEventListener('click', async function () {
-  const ratingSelect = document.getElementById('ratingSelect');
-  const rating = parseInt(ratingSelect.options[ratingSelect.selectedIndex].value, 10);
+  const rating = document.getElementById('ratingSelect').value;
   const comment = document.getElementById('comment').value;
 
-  fetch(`/orders/${orderId}/reviews`, {
+  fetch(`/api/orders/${orderId}/reviews`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,9 +15,9 @@ document.getElementById('reviewSave').addEventListener('click', async function (
   })
     .then((res) => res.json())
     .then((data) => {
-      alert(data.message);
-    })
-    .catch(console.error(data.message));
+      console.log(data);
+      window.location.href = '/reviewList';
+    });
 });
 
 // 취소버튼 클릭 시 이전화면 로드

@@ -10,15 +10,15 @@ class ReviewsController {
 
     try {
       const createReviewData = await this.reviewsService.createReview(
-        orderId,
-        rating,
+        +orderId,
+        +rating,
         comment,
         userId,
       );
 
       res.status(201).json({ data: createReviewData });
     } catch (error) {
-      res.status(401).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
   };
   getReviews = async (req, res, next) => {

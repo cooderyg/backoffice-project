@@ -1,6 +1,3 @@
-// 백엔드->프론트엔드 api/currentUser생성
-// fetch 요청
-// 돌려받은 userId를 7줄 userId에 넣기
 const parseCookie = (cookie) => {
   return cookie
     .split(';')
