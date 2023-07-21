@@ -27,9 +27,9 @@ class OrdersController {
   };
 
   //유저 주문서 확인
-  async getOrder(req, res) {
+  getOrder = async (req, res) => {
     const { orderId } = req.params;
-
+    console.log(`order: ${typeof orderId}`);
     try {
       const order = await this.ordersService.getOrder(orderId);
 
@@ -42,7 +42,7 @@ class OrdersController {
       console.error(error);
       return res.status(400).json({ errorMessage: '주문서 조회에 실패하였습니다.' });
     }
-  }
+  };
 
   //소프트 딜리트
   async deleteOrder(req, res) {

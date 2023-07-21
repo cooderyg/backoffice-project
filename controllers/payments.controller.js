@@ -4,7 +4,8 @@ class PaymentsController {
   paymentsService = new PaymentsService();
 
   createPointTransaction = async (req, res) => {
-    const { impUid, amount, userId } = req.body;
+    const { userId } = res.locals.user;
+    const { impUid, amount } = req.body;
     try {
       const data = await this.paymentsService.createPointTransaction({ userId, impUid, amount });
       res.status(200).json({ data });
