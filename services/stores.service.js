@@ -91,5 +91,11 @@ class StoreService {
     if (!stores) throw { errorCode: 404, message: 'Store not exist' };
     return stores;
   };
+
+  findAllStores = async () => {
+    const stores = await this.storeRepository.findAllStores();
+    if (!stores) throw { errorCode: 404, message: 'Store not exist' };
+    return stores;
+  };
 }
 module.exports = StoreService;
