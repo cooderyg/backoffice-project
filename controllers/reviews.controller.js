@@ -35,7 +35,7 @@ class ReviewsController {
 
       const updateReview = await this.reviewsService.updateReview(reviewId, comment);
 
-      res.status(200).json({ data: updateReview });
+      res.status(200).json({ message: '리뷰가 수정되었습니다', data: updateReview });
     } catch (error) {
       res.status(401).json({ message: error.message });
     }
