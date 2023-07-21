@@ -1,16 +1,20 @@
-require('dotenv').config();
-const env = process.env;
+const amountEl = document.querySelector('.amount');
+let amountValue = 10000;
+const selectChange = () => {
+  amountValue = Number(amountEl.options[amountEl.selectedIndex].value);
+};
+amountEl.addEventListener('change', selectChange);
 
 const requestPay = () => {
   const IMP = window.IMP; // 생략 가능
-  IMP.init(env.IMP_INIT); // 예: imp00000000a
+  IMP.init('imp05076841'); // 예: imp00000000a
 
   IMP.request_pay(
     {
       pg: 'kakaopay',
       pay_method: 'card',
-      name: '맛집 결제',
-      amount: 100, // 숫자 타입
+      name: '오기요 포인트 결제',
+      amount: amountValue, // 숫자 타입
       buyer_email: 'gildong@gmail.com',
       buyer_name: '홍길동',
       buyer_tel: '010-4242-4242',
@@ -30,7 +34,6 @@ const requestPay = () => {
             headers: { 'Content-Type': 'application/json' },
             method: 'POST',
             body: JSON.stringify({
-              userId: 1,
               impUid: rsp.imp_uid,
               amount: rsp.paid_amount,
             }),

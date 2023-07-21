@@ -21,8 +21,8 @@ router.get('/login', (req, res) => {
   return res.render('auth');
 });
 
-router.get('/payment', (req, res) => {
-  return res.render('payment');
+router.get('/point-payment', (req, res) => {
+  return res.render('point-payment');
 });
 
 router.get('/detail/:storeId', (req, res) => {

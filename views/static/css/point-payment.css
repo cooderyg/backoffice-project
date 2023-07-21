@@ -1,0 +1,37 @@
+/* common */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  padding-top: 120px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+.wrap {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+section {
+  min-height: 80vh;
+}
+
+button {
+  width: 80px;
+  color: #fff;
+  background-color: #ee2b26;
+  border: 2px solid #ee2b26;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #ef653c;
+}

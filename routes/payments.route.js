@@ -7,7 +7,7 @@ const PaymentsController = require('../controllers/payments.controller');
 
 const paymentController = new PaymentsController();
 
-router.post('/point-transaction', paymentController.createPointTransaction);
+router.post('/point-transaction', authMiddleware, paymentController.createPointTransaction);
 router.put('/point-transaction', paymentController.cancelPointTransaction);
 
 // router.get('/point-transaction', authMiddleware, async (req, res) => {
