@@ -6,7 +6,7 @@ class MenuService {
   storeRepository = new StoreRepository();
 
   createMenu = async (storeId, menuName, imageUrl, price) => {
-    const existMenu = await this.menuRepository.findMenuByMenuName(menuName);
+    const existMenu = await this.menuRepository.findMenuByMenuName(storeId, menuName);
     if (existMenu) throw { errorCode: 400, message: 'Menu already exist' };
 
     if (!storeId || !menuName || !imageUrl || !price)

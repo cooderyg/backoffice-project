@@ -29,6 +29,17 @@
     text-decoration: none;
   }
 
+  .logout {
+    color: #ff2e00;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .store-management {
+    color: #ff2e00;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
   .mypagebtn {
     color: #ff2e00;
     font-weight: bold;
@@ -39,17 +50,30 @@
 <header>
   <div class="wrap">
     <h1><a href="/"></a></h1>
-    <div style="display: flex">
+    <ul class="nav justify-content-end">
       <% if (locals.user) { %>
-      <p class="username">안녕하세요, <%= locals.user.email %>님</p>
-      <a class="logout" href="/">로그아웃</a>
+      <li class="nav-item">
+        <p class="username nav-link disabled">안녕하세요, <%= locals.user.email %>님</p>
+      </li>
+      <li class="nav-item">
+        <a class="logout nav-link" href="/">로그아웃</a>
+      </li>
       <% } else if (locals.owner) { %>
-      <p class="username">안녕하세요, <%= locals.owner.email %>님</p>
-      <a class="logout" href="/">로그아웃</a>
+      <li class="nav-item">
+        <a class="nav-link disabled">안녕하세요, <%= locals.owner.email %>님</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link store-management" href="/store_management"> 가게 관리 </a>
+      </li>
+      <li class="nav-item">
+        <a class="logout nav-link" href="/"> 로그아웃 </a>
+      </li>
       <% } else { %>
-      <a class="login" href="/login">로그인</a>
+      <li class="nav-item">
+        <a class="login nav-link" href="/login">로그인</a>
+      </li>
       <% } %>
-    </div>
+    </ul>
   </div>
 
   <script>
