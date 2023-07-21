@@ -3,7 +3,7 @@ const storeName = document.querySelector('.store-name');
 const storeCategory = document.querySelector('.store-category');
 const storeAddress = document.querySelector('.store-address');
 const storeStatus = document.querySelector('.store-status');
-const storeCreate = document.querySelector('#store-create');
+const storeRegisterBtnEl = document.querySelector('#store-register');
 const storeUpdate = document.querySelector('#store-update');
 const storeDelete = document.querySelector('#store-delete');
 let storeId;
@@ -11,6 +11,9 @@ let storeId;
 const getStore = async () => {
   const response = await fetch('/api/stores');
   const { store } = await response.json();
+  if (!store) {
+    storeRegisterBtnEl.style = 'display:none';
+  }
   const { storeId: _storeId, imageUrl, storeName: name, Category, address, isOpen } = store;
 
   if (imageUrl) {
@@ -28,7 +31,7 @@ const getStore = async () => {
 getStore();
 
 // 가게 등록 페이지 이동 버튼
-storeCreate.addEventListener('click', () => {
+storeRegisterBtnEl.addEventListener('click', () => {
   window.location.href = '/store_registration';
 });
 
