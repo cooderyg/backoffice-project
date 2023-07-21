@@ -2,20 +2,20 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../../middlewares/auth-middleware');
 
-router.get(
-  '/',
-  (req, res, next) => {
-    // 토큰 존재하면 미들웨어를 실행
-    if (req.cookies.accessToken && req.cookies.refreshToken) {
-      authMiddleware(req, res, next);
-    } else {
-      next();
-    }
-  },
-  (req, res) => {
-    return res.render('index');
-  },
-);
+const tokenMiddleware = (req, res, next) => {
+  // 토큰 존재하면 미들웨어를 실행
+  if (req.cookies.accessToken && req.cookies.refreshToken) {
+    authMiddleware(req, res, next);
+  } else {
+    next();
+  }
+};
+
+router.use('/', tokenMiddleware);
+
+router.get('/', (req, res) => {
+  return res.render('index');
+});
 
 router.get('/search', (req, res) => {
   const searchString = req.query.searchString;
@@ -28,8 +28,8 @@ router.get('/login', (req, res) => {
   return res.render('auth');
 });
 
-router.get('/payment', (req, res) => {
-  return res.render('payment');
+router.get('/point-payment', (req, res) => {
+  return res.render('point-payment');
 });
 
 router.get('/detail/:storeId', (req, res) => {
@@ -37,7 +37,7 @@ router.get('/detail/:storeId', (req, res) => {
 });
 
 // 가게 관리
-router.get('/store_management', (req, res) => {
+router.get('/store_management', tokenMiddleware, (req, res) => {
   return res.render('store_management');
 });
 
@@ -48,7 +48,8 @@ router.get('/order_check', (req, res) => {
 
 // 메뉴 관리
 router.get('/menu_management/stores/:storeId', (req, res) => {
-  return res.render('menu_management');
+  const { ownerId } = res.locals.owner;
+  return res.render('menu_management', { ownerId });
 });
 
 // 메뉴 관리 - 메뉴 추가
