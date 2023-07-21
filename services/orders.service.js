@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Orders, Users, Stores, Menus, OrderMenus, sequelize } = require('../models');
+const { Orders, Users, Stores, Menus, OrderMenus, Owners, sequelize } = require('../models');
 
 class OrdersService {
   createOrder = async ({
@@ -68,7 +68,7 @@ class OrdersService {
         },
         {
           model: Stores,
-          attributes: ['storeName'],
+          attributes: ['storeName', 'OwnerId'],
         },
         {
           model: OrderMenus,
