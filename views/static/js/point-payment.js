@@ -1,6 +1,6 @@
 // require('dotenv');
 // const env = process.env;
-
+const pointEl = document.querySelector('.point');
 const amountEl = document.querySelector('.amount');
 let amountValue = 10000;
 const selectChange = () => {
@@ -45,6 +45,7 @@ const requestPay = () => {
             .then((data) => {
               console.log(data);
               alert('결제가 성공적으로 완료되었습니다.');
+              getDate();
             });
         } catch (error) {
           console.log(error.message);
@@ -59,3 +60,11 @@ const requestPay = () => {
 
 const paymentBtnEl = document.querySelector('.payment-btn');
 paymentBtnEl.addEventListener('click', requestPay);
+
+const getDate = async () => {
+  const response = await fetch('/api/users-info');
+  const data = await response.json();
+  console.log(data);
+  pointEl.innerText = `잔여포인트 : ${data.user.point} 원`;
+};
+getDate();

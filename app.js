@@ -10,6 +10,7 @@ const paymentsRouter = require('./routes/payments.route.js');
 const reviewsRouter = require('./routes/reviews.route.js');
 const storesRouter = require('./routes/stores.route.js');
 const filesRouter = require('./routes/files.route.js');
+const usersRouter = require('./routes/users.route.js');
 const viewRouter = require('./views/router');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -28,6 +29,7 @@ app.use('/api', [
   menusRouter,
   ordersRouter,
   ownersRouter,
+  usersRouter,
   filesRouter,
   paymentsRouter,
   reviewsRouter,

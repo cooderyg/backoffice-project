@@ -46,6 +46,13 @@
     font-weight: bold;
     text-decoration: none;
   }
+
+  .nav-item {
+    color: #ff2e00;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 12px;
+  }
   .store-management {
     color: #ff2e00;
     font-weight: bold;
@@ -66,6 +73,12 @@
       <% if (locals.user) { %>
       <li class="nav-item">
         <p class="username nav-link disabled">안녕하세요, <%= locals.user.email %>님</p>
+      </li>
+      <li class="nav-item">
+        <a href="/point-payment">포인트충전</a>
+      </li>
+      <li class="nav-item">
+        <a href="/reviewList">내 리뷰보기</a>
       </li>
       <li class="nav-item">
         <a class="logout nav-link" href="/">로그아웃</a>
