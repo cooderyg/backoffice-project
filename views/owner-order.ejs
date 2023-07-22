@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>주문확인 페이지</title>
     <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <link rel="stylesheet" href="/css/owner-order.css" />
     <script src="/js/owner-order.js" defer></script>
   </head>
   <body>
     <%- include('includes/header') %>
     <main>
+      <div class="pop-up">주문이 들어왔습니다!!!</div>
       <section class="order wrap">
         <ul class="order-list">
-          <li>
+          <!-- <li>
             <div class="isDelivered">배달중</div>
             <div class="order-number">주문번호 : 1</div>
             <div class="address">주소 : 경기도 부천시 원미구</div>
@@ -24,7 +26,7 @@
               <button class="detail-btn">주문상세보기</button>
               <button class="complete-btn">배달완료</button>
             </div>
-          </li>
+          </li> -->
         </ul>
       </section>
     </main>

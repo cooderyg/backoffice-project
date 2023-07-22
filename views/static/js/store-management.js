@@ -63,10 +63,3 @@ storeDelete.addEventListener('click', async () => {
     alert(result.message);
   }
 });
-
-const popUpEl = document.querySelector('.pop-up');
-const socket = io();
-socket.on('order-complete', (data) => {
-  console.log(data);
-  popUpEl.classList.add('on');
-});

@@ -69,10 +69,10 @@ class OrdersController {
 
   //오너 주문서 확인
   getOrderForOwner = async (req, res) => {
-    const { orderId } = req.params;
-
+    // const { orderId } = req.params;
+    const { ownerId } = res.locals.owner;
     try {
-      const order = await this.ordersService.getOrderForOwner(orderId);
+      const order = await this.ordersService.getOrderForOwner(ownerId);
 
       if (!order) {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
@@ -91,8 +91,8 @@ class OrdersController {
       // res.status(200).json({ order_results });
 
       // 오너를 확인하고, 주문이 해당 오너의 가게에 속해있는지 검사
-      const owner = res.locals.owner;
-      const storeId = order.StoreId;
+
+      // const storeId = order.StoreId;
 
       // if (owner.ownerId !== ownerId) {
       //   return res.status(403).json({ message: '해당 주문서에 접근할 수 없습니다.' });

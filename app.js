@@ -11,6 +11,7 @@ const reviewsRouter = require('./routes/reviews.route.js');
 const storesRouter = require('./routes/stores.route.js');
 const filesRouter = require('./routes/files.route.js');
 const usersRouter = require('./routes/users.route.js');
+const deliversRouter = require('./routes/deliver.route.js');
 const viewRouter = require('./views/router');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -35,6 +36,7 @@ app.use('/api', [
   paymentsRouter,
   reviewsRouter,
   storesRouter,
+  deliversRouter,
 ]);
 
 let users = [];
@@ -67,6 +69,16 @@ io.on('connection', async (socket) => {
 
     ownerArr.forEach((owner) => {
       if (owner.id) io.to(owner.id).emit('order-complete', { order: data.order });
+    });
+  });
+
+  socket.on('delivery-complete', (data) => {
+    const { userId, storeName } = data;
+
+    const userArr = users.filter((user) => user.data.userId === userId);
+    console.log(userArr);
+    userArr.forEach((user) => {
+      io.to(user.id).emit('delivery-complete', { storeName });
     });
   });
 

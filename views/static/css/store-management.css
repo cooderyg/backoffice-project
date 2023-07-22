@@ -43,11 +43,3 @@ section {
   font-size: 28px;
   color: #333;
 }
-
-.pop-up {
-  display: none;
-}
-
-.pop-up.on {
-  display: block;
-}

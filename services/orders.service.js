@@ -135,12 +135,11 @@ class OrdersService {
   //   return order;
   // };
 
-  getOrderForOwner = async (orderId) => {
+  getOrderForOwner = async (ownerId) => {
     try {
+      const { storeId } = await Stores.findOne({ where: { OwnerId: ownerId } });
       const order = await Orders.findAll({
-        where: {
-          orderId,
-        },
+        where: { StoreId: storeId },
         include: [
           {
             model: Users,

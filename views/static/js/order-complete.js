@@ -41,3 +41,10 @@ const getData = async () => {
 };
 
 getData();
+
+const popUpEl = document.querySelector('.pop-up');
+const socket = io();
+socket.on('delivery-complete', (data) => {
+  console.log(data);
+  popUpEl.classList.add('on');
+});
