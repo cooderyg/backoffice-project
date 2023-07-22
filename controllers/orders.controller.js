@@ -1,4 +1,5 @@
 const OrdersService = require('../services/orders.service');
+// const { orders } = require('../models');
 
 class OrdersController {
   ordersService = new OrdersService();
@@ -74,6 +75,18 @@ class OrdersController {
       if (!order) {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
       }
+
+      // const order_results = [
+      //   {
+      //     isDelivered: orders.isDelivered,
+      //     orderId: orders.orderId,
+      //     address: orders.address,
+      //     phoneNumber: orders.User.phoneNumber,
+      //     orderId: orders.orderId,
+      //   },
+      // ];
+
+      // res.status(200).json({ order_results });
 
       // 오너를 확인하고, 주문이 해당 오너의 가게에 속해있는지 검사
       const owner = res.locals.owner;

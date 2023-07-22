@@ -1,57 +1,28 @@
 const orderId = window.location.pathname.split('/')[3];
 
-// const isDeliveredEl = document.querySelector('.isDelivered');
-// const orderIdEl = document.querySelector('.orderId');
-// const addressEl = document.querySelector('.address');
-// const phoneNumberEl = document.querySelector('.phoneNumber');
-// const priceEl = document.querySelector('.price');
+// const orderId = document.querySelector('order.orderId');
+// const UserPhoneNumber = document.querySelector('order.User.phoneNumber');
+// const isDelivered = document.querySelector('order.isDelivered');
+// const address = document.querySelector('order.address');
 
-// const getOrderForOwner = async () => {
-//   try {
-//     const response = await fetch(`/api/owners/orders/${orderId}`);
-//     const data = await response.json();
-//     const { order } = data;
-//     console.log(order);
-//     const userInfo = order.User;
-//     const storeName = order.Store.storeName;
-//     const orderMenus = order.OrderMenus;
-//     addressEl.innerText = `주소 : ${order.address}`;
-//     phoneEl.innerText = `전화번호 : 0${userInfo.phoneNumber}`;
-//     storeNameEl.innerText = storeName;
-//     console.log(orderMenus);
-//     const orderMenuTemp = orderMenus
-//       .map((menu) => {
-//         return `
-//         <li>
-//         <div class="isDelivered">${order.isDelivered ? '배달완료' : '배달중'}</div>
-//         <div class="order-number">주문번호 : ${order.orderId}</div>
-//         <div class="address">주소 : ${order.address}</div>
-//         <div class="phone">고객 전화번호 : ${order.User.phoneNumber}</div>
-//         <div class="btn-container">
-//           <button class="detail-btn">주문상세보기</button>
-//           <button class="complete-btn">배달완료</button>
-//         </div>
-//       </li>
-//       `;
-//       })
-//       .join(' ');
-//     menuListEl.innerHTML = orderMenuTemp;
-//     priceEl.innerText = `총 결제금액 ${order.totalPrice} 원`;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+// const newdata = JSON.stringify({
+//     orderList,
+//     orderId,
+//     UserPhoneNumber,
+//     isDelivered,
+//     address,
 
 document.addEventListener('DOMContentLoaded', () => {
   const orderList = document.querySelector('.order-list');
 
-  // 서버로 주문 목록 요청
   fetch(`/api/owners/orders/${orderId}`)
     .then((response) => response.json())
     .then((data) => {
-      const orders = data.order; // 주문 목록은 data.order에 저장됩니다.
+      const orders = data.orders;
+      console.log(data);
 
-      if (orders.length > 0) {
+      if (orderId.length > 0) {
+        console.log(orders);
         orders.forEach((order) => {
           const listItem = document.createElement('li');
           listItem.innerHTML = `
