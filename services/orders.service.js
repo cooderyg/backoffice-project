@@ -12,13 +12,11 @@ class OrdersService {
   }) => {
     // 트랜잭션 시작
     const t = await sequelize.transaction();
-
     try {
       // 메뉴 가격과 잔여 포인트 비교
       if (point < totalPrice) {
         throw new Error('포인트가 부족하여 주문할 수 없습니다.');
       }
-
       // 주문 생성
       const order = await Orders.create(
         {
@@ -29,7 +27,7 @@ class OrdersService {
         },
         { transaction: t },
       );
-
+      console.log(order.orderId);
       const temp = [];
       JSON.parse(menus).map((menu) => {
         temp.push({
@@ -38,16 +36,12 @@ class OrdersService {
           quantity: +menu.quantity,
         });
       });
-
       // 주문 메뉴 생성
       await OrderMenus.bulkCreate(temp, { transaction: t });
-
       // 포인트 차감
       await Users.update({ point: point - totalPrice }, { where: { userId }, transaction: t });
-
       // 트랜잭션 커밋
       await t.commit();
-
       return order;
     } catch (error) {
       // 트랜잭션 롤백
