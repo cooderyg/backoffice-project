@@ -134,7 +134,7 @@ class OrdersService {
 
   getOrderForOwner = async (orderId) => {
     try {
-      const order = await Orders.findOne({
+      const order = await Orders.findAll({
         where: {
           orderId,
         },
@@ -162,12 +162,6 @@ class OrdersService {
       if (!order) {
         throw new Error('주문서를 찾을 수 없습니다.');
       }
-
-      // Menus 모델을 Lazy Loading으로 로드
-      const menus = await order.getMenus();
-
-      // order 객체에 menus 프로퍼티를 추가하여 로드한 메뉴 정보를 담습니다.
-      order.menus = menus;
 
       return order;
     } catch (error) {

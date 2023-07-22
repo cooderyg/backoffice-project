@@ -70,7 +70,7 @@ class OrdersController {
     const { orderId } = req.params;
 
     try {
-      const order = await this.ordersService.getOrder(orderId);
+      const order = await this.ordersService.getOrderForOwner(orderId);
 
       if (!order) {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
@@ -99,6 +99,7 @@ class OrdersController {
       return res.status(200).json({ order });
     } catch (error) {
       console.error(error);
+      console.log(error);
       return res.status(400).json({ errorMessage: '주문서 조회에 실패하였습니다.' });
     }
   };
