@@ -38,11 +38,14 @@ class OrdersService {
       });
       // 주문 메뉴 생성
       await OrderMenus.bulkCreate(temp, { transaction: t });
+      const store = await Stores.findOne({
+        where: { storeId: order.StoreId },
+      });
       // 포인트 차감
       await Users.update({ point: point - totalPrice }, { where: { userId }, transaction: t });
       // 트랜잭션 커밋
       await t.commit();
-      return order;
+      return { order, store };
     } catch (error) {
       // 트랜잭션 롤백
       await t.rollback();

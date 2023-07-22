@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/store-management.css" />
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="/js/store-management.js" defer></script>
     <title>가게 관리</title>
   </head>
   <body>
     <%- include('includes/header') %> <%- include('includes/store_management_buttons') %>
-
+    <div class="pop-up">주문이 들어왔습니다!!!</div>
     <section>
       <div>
         <button class="btn btn-secondary" id="store-register">가게 등록</button>

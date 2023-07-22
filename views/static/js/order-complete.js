@@ -11,7 +11,7 @@ const getData = async () => {
     const response = await fetch(`/api/orders/${orderId}`);
     const data = await response.json();
     const { order } = data;
-    console.log(order);
+    console.log(data);
     const userInfo = order.User;
     const storeName = order.Store.storeName;
     const orderMenus = order.OrderMenus;
@@ -34,6 +34,7 @@ const getData = async () => {
       .join(' ');
     menuListEl.innerHTML = orderMenuTemp;
     priceEl.innerText = `총 결제금액 ${order.totalPrice} 원`;
+    console.log('패칭완료');
   } catch (error) {
     console.error(error);
   }

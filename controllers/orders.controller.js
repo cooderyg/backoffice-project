@@ -9,7 +9,7 @@ class OrdersController {
     const { totalPrice } = req.body;
 
     try {
-      const order = await this.ordersService.createOrder({
+      const { order, store } = await this.ordersService.createOrder({
         userId,
         address,
         menus,
@@ -17,9 +17,11 @@ class OrdersController {
         totalPrice,
         point,
       });
-      return res
-        .status(200)
-        .json({ message: '주문이 성공적으로 완료되었습니다.', orderId: order.orderId });
+      return res.status(200).json({
+        message: '주문이 성공적으로 완료되었습니다.',
+        order,
+        ownerId: store.OwnerId,
+      });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: error.message });
