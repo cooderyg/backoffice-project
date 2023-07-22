@@ -57,3 +57,19 @@ a {
   width: 100px;
   height: 100px;
 }
+
+.pop-up {
+  border: 5px solid red;
+  color: red;
+  display: none;
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pop-up.on {
+  display: block;
+}
