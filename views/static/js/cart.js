@@ -1,4 +1,4 @@
-import { setCookie, getCookie } from './cookie.js';
+import { setCookie, getCookie, deleteCookie } from './cookie.js';
 
 const priceSumEl = document.querySelector('#priceSum');
 const setTotalPrice = (arr) => {
@@ -7,10 +7,9 @@ const setTotalPrice = (arr) => {
 };
 const getTotalPrice = (arr) => {
   const price = arr.reduce((acc, cur) => acc + Number(cur.price) * Number(cur.quantity), 0);
-  return price;
+  return +price;
 };
 
-const menuCntEls = document.querySelectorAll('.menuCnt');
 const cartListEl = document.querySelector('.cartList');
 let cookieMenus = JSON.parse(getCookie('menus'));
 if (!cookieMenus) {
@@ -51,21 +50,32 @@ if (!cookieMenus) {
     .join(' ');
   cartListEl.innerHTML = temp;
   setTotalPrice(cookieMenus);
-}
+  const menuCntEls = document.querySelectorAll('.menuCnt');
+  menuCntEls.forEach((el, index) => {
+    el.addEventListener('click', (e) => {
+      console.log(`countValue ${e.currentTarget.value}`);
+      // 메뉴 수량, id 가져오기
+      const menuId = e.target.parentNode.parentNode.parentNode.getAttribute('data-menuId');
+      const value = e.target.value;
 
-menuCntEls.forEach((el) => {
-  el.addEventListener('change', (e) => {
-    // 메뉴 수량, id 가져오기
-    const menuId = e.target.parentNode.parentNode.parentNode.getAttribute('data-menuId');
-    const value = e.target.value;
+      cookieMenus = JSON.parse(getCookie('menus'));
+      const findMenu = cookieMenus.find((el) => el.id === +menuId);
 
-    cookieMenus = JSON.parse(getCookie('menus'));
-    const findMenu = cookieMenus.find((el) => el.id === menuId);
-    findMenu.value = value;
-    setCookie('menus', JSON.stringify(cookieMenus));
-    setTotalPrice(cookieMenus);
+      findMenu.quantity = value;
+      setCookie('menus', JSON.stringify(cookieMenus));
+      setTotalPrice(cookieMenus);
+    });
   });
-});
+
+  // 메뉴삭제
+  const deleteBtns = document.querySelectorAll('.cartDeleteBtn');
+
+  deleteBtns.forEach((el) => {
+    el.addEventListener('click', (e) => {
+      deletMenu(e);
+    });
+  });
+}
 
 // 메뉴삭제함수
 const deletMenu = (e) => {
@@ -78,17 +88,8 @@ const deletMenu = (e) => {
   console.log(cookieMenus);
   setCookie('menus', JSON.stringify(cookieMenus));
   e.target.parentNode.parentNode.parentNode.parentNode.remove();
-};
-
-// 메뉴삭제
-const deleteBtns = document.querySelectorAll('.cartDeleteBtn');
-
-deleteBtns.forEach((el) => {
-  el.addEventListener('click', (e) => {
-    deletMenu(e);
-  });
   setTotalPrice(cookieMenus);
-});
+};
 
 // 주문하기
 
@@ -102,7 +103,6 @@ orderBtn.addEventListener('click', async (e) => {
     const response = await fetch('/api/orders', {
       method: 'POST',
       headers: {
-        // Accept: 'application / json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -110,7 +110,7 @@ orderBtn.addEventListener('click', async (e) => {
       }),
     });
     const data = await response.json();
-    console.log(data);
+    deleteCookie('menus');
     location.href = `/orders/complete/${data.orderId}`;
   } catch (error) {
     console.log(error.message);
