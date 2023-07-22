@@ -85,7 +85,7 @@ class OrdersService {
     return order;
   };
 
-  async softDeleteOrder(orderId) {
+  softDeleteOrder = async (orderId) => {
     // 트랜잭션 시작
     const t = await sequelize.transaction();
 
@@ -106,34 +106,78 @@ class OrdersService {
       await t.rollback();
       throw error;
     }
-  }
+  };
 
   //오너 검색
-  async getOrder(orderId) {
-    const order = await Orders.findByPk(orderId, {
-      include: [
-        {
-          model: Users,
-          attributes: ['userName', 'address', 'phoneNumber'],
-        },
-        {
-          model: Stores,
-          attributes: ['storeName'],
-        },
-        {
-          model: Menus,
-          attributes: ['menuName', 'price'],
-          through: { attributes: ['quantity'] },
-        },
-      ],
-    });
+  // getOrder = async (orderId) => {
+  //   const order = await Orders.findByPk(orderId, {
+  //     include: [
+  //       {
+  //         model: Users,
+  //         attributes: ['userName', 'address', 'phoneNumber'],
+  //       },
+  //       {
+  //         model: Stores,
+  //         attributes: ['storeName'],
+  //       },
+  //       // {
+  //       //   model: Menus,
+  //       //   attributes: ['menuName', 'price'],
+  //       //   through: { attributes: ['quantity'] },
+  //       // },
+  //     ],
+  //   });
 
-    if (!order) {
-      throw new Error('주문서를 찾을 수 없습니다.');
+  //   if (!order) {
+  //     throw new Error('주문서를 찾을 수 없습니다.');
+  //   }
+
+  //   return order;
+  // };
+
+  getOrderForOwner = async (orderId) => {
+    try {
+      const order = await Orders.findOne({
+        where: {
+          orderId,
+        },
+        include: [
+          {
+            model: Users,
+            attributes: ['userName', 'address', 'phoneNumber'],
+          },
+          {
+            model: Stores,
+            attributes: ['storeName', 'OwnerId'],
+          },
+          {
+            model: OrderMenus,
+            attributes: ['quantity'],
+            include: [
+              {
+                model: Menus,
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!order) {
+        throw new Error('주문서를 찾을 수 없습니다.');
+      }
+
+      // Menus 모델을 Lazy Loading으로 로드
+      const menus = await order.getMenus();
+
+      // order 객체에 menus 프로퍼티를 추가하여 로드한 메뉴 정보를 담습니다.
+      order.menus = menus;
+
+      return order;
+    } catch (error) {
+      console.error(error);
+      throw new Error('주문서 조회에 실패하였습니다. 다시 시도해주세요.');
     }
-
-    return order;
-  }
+  };
 
   getOrderForUser = async ({ userId }) => {
     return await Orders.findAll({

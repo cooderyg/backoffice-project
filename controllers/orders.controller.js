@@ -1,4 +1,5 @@
 const OrdersService = require('../services/orders.service');
+// const { orders } = require('../models');
 
 class OrdersController {
   ordersService = new OrdersService();
@@ -47,7 +48,7 @@ class OrdersController {
   };
 
   //소프트 딜리트
-  async deleteOrder(req, res) {
+  deleteOrder = async (req, res) => {
     const { orderId } = req.params;
 
     try {
@@ -64,10 +65,10 @@ class OrdersController {
       console.error(error);
       return res.status(400).json({ errorMessage: '주문서 삭제에 실패하였습니다.' });
     }
-  }
+  };
 
   //오너 주문서 확인
-  async getOrderForOwner(req, res) {
+  getOrderForOwner = async (req, res) => {
     const { orderId } = req.params;
 
     try {
@@ -77,20 +78,32 @@ class OrdersController {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
       }
 
+      // const order_results = [
+      //   {
+      //     isDelivered: orders.isDelivered,
+      //     orderId: orders.orderId,
+      //     address: orders.address,
+      //     phoneNumber: orders.User.phoneNumber,
+      //     orderId: orders.orderId,
+      //   },
+      // ];
+
+      // res.status(200).json({ order_results });
+
       // 오너를 확인하고, 주문이 해당 오너의 가게에 속해있는지 검사
       const owner = res.locals.owner;
       const storeId = order.StoreId;
 
-      if (owner.ownerId !== storeId) {
-        return res.status(403).json({ message: '해당 주문서에 접근할 수 없습니다.' });
-      }
+      // if (owner.ownerId !== ownerId) {
+      //   return res.status(403).json({ message: '해당 주문서에 접근할 수 없습니다.' });
+      // }
 
       return res.status(200).json({ order });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: '주문서 조회에 실패하였습니다.' });
     }
-  }
+  };
 
   getOrderForUser = async (req, res) => {
     const { userId } = res.locals.user;

@@ -14,7 +14,7 @@ router.get('/orders/:orderId', ordersController.getOrder);
 router.delete('/:userId/orders/:orderId', authMiddleware, ordersController.deleteOrder);
 
 // 주문서 사장이 조회 API
-router.get('/owner/orders/:orderId', authMiddleware, ordersController.getOrderForOwner);
+router.get('/owners/orders/:orderId', authMiddleware, ordersController.getOrderForOwner);
 
 // 주문서 유저가 조회 API
 router.get('/users/orders', authMiddleware, ordersController.getOrderForUser);
