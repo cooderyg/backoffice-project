@@ -11,7 +11,7 @@
     />
     <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/category.css" />
-    <script src="/js/search.js" defer></script>
+    <!-- <script src="/js/search.js" defer></script> -->
   </head>
 
   <body>
@@ -61,7 +61,7 @@
                 .map(
                   (store) => `
                   <li>
-                    <a href="/detail/${store.id}">
+                    <a href="/detail/${store.storeId}">
                       <img src="${store.imageUrl}" alt="" />
                       <div>
                         <div class="store-title">${store.storeName}</div>
@@ -104,15 +104,12 @@
             }
 
             const data = await response.json();
-
-            console.log('🚀 ~ file: search.ejs:104 ~ searchStores ~ data:', data);
-
             if (data.stores && data.stores.length > 0) {
               const storesHTML = data.stores
                 .map(
                   (store) => `
                   <li>
-                    <a href="/detail/${store.id}">
+                    <a href="/detail/${store.storeId}">
                       <img src="${store.imageUrl}" alt="" />
                       <div>
                         <div class="store-title">${store.storeName}</div>

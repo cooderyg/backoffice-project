@@ -18,12 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch(`/api/owners/orders/${orderId}`)
     .then((response) => response.json())
     .then((data) => {
-      const orders = data.orders;
+      const Orders = data.order;
       console.log(data);
 
       if (orderId.length > 0) {
-        console.log(orders);
-        orders.forEach((order) => {
+        Orders.forEach((order) => {
           const listItem = document.createElement('li');
           listItem.innerHTML = `
                 <div class="isDelivered">${order.isDelivered ? '배달완료' : '배달중'}</div>
@@ -81,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch((error) => {
       console.error(error);
+      console.log(error);
       // 에러 처리 (예: 알림 메시지 출력)
     });
 });
