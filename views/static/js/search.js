@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
           .map(
             (store) => `
         <li>
-          <a href="/detail/${store.id}">
-            <img src="${store.image}" alt="" />
+          <a href="/detail/${store.storeId}">
+            <img src="${store.imageUrl}" alt="" />
             <div>
               <div class="store-title">${store.storeName}</div>
               <div class="store-rating">
