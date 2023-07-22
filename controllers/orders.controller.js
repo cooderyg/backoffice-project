@@ -76,21 +76,9 @@ class OrdersController {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
       }
 
-      // const order_results = [
-      //   {
-      //     isDelivered: orders.isDelivered,
-      //     orderId: orders.orderId,
-      //     address: orders.address,
-      //     phoneNumber: orders.User.phoneNumber,
-      //     orderId: orders.orderId,
-      //   },
-      // ];
-
-      // res.status(200).json({ order_results });
-
       // 오너를 확인하고, 주문이 해당 오너의 가게에 속해있는지 검사
-      const owner = res.locals.owner;
-      const storeId = order.StoreId;
+      // const owner = res.locals.owner;
+      // const storeId = order.StoreId;
 
       // if (owner.ownerId !== ownerId) {
       //   return res.status(403).json({ message: '해당 주문서에 접근할 수 없습니다.' });
@@ -112,6 +100,38 @@ class OrdersController {
     } catch (error) {
       console.log(error.message);
       return res.status(500).json({ message: error.message });
+    }
+  };
+
+  //오너 주문서 상세조회
+  getOwnerOrderDetails = async (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+      // 오더 서비스를 통해 오더와 오너 정보를 조회합니다
+      const order = await orderService.getOrderForOwner(orderId);
+
+      if (!order) {
+        return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
+      }
+
+      // 주문서에 포함된 가게의 ownerId를 기반으로 오너 정보를 조회합니다
+      const owner = await orderService.getOwnerById(order.Store.OwnerId);
+
+      // 주문서와 오너 정보를 합쳐서 응답 객체를 생성합니다
+      const orderResult = {
+        orderId: order.orderId,
+        isDelivered: order.isDelivered,
+        orderAddress: order.address,
+        orderPhoneNumber: order.User.phoneNumber,
+        storeName: order.Store.storeName,
+        owner: owner,
+      };
+
+      return res.status(200).json({ order: orderResult });
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({ errorMessage: '오너의 상세정보 조회에 실패하였습니다.' });
     }
   };
 }

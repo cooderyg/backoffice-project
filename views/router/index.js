@@ -92,7 +92,13 @@ router.get('/categories/:categoryId', (req, res) => {
   return res.render('category');
 });
 
+//사장 조회
 router.get('/owners/orders/:ownerId', (req, res) => {
+  return res.render('owner-order');
+});
+
+//사장 상세 조회
+router.get('/owner/orders/:ownerId', (req, res) => {
   return res.render('owner-order');
 });
 
