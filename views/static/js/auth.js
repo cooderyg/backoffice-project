@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
-      // Step 1: 회원가입 요청 보내기
+      //  회원가입 요청 보내기
       const response = await fetch(`/api/${userType}/signup`, {
         method: 'POST',
         headers: {
@@ -91,12 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const data = await response.json();
       if (response.ok) {
-        // 회원가입 성공시의 동작
         console.log(data.message);
         console.log(data.newUser);
         console.log(data.newOwner);
 
-        // Step 2: 회원가입 성공 시 Verification Code 입력란 추가
         const verificationCodeDiv = document.createElement('div');
         verificationCodeDiv.classList.add('input-box');
         verificationCodeDiv.id = 'verificationcode';
@@ -114,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const phoneNumberInput = document.getElementById('phonenumber');
         phoneNumberInput.parentNode.insertBefore(verificationCodeDiv, phoneNumberInput.nextSibling);
 
-        // Step 3: 인증 번호 확인하기
         registerForm.addEventListener('submit', async (event) => {
           event.preventDefault();
           const verificationCode = verificationCodeInput.value;
@@ -131,23 +128,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const data = await response.json();
             if (response.ok) {
-              // 인증 번호 확인 성공 시 메인 페이지로 이동
               window.location.href = '/login';
               alert(data.message);
             } else {
-              // 인증 번호 오류시
               console.error(data.message);
               alert(data.message);
             }
           } catch (error) {
-            // 인증 번호 확인 요청 실패시
             console.error('인증 번호 확인 도중 오류가 발생했습니다.', error);
           }
         });
       } else {
-        // 회원가입 실패시
         console.error(data.message);
-        alert(data.message);
+        // alert(data.message);
       }
     } catch (error) {
       console.error('회원가입 도중 오류가 발생했습니다.', error);
