@@ -113,7 +113,7 @@ orderBtn.addEventListener('click', async (e) => {
     console.log(data);
     socket.emit('order-complete', { ownerId: data.ownerId, order: data.order });
     deleteCookie('menus');
-    // location.href = `/orders/complete/${data.order.orderId}`;
+    location.href = `/orders/complete/${data.order.orderId}`;
   } catch (error) {
     console.log(error.message);
     alert('에러가 발생했습니다 다시 시도해주세요!');
