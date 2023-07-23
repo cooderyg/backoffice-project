@@ -43,8 +43,14 @@ const getData = async () => {
 getData();
 
 const popUpEl = document.querySelector('.pop-up');
+const popUpTextEl = document.querySelector('.pop-up-text');
+const popUpBtnEl = document.querySelector('.delete-btn');
+popUpBtnEl.addEventListener('click', (e) => {
+  e.currentTarget.parentNode.classList.remove('on');
+});
 const socket = io();
 socket.on('delivery-complete', (data) => {
   console.log(data);
+  popUpTextEl.innerText = `${data.storeName}에서 배달이 완료되었습니다.`;
   popUpEl.classList.add('on');
 });
