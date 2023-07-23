@@ -51,6 +51,6 @@ popUpBtnEl.addEventListener('click', (e) => {
 const socket = io();
 socket.on('delivery-complete', (data) => {
   console.log(data);
-  popUpTextEl.innerText = `${data.storeName}에서 배달이 완료되었습니다.`;
+  popUpTextEl.innerHTML = `${data.storeName}에서<br/>배달이 완료되었습니다.`;
   popUpEl.classList.add('on');
 });
