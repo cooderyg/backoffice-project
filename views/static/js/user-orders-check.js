@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', async function () {
       orderCompleteButtons.forEach((button) => {
         button.addEventListener('click', function () {
           const orderId = this.parentNode.parentNode.getAttribute('data-orderId');
-          window.location.href = `/orders/complete?orderId=${orderId}`;
+          window.location.href = `/orders/complete/${orderId}`;
         });
       });
     });
