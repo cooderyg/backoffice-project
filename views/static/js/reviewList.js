@@ -1,4 +1,8 @@
 const parseCookie = (cookie) => {
+  if (!cookie) {
+    return {};
+  }
+
   return cookie
     .split(';')
     .map((value) => {
