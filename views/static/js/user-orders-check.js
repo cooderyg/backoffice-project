@@ -4,6 +4,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     .then((response) => response.json())
     .then((data) => {
       const rows = data.data;
+      console.log(rows);
       const orderList = document.getElementById('orderList');
       rows.forEach((order) => {
         const orderId = order.orderId;

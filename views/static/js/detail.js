@@ -65,17 +65,19 @@ menuContainerEl.addEventListener('click', function (e) {
     price,
     url,
   };
-  const cookieMenus = JSON.parse(getCookie('menus'));
-  confirm;
+
+  let cookieMenus = JSON.parse(getCookie('menus'));
   if (cookieMenus) {
     const cookieStoreId = JSON.parse(getCookie('storeId'));
     if (cookieStoreId && +storeId !== cookieStoreId) {
-      if (!confirm('다른 가게 메뉴가 담겨있습니다. 초기화 후 새로 메뉴를 담으시겠습니까?')) return;
-      deleteCookie('menus');
+      if (!confirm('다른 가게 메뉴가 담겨있습니다. 초기화 후 새로 메뉴를 담으시겠습니까?')) {
+        return;
+      }
+      cookieMenus = [];
+      setCookie('menus', JSON.stringify(cookieMenus));
     }
 
     setCookie('storeId', storeId);
-
     const findMenu = cookieMenus.find((el) => el.id === menuId);
     if (findMenu) {
       const sumQuantity = +findMenu.quantity + quantity;
@@ -88,7 +90,6 @@ menuContainerEl.addEventListener('click', function (e) {
       setTotalPrice(cookieMenus);
     }
   } else {
-    setCookie('storeId', storeId);
     const menus = [];
     menus.push(newMenu);
     setCookie('menus', JSON.stringify(menus));
