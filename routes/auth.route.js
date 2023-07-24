@@ -147,8 +147,8 @@ router.post('/user/login', async (req, res) => {
       const userId = user.userId;
 
       return res
-        .cookie('accessToken', newAccessToken, { httpOnly: false })
-        .cookie('refreshToken', newRefreshToken, { httpOnly: false })
+        .cookie('accessToken', newAccessToken, { httpOnly: true })
+        .cookie('refreshToken', newRefreshToken, { httpOnly: true })
         .json({ userId, newAccessToken, message: '로그인되었습니다.' });
     }
 
@@ -281,8 +281,8 @@ router.post('/owner/login', async (req, res) => {
       const ownerId = owner.ownerId;
 
       return res
-        .cookie('accessToken', newAccessToken, { httpOnly: false })
-        .cookie('refreshToken', newRefreshToken, { httpOnly: false })
+        .cookie('accessToken', newAccessToken, { httpOnly: true })
+        .cookie('refreshToken', newRefreshToken, { httpOnly: true })
         .json({ ownerId, newAccessToken, message: '로그인되었습니다.' });
     }
 

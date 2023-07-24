@@ -20,8 +20,7 @@ const refreshTokenPair = async (res, payload) => {
   const newAccessToken = generateAccessToken(payload);
   const newRefreshToken = generateRefreshToken(payload);
 
-  res.cookie('accessToken', newAccessToken, { httpOnly: false });
-  res.cookie('refreshToken', newRefreshToken, { httpOnly: false });
+  res.cookie('accessToken', newAccessToken, { httpOnly: true });
 };
 
 const authMiddleware = async (req, res, next) => {
@@ -69,7 +68,7 @@ const authMiddleware = async (req, res, next) => {
     }
   } catch (error) {
     if (error.name === 'TokenExpiredError') {
-      // 액세스 토큰 만료
+      // 리프레시 토큰 만료
       try {
         const decodedRefreshToken = jwt.verify(refreshToken, env.REFRESH_KEY);
 
