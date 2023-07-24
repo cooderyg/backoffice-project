@@ -40,17 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 주문 상세보기 버튼과 배달완료 버튼의 클릭 이벤트 처리
-        const detailButtons = document.querySelectorAll('.detail-btn');
-        const completeButtons = document.querySelectorAll('.complete-btn');
-
-        detailButtons.forEach((button) => {
-          button.addEventListener('click', () => {
-            const orderId = button.getAttribute('data-order-id');
-            // 주문 상세보기 페이지로 이동 (또는 모달 창 등으로 구현)
-            window.location.href = `/owner/orders/${orderId}`;
+        const orderCompleteButtons = document.querySelectorAll('.detail-btn');
+        orderCompleteButtons.forEach((button) => {
+          button.addEventListener('click', function () {
+            const orderId = this.parentNode.parentNode.getAttribute('data-orderId');
+            window.location.href = `/api/owners/orders/${orderId}`;
           });
         });
 
+        const completeButtons = document.querySelectorAll('.complete-btn');
         completeButtons.forEach((button) => {
           button.addEventListener('click', (e) => {
             const isDeliveredEl =

@@ -194,6 +194,43 @@ class OrdersService {
       ],
     });
   };
+
+  //오너 주문서 상세 조회
+  getOwnerOrderDetails = async (ownerId) => {
+    try {
+      const order = await Orders.findOne({
+        where: { OwnerId: ownerId },
+        include: [
+          {
+            model: Users,
+            attributes: ['userName', 'address', 'phoneNumber'],
+          },
+          {
+            model: Stores,
+            attributes: ['storeName', 'OwnerId'],
+          },
+          {
+            model: OrderMenus,
+            attributes: ['quantity'],
+            include: [
+              {
+                model: Menus,
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!order) {
+        throw new Error('주문서를 찾을 수 없습니다.');
+      }
+
+      return order;
+    } catch (error) {
+      console.error(error);
+      throw new Error('주문서 조회에 실패하였습니다. 다시 시도해주세요.');
+    }
+  };
 }
 
 module.exports = OrdersService;
