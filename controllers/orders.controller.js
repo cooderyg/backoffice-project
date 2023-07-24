@@ -10,7 +10,7 @@ class OrdersController {
     const { totalPrice } = req.body;
 
     try {
-      const order = await this.ordersService.createOrder({
+      const { order, store } = await this.ordersService.createOrder({
         userId,
         address,
         menus,
@@ -18,9 +18,11 @@ class OrdersController {
         totalPrice,
         point,
       });
-      return res
-        .status(200)
-        .json({ message: '주문이 성공적으로 완료되었습니다.', orderId: order.orderId });
+      return res.status(200).json({
+        message: '주문이 성공적으로 완료되었습니다.',
+        order,
+        ownerId: store.OwnerId,
+      });
     } catch (error) {
       console.error(error);
       return res.status(400).json({ errorMessage: error.message });
@@ -67,17 +69,16 @@ class OrdersController {
 
   //오너 주문서 확인
   getOrderForOwner = async (req, res) => {
-    const { orderId } = req.params;
-
+    // const { orderId } = req.params;
+    const { ownerId } = res.locals.owner;
     try {
-      const order = await this.ordersService.getOrderForOwner(orderId);
+      const order = await this.ordersService.getOrderForOwner(ownerId);
 
       if (!order) {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
       }
 
       // 오너를 확인하고, 주문이 해당 오너의 가게에 속해있는지 검사
-      // const owner = res.locals.owner;
       // const storeId = order.StoreId;
 
       // if (owner.ownerId !== ownerId) {

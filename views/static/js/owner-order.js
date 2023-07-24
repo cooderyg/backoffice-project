@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (orderId.length > 0) {
         Orders.forEach((order) => {
           const listItem = document.createElement('li');
+          const completeBtnTemp = `<button class="complete-btn" data-order-id="${order.orderId}">배달완료</button>`;
           listItem.innerHTML = `
                 <div class="isDelivered">${order.isDelivered ? '배달완료' : '배달중'}</div>
                 <div class="order-number">주문번호 : ${order.orderId}</div>
@@ -31,11 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="phone">고객 전화번호 : ${order.User.phoneNumber}</div>
                 <div class="btn-container">
                   <button class="detail-btn" data-order-id="${order.orderId}">주문상세보기</button>
-                  ${
-                    order.isDelivered
-                      ? ''
-                      : '<button class="complete-btn" data-order-id="${order.orderId}">배달완료</button>'
-                  }
+                  ${order.isDelivered ? '' : completeBtnTemp}
                 </div>
               `;
 
@@ -43,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 주문 상세보기 버튼과 배달완료 버튼의 클릭 이벤트 처리
-        // 주문상세보기 버튼 클릭시 order-complete 페이지로 이동
         const orderCompleteButtons = document.querySelectorAll('.detail-btn');
         orderCompleteButtons.forEach((button) => {
           button.addEventListener('click', function () {
@@ -54,16 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const completeButtons = document.querySelectorAll('.complete-btn');
         completeButtons.forEach((button) => {
-          button.addEventListener('click', () => {
+          button.addEventListener('click', (e) => {
+            const isDeliveredEl =
+              e.currentTarget.parentNode.parentNode.querySelector('.isDelivered');
+            const btn = e.currentTarget;
             const orderId = button.getAttribute('data-order-id');
             // 서버로 배달완료 요청 보내기
-            fetch(`/api/orders/${orderId}/complete`, {
+            fetch(`/api/orders/delivery-complete/${orderId}`, {
               method: 'PUT',
             })
               .then((response) => response.json())
               .then((data) => {
+                console.log(data);
+                isDeliveredEl.innerText = '배달완료';
+                btn.remove();
                 // 성공적으로 배달완료 처리되면 페이지 리로드 또는 갱신 작업 수행
-                window.location.reload();
+                socket.emit('delivery-complete', {
+                  storeName: data.storeName,
+                  userId: data.userId,
+                });
               })
               .catch((error) => {
                 console.error(error);
@@ -82,4 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(error);
       // 에러 처리 (예: 알림 메시지 출력)
     });
+});
+
+const popUpEl = document.querySelector('.pop-up');
+const popUpTextEl = document.querySelector('.pop-up-text');
+const popUpBtnEl = document.querySelector('.delete-btn');
+popUpBtnEl.addEventListener('click', (e) => {
+  e.currentTarget.parentNode.classList.remove('on');
+});
+const socket = io();
+socket.on('order-complete', (data) => {
+  console.log(data);
+  popUpEl.classList.add('on');
 });

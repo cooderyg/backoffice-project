@@ -94,7 +94,7 @@ const deletMenu = (e) => {
 // 주문하기
 
 const orderBtn = document.querySelector('.order-btn');
-
+const socket = io();
 orderBtn.addEventListener('click', async (e) => {
   const btn = e.currentTarget;
   if (btn.classList.contains('active')) return;
@@ -110,8 +110,10 @@ orderBtn.addEventListener('click', async (e) => {
       }),
     });
     const data = await response.json();
+    console.log(data);
+    socket.emit('order-complete', { ownerId: data.ownerId, order: data.order });
     deleteCookie('menus');
-    location.href = `/orders/complete/${data.orderId}`;
+    location.href = `/orders/complete/${data.order.orderId}`;
   } catch (error) {
     console.log(error.message);
     alert('에러가 발생했습니다 다시 시도해주세요!');

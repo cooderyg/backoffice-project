@@ -5,12 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>주문완료</title>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
     <script src="/js/order-complete.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" />
     <link rel="stylesheet" href="/css/order-complete.css" />
   </head>
   <body>
     <%- include('includes/header') %>
+    <div class="pop-up">
+      <p class="pop-up-text">배달이 완료되었습니다.</p>
+      <button class="delete-btn">x</button>
+    </div>
     <main>
       <section class="order wrap">
         <h2>주문완료되었습니다!</h2>
