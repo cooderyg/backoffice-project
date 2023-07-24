@@ -175,7 +175,7 @@ class OrdersService {
   getOrderForUser = async ({ userId }) => {
     return await Orders.findAll({
       where: { UserId: userId },
-      attributes: ['orderId'],
+      attributes: ['orderId', 'isDelivered'],
       include: [
         {
           model: OrderMenus,

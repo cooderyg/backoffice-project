@@ -113,6 +113,7 @@ orderBtn.addEventListener('click', async (e) => {
     console.log(data);
     socket.emit('order-complete', { ownerId: data.ownerId, order: data.order });
     deleteCookie('menus');
+    deleteCookie('storeId');
     location.href = `/orders/complete/${data.order.orderId}`;
   } catch (error) {
     console.log(error.message);

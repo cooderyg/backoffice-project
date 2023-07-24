@@ -104,10 +104,21 @@
             }
 
             const data = await response.json();
+            console.log(data);
             if (data.stores && data.stores.length > 0) {
+              const ratingArr = data.stores.map((store) => {
+                return store.Orders.map((order) => {
+                  if (order.Review) {
+                    return order.Review.rating;
+                  }
+                }).filter((el) => el);
+              });
+              console.log(ratingArr);
               const storesHTML = data.stores
-                .map(
-                  (store) => `
+                .map((store, index) => {
+                  let avg;
+                  avg = ratingArr[index].reduce((a, c) => a + c, 0) / ratingArr[index].length;
+                  return `
                   <li>
                     <a href="/detail/${store.storeId}">
                       <img src="${store.imageUrl}" alt="" />
@@ -115,17 +126,17 @@
                         <div class="store-title">${store.storeName}</div>
                         <div class="store-rating">
                           <i class="fa fa-star" aria-hidden="true"></i> ${
-                            store.rating ? store.rating : 0
+                            ratingArr[index].length ? avg : 0
                           }
                         </div>
                         <div class="store-review">리뷰 (<span>${
-                          store.reviewCount ? store.reviewCount : 0
+                          ratingArr[index] ? ratingArr[index].length : 0
                         }</span>)</div>
                       </div>
                     </a>
                   </li>
-                `,
-                )
+                `;
+                })
                 .join('');
 
               searchResults.innerHTML = storesHTML;

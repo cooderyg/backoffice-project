@@ -37,11 +37,11 @@ window.addEventListener('DOMContentLoaded', async function () {
         const rating = review.rating;
         const reviewImg = review.imageUrl;
         const reviewid = review.reviewId;
-
+        const imgTemp = `
+        <img src=${reviewImg} class="card-img-top" alt="...">
+        `;
         const temp_html = `<div class="solo-card" data-reviewId="${reviewid}">
-                              <img
-                                src="${reviewImg}"
-                                class="card-img-top" alt="...">
+                              ${reviewImg ? imgTemp : ''}
                               <div class="card-body">
                                 <h5 class="card-title">${storeName}</h5>
                                 <p class="card-text">${menuName}</p>

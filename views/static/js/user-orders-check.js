@@ -4,6 +4,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     .then((response) => response.json())
     .then((data) => {
       const rows = data.data;
+      console.log(rows);
       const orderList = document.getElementById('orderList');
       rows.forEach((order) => {
         const orderId = order.orderId;
@@ -11,7 +12,9 @@ window.addEventListener('DOMContentLoaded', async function () {
         const menus = order.OrderMenus.map((orderMenu) => orderMenu.Menu.menuName).join(', ');
 
         const temp_html = `<li class="solo-card" data-orderId="${orderId}">
-                            <div class="isDelivered">배달중</div>
+                            <div class="isDelivered">${
+                              order.isDelivered ? '배달완료' : '배달중'
+                            }</div>
                             <div class="order-number">주문번호 : ${orderId}</div>
                             <div class="storeName">${storeName}</div>
                             <div class="menuName">${menus}</div>
