@@ -93,6 +93,7 @@ menuContainerEl.addEventListener('click', function (e) {
     const menus = [];
     menus.push(newMenu);
     setCookie('menus', JSON.stringify(menus));
+    setCookie('storeId', storeId);
     setTotalPrice(menus);
   }
 });
