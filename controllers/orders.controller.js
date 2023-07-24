@@ -106,33 +106,18 @@ class OrdersController {
 
   //오너 주문서 상세조회
   getOwnerOrderDetails = async (req, res) => {
-    const { orderId } = req.params;
-
+    const { ownerId } = res.locals.owner;
     try {
-      // 오더 서비스를 통해 오더와 오너 정보를 조회합니다
-      const order = await orderService.getOrderForOwner(orderId);
+      const order = await this.ordersService.getOwnerOrderDetails(ownerId);
 
       if (!order) {
         return res.status(404).json({ message: '주문서를 찾을 수 없습니다.' });
       }
 
-      // 주문서에 포함된 가게의 ownerId를 기반으로 오너 정보를 조회합니다
-      const owner = await orderService.getOwnerById(order.Store.OwnerId);
-
-      // 주문서와 오너 정보를 합쳐서 응답 객체를 생성합니다
-      const orderResult = {
-        orderId: order.orderId,
-        isDelivered: order.isDelivered,
-        orderAddress: order.address,
-        orderPhoneNumber: order.User.phoneNumber,
-        storeName: order.Store.storeName,
-        owner: owner,
-      };
-
-      return res.status(200).json({ order: orderResult });
+      return res.status(200).json({ order });
     } catch (error) {
       console.error(error);
-      return res.status(400).json({ errorMessage: '오너의 상세정보 조회에 실패하였습니다.' });
+      return res.status(400).json({ errorMessage: '주문서 조회에 실패하였습니다.' });
     }
   };
 }

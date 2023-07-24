@@ -196,10 +196,10 @@ class OrdersService {
   };
 
   //오너 주문서 상세 조회
-  getOwnerOrderDetails = async (ownerId) => {
+  getOwnerOrderDetails = async (orderId) => {
     try {
       const order = await Orders.findOne({
-        where: { OwnerId: ownerId },
+        where: { orderId: orderId },
         include: [
           {
             model: Users,

@@ -98,8 +98,8 @@ router.get('/owners/orders/:ownerId', (req, res) => {
 });
 
 //사장 상세 조회
-router.get('/owner/orders/:ownerId', (req, res) => {
-  return res.render('owner-order');
+router.get('/owner/orders/:orderId', (req, res) => {
+  return res.render('order-check');
 });
 
 // 사용자 주문 목록 조회

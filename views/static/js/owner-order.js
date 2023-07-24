@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 주문 상세보기 버튼과 배달완료 버튼의 클릭 이벤트 처리
-        const orderCompleteButtons = document.querySelectorAll('.detail-btn');
-        orderCompleteButtons.forEach((button) => {
+        const orderDetailButtons = document.querySelectorAll('.detail-btn');
+        orderDetailButtons.forEach((button) => {
           button.addEventListener('click', function () {
-            const orderId = this.parentNode.parentNode.getAttribute('data-orderId');
-            window.location.href = `/api/owners/orders/${orderId}`;
+            const orderId = this.getAttribute('data-order-id');
+            window.location.href = `/owner/orders/${orderId}`;
           });
         });
 
