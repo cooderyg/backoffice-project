@@ -10,7 +10,7 @@ amountEl.addEventListener('change', selectChange);
 
 const requestPay = () => {
   const IMP = window.IMP; // 생략 가능
-  IMP.init('imp05076841'); // 예: imp00000000a
+  IMP.init(''); // 예: imp00000000a
 
   IMP.request_pay(
     {
